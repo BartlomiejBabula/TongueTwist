@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import api, { setAuthHeader } from "../api/api";
@@ -17,8 +17,10 @@ import { View, StyleSheet, Image } from "react-native";
 import { useNavigate } from "react-router-native";
 import { myTheme } from "../components/Theme";
 import { LinearGradient } from "expo-linear-gradient";
+import Animated, { SlideOutRight, SlideInRight } from "react-native-reanimated";
 
 const SignIn = () => {
+  const input2 = useRef(null);
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
@@ -38,24 +40,28 @@ const SignIn = () => {
 
   const onSubmit = (values) => {
     let user = {
-      email: values.email,
+      username: values.email,
       password: values.password,
     };
     api
-      .post(`/auth/login`, user)
+      .post(`/login`, user)
       .then(async (res) => {
-        AsyncStorage.setItem("access", res.data.token);
-        setAuthHeader(res.data.token);
+        AsyncStorage.setItem("access", res.data.access_token);
+        setAuthHeader(res.data.access_token);
         await dispatch(getUserData());
       })
       .catch((error) => {
-        setErrorMessage("Invalid email address or password");
+        setErrorMessage(error.message);
       });
   };
 
   return (
     <ThemeProvider theme={myTheme}>
-      <View style={styles.cointeiner}>
+      <Animated.View
+        style={styles.cointeiner}
+        entering={SlideInRight.duration(250)}
+        exiting={SlideOutRight.duration(250)}
+      >
         <Image
           resizeMode='center'
           style={styles.logo}
@@ -82,6 +88,7 @@ const SignIn = () => {
                 onChangeText={handleChange("email")}
                 errorMessage={touched.email && errors.email}
                 placeholder='address@email.com'
+                onSubmitEditing={() => input2.current.focus()}
               />
               <Input
                 label='Password'
@@ -91,6 +98,7 @@ const SignIn = () => {
                 errorMessage={touched.password && errors.password}
                 secureTextEntry={true}
                 placeholder='********'
+                ref={input2}
               />
               <Button
                 title='SIGN IN'
@@ -116,7 +124,7 @@ const SignIn = () => {
             navigate({ pathname: "/Register" }, { replace: true });
           }}
         />
-      </View>
+      </Animated.View>
     </ThemeProvider>
   );
 };

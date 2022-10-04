@@ -1,22 +1,19 @@
 import React, { useState } from "react";
 import { Route, Routes } from "react-router-native";
-import HomeView from "./HomeView";
+import MyWords from "./MyWords";
 import AddWordView from "./AddWordView";
 import SettingsView from "./SettingsView";
-import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Icon, ThemeProvider, Text } from "@rneui/themed";
 import { myTheme } from "../components/Theme";
 import { useNavigate } from "react-router-native";
-import { useSelector } from "react-redux";
-import { selectUser } from "../selectors/user";
 import { LinearGradient } from "expo-linear-gradient";
 
 const Dashboard = () => {
-  const user = useSelector(selectUser);
   let navigate = useNavigate();
   const [buttonList, setButtonList] = useState([
     { icon: "pencil", label: "Add word", clicked: false },
-    { icon: "home", label: "My word", clicked: true },
+    { icon: "book-open", label: "My word", clicked: true },
     { icon: "cog", label: "Settings", clicked: false },
   ]);
 
@@ -31,6 +28,8 @@ const Dashboard = () => {
         return navigate({ pathname: "/addword" }, { replace: true });
       case "Settings":
         return navigate({ pathname: "/settings" }, { replace: true });
+      case "My word":
+        return navigate({ pathname: "/" }, { replace: true });
       default:
         return navigate({ pathname: "/" }, { replace: true });
     }
@@ -40,8 +39,12 @@ const Dashboard = () => {
     <ThemeProvider theme={myTheme}>
       <View style={styles.container}>
         <Routes>
-          <Route path='/' exact element={<HomeView userData={user} />} />
-          <Route path='/addword' exact element={<AddWordView />} />
+          <Route path='/' exact element={<MyWords />} />
+          <Route
+            path='/addword'
+            exact
+            element={<AddWordView handleTabChange={handleTabChange} />}
+          />
           <Route path='/settings' exact element={<SettingsView />} />
         </Routes>
       </View>
@@ -49,7 +52,7 @@ const Dashboard = () => {
         end={{ x: 1, y: 0 }}
         start={{ x: 1, y: 1 }}
         colors={["#e4e2e4", "#FFF"]}
-        style={{ height: 8 }}
+        style={{ height: 7, marginTop: 5 }}
       />
       <View style={styles.menuBottom}>
         {buttonList.map((button, key) => {
@@ -93,6 +96,7 @@ const styles = StyleSheet.create({
   },
   menuBottom: {
     paddingBottom: 2,
+    backgroundColor: "white",
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "flex-end",

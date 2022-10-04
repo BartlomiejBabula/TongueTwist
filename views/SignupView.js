@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { AppURL } from "../api/api";
@@ -16,8 +16,11 @@ import { View, StyleSheet, Image } from "react-native";
 import { useNavigate } from "react-router-native";
 import { myTheme } from "../components/Theme";
 import { LinearGradient } from "expo-linear-gradient";
+import Animated, { SlideOutLeft, SlideInLeft } from "react-native-reanimated";
 
 const SignUp = () => {
+  const input2 = useRef(null);
+  const input3 = useRef(null);
   let navigate = useNavigate();
   const [error, setError] = useState("");
   const validationSchema = Yup.object().shape({
@@ -43,21 +46,25 @@ const SignUp = () => {
       password: values.password,
     };
     axios
-      .post(AppURL + "/auth/", user)
+      .post(AppURL + "/register", user)
       .then((response) => {
         if (response.data !== null) {
-          setError("");
+          // setError("");
           navigate({ pathname: "/" }, { replace: true });
         }
       })
       .catch((error) => {
-        setError("Invalid email address or password");
+        setError(error.message);
       });
   };
 
   return (
     <ThemeProvider theme={myTheme}>
-      <View style={styles.cointeiner}>
+      <Animated.View
+        style={styles.cointeiner}
+        entering={SlideInLeft.duration(250)}
+        exiting={SlideOutLeft.duration(250)}
+      >
         <View style={styles.cointeinerLogo}>
           <Image
             resizeMode='center'
@@ -108,6 +115,7 @@ const SignUp = () => {
                 onChangeText={handleChange("email")}
                 errorMessage={touched.email && errors.email}
                 placeholder='address@email.com'
+                onSubmitEditing={() => input2.current.focus()}
               />
               <Input
                 label='Password'
@@ -117,6 +125,8 @@ const SignUp = () => {
                 errorMessage={touched.password && errors.password}
                 secureTextEntry={true}
                 placeholder='********'
+                ref={input2}
+                onSubmitEditing={() => input3.current.focus()}
               />
               <Input
                 label='Repeat password'
@@ -126,6 +136,7 @@ const SignUp = () => {
                 errorMessage={touched.confirmPassword && errors.confirmPassword}
                 secureTextEntry={true}
                 placeholder='********'
+                ref={input3}
               />
               <Button
                 title='SIGN UP'
@@ -141,7 +152,7 @@ const SignUp = () => {
             </View>
           )}
         </Formik>
-      </View>
+      </Animated.View>
     </ThemeProvider>
   );
 };

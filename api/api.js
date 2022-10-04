@@ -27,7 +27,7 @@ function createAxiosResponseInterceptor() {
       const accessToken = await AsyncStorage.getItem("access");
       setAuthHeader(accessToken);
       return axiosInstance
-        .get("/auth/profile")
+        .get("/users/profile")
         .then((response) => {
           error.response.config.headers["Authorization"] =
             "Bearer " + accessToken;

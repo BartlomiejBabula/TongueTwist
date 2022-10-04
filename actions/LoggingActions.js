@@ -8,14 +8,14 @@ export const logInAction = (payload) => ({
 });
 
 export const getUserData = () => (dispatch) => {
-  api.get("/auth/profile").then((response) => {
+  api.get("/users/profile").then((response) => {
     dispatch(logInAction(response.data));
-    api.get(`/users/${response.data.id}/words`).then((response) => {
-      let wordsList = response.data;
-      dispatch({
-        type: GET_WORDS_LIST,
-        payload: wordsList,
-      });
+  });
+  api.get(`/words?page=1&size=20`).then((response) => {
+    let wordsList = response.data;
+    dispatch({
+      type: GET_WORDS_LIST,
+      payload: wordsList,
     });
   });
 };

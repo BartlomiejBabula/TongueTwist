@@ -1,97 +1,121 @@
-import React from "react";
+import React, { useRef } from "react";
 import { myTheme } from "../components/Theme";
-import { StyleSheet, View } from "react-native";
-import { ThemeProvider, Input, Button } from "@rneui/themed";
+import { StyleSheet, View, ScrollView } from "react-native";
+import { ThemeProvider, Input, Button, Text } from "@rneui/themed";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { LinearGradient } from "expo-linear-gradient";
-import { addWord, updateWord } from "../actions/WordsActions";
+import { addWord } from "../actions/WordsActions";
 import { useDispatch } from "react-redux";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import { useNavigate } from "react-router-native";
 
-const AddWordView = ({ toggleOverlay, editWord }) => {
+const AddWordView = ({ handleTabChange }) => {
+  const ref_input2 = useRef();
   const dispatch = useDispatch();
-
+  let navigate = useNavigate();
   const validationSchema = Yup.object().shape({
     word: Yup.string().required("Required"),
     translate: Yup.string().required("Required"),
   });
 
   const onSubmit = async (values) => {
+    let examplesArr = [
+      values.examples.trim(),
+      values.examples2.trim(),
+      values.examples3.trim(),
+    ];
+
+    examplesArr = examplesArr.filter((example) => example);
+
     let newWord = {
       word: values.word.trim(),
       translation: values.translate.trim(),
       pronancuation: values.pronancuation.trim(),
-      definition: values.englishExplanation.trim(),
+      examples: examplesArr,
+      definition: values.definition.trim(),
     };
-    if (editWord?.id) {
-      newWord = { ...newWord, id: editWord.id, progress: editWord.progress };
-      await dispatch(updateWord(newWord));
-    } else await dispatch(addWord(newWord));
-    toggleOverlay();
+    await dispatch(addWord(newWord));
+    handleTabChange({ label: "My word" });
   };
 
   return (
     <ThemeProvider theme={myTheme}>
-      <View>
+      <Text style={styles.title}>Add Word</Text>
+      <Animated.ScrollView
+        style={styles.container}
+        entering={FadeIn.duration(200)}
+        exiting={FadeOut.duration(200)}
+      >
         <Formik
           initialValues={{
-            word: editWord?.word ? editWord?.word : "",
-            translate: editWord?.translation ? editWord?.translation : "",
-            pronancuation: editWord?.pronancuation
-              ? editWord?.pronancuation
-              : "",
-            englishExplanation: editWord?.definition
-              ? editWord?.definition
-              : "",
+            examples: "",
+            examples2: "",
+            examples3: "",
+            word: "",
+            translate: "",
+            pronancuation: "",
+            definition: "",
           }}
           validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
           {({ values, errors, touched, handleChange, handleSubmit }) => (
-            <View
-              style={{
-                paddingHorizontal: 15,
-                marginTop: 100,
-                width: "100%",
-              }}
-            >
+            <View style={styles.formik}>
               <Input
                 label='Word'
                 name='word'
                 value={values.word}
                 onChangeText={handleChange("word")}
                 errorMessage={touched.word && errors.word}
-                placeholder='Word'
+                onSubmitEditing={() => ref_input2.current.focus()}
               />
               <Input
+                label='Translation'
                 name='translate'
                 value={values.translate}
                 onChangeText={handleChange("translate")}
                 errorMessage={touched.translate && errors.translate}
-                placeholder='Polish translation'
+                ref={ref_input2}
               />
               <Input
+                label='Pronancuation'
                 name='pronancuation'
                 value={values.pronancuation}
                 onChangeText={handleChange("pronancuation")}
                 errorMessage={touched.pronancuation && errors.pronancuation}
-                placeholder='Pronancuation'
               />
               <Input
-                inputContainerStyle={{ paddingVertical: 10 }}
-                style={{ textAlignVertical: "top" }}
-                name='englishExplanation'
-                value={values.englishExplanation}
-                onChangeText={handleChange("englishExplanation")}
-                errorMessage={
-                  touched.englishExplanation && errors.englishExplanation
-                }
-                multiline
-                numberOfLines={4}
-                placeholder='English explanation'
+                label='Definition'
+                name='definition'
+                value={values.definition}
+                onChangeText={handleChange("definition")}
+                errorMessage={touched.definition && errors.definition}
               />
+              <Input
+                label='Examples'
+                name='examples'
+                value={values.examples}
+                onChangeText={handleChange("examples")}
+                errorMessage={touched.examples && errors.examples}
+              />
+              <Input
+                label='Examples 2'
+                name='examples2'
+                value={values.examples2}
+                onChangeText={handleChange("examples2")}
+                errorMessage={touched.examples2 && errors.examples2}
+              />
+              <Input
+                label='Examples 3'
+                name='examples3'
+                value={values.examples3}
+                onChangeText={handleChange("examples3")}
+                errorMessage={touched.examples3 && errors.examples3}
+              />
+
               <Button
-                title={editWord ? "EDIT WORD" : "ADD WORD"}
+                title={"ADD WORD"}
                 buttonStyle={styles.button}
                 onPress={handleSubmit}
                 ViewComponent={LinearGradient}
@@ -109,7 +133,7 @@ const AddWordView = ({ toggleOverlay, editWord }) => {
             </View>
           )}
         </Formik>
-      </View>
+      </Animated.ScrollView>
     </ThemeProvider>
   );
 };
@@ -117,15 +141,22 @@ const AddWordView = ({ toggleOverlay, editWord }) => {
 export default AddWordView;
 
 const styles = StyleSheet.create({
-  closeButton: {
-    position: "absolute",
-    top: 55,
-    left: 20,
+  container: { marginTop: 10, marginHorizontal: 20 },
+  title: {
+    fontWeight: "bold",
+    fontSize: 24,
+    marginTop: 60,
+    marginHorizontal: 15,
+  },
+  formik: {
+    marginTop: 20,
+    alignItems: "center",
+    width: "100%",
   },
   button: {
     borderRadius: 30,
     height: 50,
-    marginTop: 25,
+    marginTop: 10,
     marginBottom: 15,
     shadowColor: "#000",
     shadowOffset: {
