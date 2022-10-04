@@ -65,6 +65,7 @@ const AddWordView = ({ handleTabChange }) => {
               <Input
                 label='Word'
                 name='word'
+                placeholder="word"
                 value={values.word}
                 onChangeText={handleChange("word")}
                 errorMessage={touched.word && errors.word}
@@ -98,24 +99,11 @@ const AddWordView = ({ handleTabChange }) => {
                 value={values.examples}
                 onChangeText={handleChange("examples")}
                 errorMessage={touched.examples && errors.examples}
-              />
-              <Input
-                label='Examples 2'
-                name='examples2'
-                value={values.examples2}
-                onChangeText={handleChange("examples2")}
-                errorMessage={touched.examples2 && errors.examples2}
-              />
-              <Input
-                label='Examples 3'
-                name='examples3'
-                value={values.examples3}
-                onChangeText={handleChange("examples3")}
-                errorMessage={touched.examples3 && errors.examples3}
+                numberOfLines={4}
               />
 
               <Button
-                title={"ADD WORD"}
+                title={"ADD"}
                 buttonStyle={styles.button}
                 onPress={handleSubmit}
                 ViewComponent={LinearGradient}
@@ -126,7 +114,7 @@ const AddWordView = ({ handleTabChange }) => {
                 titleStyle={{ fontWeight: "700" }}
                 containerStyle={{
                   width: 300,
-                  marginHorizontal: 30,
+                  marginHorizontal: 'auto',
                   marginVertical: 10,
                 }}
               />
@@ -154,17 +142,8 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   button: {
-    borderRadius: 30,
+    borderRadius: 16,
     height: 50,
-    marginTop: 10,
-    marginBottom: 15,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowOpacity: 0.46,
-    shadowRadius: 11.14,
-    elevation: 4,
+    width: '100%'
   },
 });

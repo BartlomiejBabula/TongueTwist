@@ -22,11 +22,10 @@ export const myTheme = createTheme({
   },
   Input: {
     labelStyle: {
-      color: "black",
+      color: "gray",
       fontWeight: "normal",
-      fontSize: 13,
-      marginBottom: 3,
-      marginLeft: 24,
+      fontSize: 14,
+      marginBottom: 6,
     },
     errorStyle: { marginLeft: 24, marginTop: 3 },
     inputStyle: {
@@ -37,16 +36,9 @@ export const myTheme = createTheme({
     },
     inputContainerStyle: {
       borderBottomWidth: 0,
-      backgroundColor: "#FBFBFB",
-      borderRadius: 30,
+      backgroundColor: "#f6f0fa",
+      borderRadius: 16,
       shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.23,
-      shadowRadius: 2.62,
-      elevation: 4,
     },
   },
 
