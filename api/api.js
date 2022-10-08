@@ -1,10 +1,10 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const AppURL = "http://tonguetwist.pl/api";
+export const AppURL = "https://tonguetwist.pl/api";
 
 const axiosInstance = axios.create();
-axiosInstance.defaults.baseURL = "http://tonguetwist.pl/api";
+axiosInstance.defaults.baseURL = "https://tonguetwist.pl/api";
 
 export const setAuthHeader = (token) => {
   axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;

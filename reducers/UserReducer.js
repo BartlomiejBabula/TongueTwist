@@ -5,6 +5,7 @@ import { ADD_WORD } from "../actions/WordsActions";
 import { UPDATE_WORD } from "../actions/WordsActions";
 import { UPDATE_PAGE } from "../actions/WordsActions";
 import { UPDATE_WORDS_LIST } from "../actions/WordsActions";
+import { UPDATE_USER } from "../actions/UserActions";
 
 const initState = {
   isLogged: false,
@@ -43,6 +44,9 @@ export const userReducer = (state = initState, action) => {
           word.id === action.payload.id ? action.payload : word
         ),
       };
+    }
+    case UPDATE_USER: {
+      return { ...state, ...action.payload };
     }
     default:
       return state;

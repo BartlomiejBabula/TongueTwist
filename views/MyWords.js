@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { myTheme } from "../components/Theme";
 import { StyleSheet, View, ScrollView, Image } from "react-native";
-import { SearchBar, ThemeProvider, Text, Icon } from "@rneui/themed";
+import { SearchBar, ThemeProvider, Text } from "@rneui/themed";
 import WordsListElement from "../components/WordsListElement";
 import Animated, { FadeIn, Keyframe, FadeOut } from "react-native-reanimated";
 import { useSelector } from "react-redux";

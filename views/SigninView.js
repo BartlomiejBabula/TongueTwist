@@ -5,14 +5,7 @@ import api, { setAuthHeader } from "../api/api";
 import { getUserData } from "../actions/LoggingActions";
 import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  Text,
-  Input,
-  lightColors,
-  Button,
-  Icon,
-  ThemeProvider,
-} from "@rneui/themed";
+import { Text, Input, lightColors, Button, ThemeProvider } from "@rneui/themed";
 import { View, StyleSheet, Image } from "react-native";
 import { useNavigate } from "react-router-native";
 import { myTheme } from "../components/Theme";
@@ -51,7 +44,7 @@ const SignIn = () => {
         await dispatch(getUserData());
       })
       .catch((error) => {
-        setErrorMessage(error.message);
+        setErrorMessage(error.response.data.message);
       });
   };
 
