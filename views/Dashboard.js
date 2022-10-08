@@ -14,7 +14,7 @@ const Dashboard = () => {
   const [buttonList, setButtonList] = useState([
     { icon: "pencil", label: "Add word", clicked: false },
     { icon: "book-open", label: "My word", clicked: true },
-    { icon: "cog", label: "Settings", clicked: false },
+    { icon: "account", label: "Settings", clicked: false },
   ]);
 
   const handleTabChange = (type) => {

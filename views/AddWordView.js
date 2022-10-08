@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { myTheme } from "../components/Theme";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { ThemeProvider, Input, Button, Text } from "@rneui/themed";
@@ -7,11 +7,10 @@ import { Formik } from "formik";
 import { LinearGradient } from "expo-linear-gradient";
 import { addWord } from "../actions/WordsActions";
 import { useDispatch } from "react-redux";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import Animated, { SlideInRight, SlideOutRight } from "react-native-reanimated";
 import { useNavigate } from "react-router-native";
 
 const AddWordView = ({ handleTabChange }) => {
-  const ref_input2 = useRef();
   const dispatch = useDispatch();
   let navigate = useNavigate();
   const validationSchema = Yup.object().shape({
@@ -44,8 +43,8 @@ const AddWordView = ({ handleTabChange }) => {
       <Text style={styles.title}>Add Word</Text>
       <Animated.ScrollView
         style={styles.container}
-        entering={FadeIn.duration(200)}
-        exiting={FadeOut.duration(200)}
+        entering={SlideInRight.duration(150)}
+        exiting={SlideOutRight.duration(150)}
       >
         <Formik
           initialValues={{
@@ -68,7 +67,6 @@ const AddWordView = ({ handleTabChange }) => {
                 value={values.word}
                 onChangeText={handleChange("word")}
                 errorMessage={touched.word && errors.word}
-                onSubmitEditing={() => ref_input2.current.focus()}
               />
               <Input
                 label='Translation'
@@ -76,7 +74,6 @@ const AddWordView = ({ handleTabChange }) => {
                 value={values.translate}
                 onChangeText={handleChange("translate")}
                 errorMessage={touched.translate && errors.translate}
-                ref={ref_input2}
               />
               <Input
                 label='Pronancuation'
@@ -90,6 +87,7 @@ const AddWordView = ({ handleTabChange }) => {
                 name='definition'
                 value={values.definition}
                 onChangeText={handleChange("definition")}
+                multiline={true}
                 errorMessage={touched.definition && errors.definition}
               />
               <Input
@@ -97,6 +95,7 @@ const AddWordView = ({ handleTabChange }) => {
                 name='examples'
                 value={values.examples}
                 onChangeText={handleChange("examples")}
+                multiline={true}
                 errorMessage={touched.examples && errors.examples}
               />
               <Input
@@ -104,6 +103,7 @@ const AddWordView = ({ handleTabChange }) => {
                 name='examples2'
                 value={values.examples2}
                 onChangeText={handleChange("examples2")}
+                multiline={true}
                 errorMessage={touched.examples2 && errors.examples2}
               />
               <Input
@@ -111,6 +111,7 @@ const AddWordView = ({ handleTabChange }) => {
                 name='examples3'
                 value={values.examples3}
                 onChangeText={handleChange("examples3")}
+                multiline={true}
                 errorMessage={touched.examples3 && errors.examples3}
               />
 

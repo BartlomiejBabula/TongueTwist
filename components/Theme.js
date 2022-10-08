@@ -10,6 +10,7 @@ export const myTheme = createTheme({
     gradient: ["#6B2C91", "#2E3192"],
     gradient_2: ["#0034CC", "#6B2C91"],
   },
+
   Icon: {
     size: 30,
     color: "#777777",
@@ -20,33 +21,27 @@ export const myTheme = createTheme({
       backgroundColor: "#0086d0",
     },
   },
+
   Input: {
+    cursorColor: "#6B2C91",
     labelStyle: {
-      color: "black",
-      fontWeight: "normal",
-      fontSize: 13,
-      marginBottom: 3,
-      marginLeft: 24,
+      fontSize: 14,
+      marginBottom: 2,
+      marginLeft: 5,
     },
-    errorStyle: { marginLeft: 24, marginTop: 3 },
+    errorStyle: { marginTop: 2 },
     inputStyle: {
+      color: "#4B4B4B",
       fontSize: 16,
-      padding: 1,
-      paddingLeft: 16,
+      paddingLeft: 12,
+      paddingRight: 12,
       height: 45,
     },
     inputContainerStyle: {
       borderBottomWidth: 0,
       backgroundColor: "#FBFBFB",
-      borderRadius: 30,
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.23,
-      shadowRadius: 2.62,
-      elevation: 4,
+      borderRadius: 4,
+      elevation: 2,
     },
   },
 
@@ -76,3 +71,35 @@ export const myTheme = createTheme({
     },
   },
 });
+
+// Input: {
+//   cursorColor: "#6B2C91",
+//   labelStyle: {
+//     color: "black",
+//     fontWeight: "normal",
+//     fontSize: 13,
+//     marginBottom: 3,
+//     marginLeft: 24,
+//   },
+//   errorStyle: { marginLeft: 24, marginTop: 3 },
+//   inputStyle: {
+//     fontSize: 16,
+//     padding: 1,
+//     paddingLeft: 16,
+//     paddingRight: 10,
+//     height: 45,
+//   },
+//   inputContainerStyle: {
+//     borderBottomWidth: 0,
+//     backgroundColor: "#FBFBFB",
+//     borderRadius: 30,
+//     shadowColor: "#000",
+//     shadowOffset: {
+//       width: 0,
+//       height: 2,
+//     },
+//     shadowOpacity: 0.23,
+//     shadowRadius: 2.62,
+//     elevation: 4,
+//   },
+// },
