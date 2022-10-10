@@ -4,10 +4,9 @@ import MyWords from "./MyWords";
 import AddWordView from "./AddWordView";
 import SettingsView from "./SettingsView";
 import { StyleSheet, View } from "react-native";
-import { Icon, ThemeProvider, Text } from "@rneui/themed";
+import { Icon, ThemeProvider, Text, Divider } from "@rneui/themed";
 import { myTheme } from "../components/Theme";
 import { useNavigate } from "react-router-native";
-import { LinearGradient } from "expo-linear-gradient";
 
 const Dashboard = () => {
   let navigate = useNavigate();
@@ -48,17 +47,25 @@ const Dashboard = () => {
           <Route path='/settings' exact element={<SettingsView />} />
         </Routes>
       </View>
-      <LinearGradient
-        end={{ x: 1, y: 0 }}
-        start={{ x: 1, y: 1 }}
-        colors={["#e4e2e4", "#FFF"]}
-        style={{ height: 7, marginTop: 5 }}
-      />
+      <Divider width={1} />
       <View style={styles.menuBottom}>
         {buttonList.map((button, key) => {
           return (
-            <View key={key}>
+            <View
+              key={key}
+              style={{
+                width: "33.34%",
+                height: "100%",
+              }}
+            >
               <Icon
+                containerStyle={{
+                  borderTopWidth: 4,
+                  paddingTop: 2,
+                  borderTopColor: button.clicked
+                    ? myTheme.palette.primary
+                    : "white",
+                }}
                 size={28}
                 underlayColor={"white"}
                 type='material-community'
@@ -95,10 +102,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   menuBottom: {
-    paddingBottom: 2,
     backgroundColor: "white",
     flexDirection: "row",
-    justifyContent: "space-evenly",
+
     alignItems: "flex-end",
     height: 52,
     width: "100%",

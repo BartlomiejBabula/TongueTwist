@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { StyleSheet, View, Pressable, Vibration } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, Pressable, Vibration, Modal } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { myTheme } from "./Theme";
 import ProgressBar from "./ProgressBar";
+import EditWordModal from "./EditWordModal";
 import Animated, {
   Layout,
   withSpring,
@@ -10,14 +11,15 @@ import Animated, {
   useAnimatedStyle,
   SlideInRight,
 } from "react-native-reanimated";
-import { Icon, ThemeProvider, FAB, Text } from "@rneui/themed";
+import { Icon, ThemeProvider, FAB, Text, Dialog, Button } from "@rneui/themed";
 import { useDispatch } from "react-redux";
-import { updateWord } from "../actions/WordsActions";
+import { updateWord, deleteWord } from "../actions/WordsActions";
 
 const WordsListElement = ({ word, nrElement, setEdit, edit }) => {
   const dispatch = useDispatch();
-  const [dialog, setDialog] = useState(false);
   const [expand, setExpand] = useState(false);
+  const [deleteDialog, setDeleteDialog] = useState(false);
+  const [editModal, setEditModal] = useState(false);
   const height = useSharedValue(81);
   let updateDate = new Date(word.progressUpdated).getDate();
   let today = new Date().getDate();
@@ -28,6 +30,10 @@ const WordsListElement = ({ word, nrElement, setEdit, edit }) => {
       hight: height.value,
     };
   });
+
+  useEffect(() => {
+    setEdit({ edit: false, element: nrElement });
+  }, [expand]);
 
   const progressChange = async (type) => {
     if (type === "+") {
@@ -46,6 +52,20 @@ const WordsListElement = ({ word, nrElement, setEdit, edit }) => {
       await dispatch(updateWord(newProgress));
       word.progress = word.progress - 1;
     }
+  };
+
+  const toggleDeleteDialog = () => {
+    setDeleteDialog(!deleteDialog);
+  };
+
+  const toggleEditModal = () => {
+    setEditModal(!editModal);
+    setEdit({ edit: false, element: nrElement });
+  };
+
+  const deleteThisWord = async () => {
+    await dispatch(deleteWord(word.id));
+    toggleDeleteDialog();
   };
 
   return (
@@ -88,7 +108,7 @@ const WordsListElement = ({ word, nrElement, setEdit, edit }) => {
               <Text
                 style={[styles.title, { color: edit ? "#616161" : "white" }]}
               >
-                {word.word}
+                {word.word.toLowerCase()}
               </Text>
               {ProgressBar(word.progress)}
             </View>
@@ -136,17 +156,13 @@ const WordsListElement = ({ word, nrElement, setEdit, edit }) => {
                   name='edit'
                   color={myTheme.palette.green}
                   size={34}
-                  onPress={() => {
-                    console.log("edit");
-                  }}
+                  onPress={toggleEditModal}
                 />
                 <Icon
                   name='delete'
                   color={myTheme.palette.red}
                   size={34}
-                  onPress={() => {
-                    console.log("delete");
-                  }}
+                  onPress={toggleDeleteDialog}
                 />
               </View>
             )}
@@ -192,6 +208,49 @@ const WordsListElement = ({ word, nrElement, setEdit, edit }) => {
           )}
         </Pressable>
       </Animated.View>
+      <Dialog isVisible={deleteDialog} onBackdropPress={toggleDeleteDialog}>
+        <Dialog.Title title={`Delete`} />
+        <Text style={{ marginBottom: 20 }}>
+          Are you sure you want to delete "{word.word}"?
+        </Text>
+        <View style={{ flexDirection: "row", justifyContent: "center" }}>
+          <Button
+            containerStyle={{ width: 70 }}
+            title='YES'
+            type='clear'
+            titleStyle={{
+              color: myTheme.palette.secondary,
+            }}
+            onPress={deleteThisWord}
+          />
+          <Button
+            containerStyle={{ width: 70 }}
+            title='NO'
+            type='clear'
+            titleStyle={{
+              color: myTheme.palette.secondary,
+            }}
+            onPress={toggleDeleteDialog}
+          />
+        </View>
+
+        <Icon
+          size={20}
+          underlayColor={"white"}
+          type='material-community'
+          color={myTheme.palette.secondary}
+          name={"close"}
+          onPress={toggleDeleteDialog}
+          containerStyle={{ position: "absolute", top: 8, right: 8 }}
+        />
+      </Dialog>
+      <Modal
+        animationType='slide'
+        visible={editModal}
+        onRequestClose={toggleEditModal}
+      >
+        <EditWordModal toggleEditModal={toggleEditModal} word={word} />
+      </Modal>
     </ThemeProvider>
   );
 };

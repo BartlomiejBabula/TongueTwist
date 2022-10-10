@@ -142,6 +142,7 @@ const SettingsView = () => {
           <View style={styles.valueContainer}>
             <Text style={styles.valueText}>{theme ? "DARK" : "LIGHT"}</Text>
             <Switch
+              disabled
               value={theme}
               color={myTheme.palette.secondary}
               onValueChange={(value) => setTheme(value)}
@@ -302,7 +303,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     fontWeight: "bold",
     fontSize: 16,
-    color: "#717171",
+    color: "#86939e",
   },
   valueText: {
     fontWeight: "bold",
