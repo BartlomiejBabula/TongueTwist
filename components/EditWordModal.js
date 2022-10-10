@@ -5,14 +5,11 @@ import { ThemeProvider, Input, Button, Text, Divider } from "@rneui/themed";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { LinearGradient } from "expo-linear-gradient";
-import { addWord } from "../actions/WordsActions";
 import { useDispatch } from "react-redux";
-import Animated, { SlideInRight, SlideOutRight } from "react-native-reanimated";
-import { useNavigate } from "react-router-native";
+import { updateWord } from "../actions/WordsActions";
 
-const AddWordView = ({ handleTabChange }) => {
+const EditWordModal = ({ toggleEditModal, word }) => {
   const dispatch = useDispatch();
-  let navigate = useNavigate();
   const validationSchema = Yup.object().shape({
     word: Yup.string().required("Required"),
     translate: Yup.string().required("Required"),
@@ -24,38 +21,42 @@ const AddWordView = ({ handleTabChange }) => {
       values.examples2.trim(),
       values.examples3.trim(),
     ];
-
     examplesArr = examplesArr.filter((example) => example);
-
     let newWord = {
+      id: word.id,
       word: values.word.trim(),
       translation: values.translate.trim(),
       pronancuation: values.pronancuation.trim(),
       examples: examplesArr,
       definition: values.definition.trim(),
     };
-    await dispatch(addWord(newWord));
-    handleTabChange({ label: "My word" });
+    await dispatch(updateWord(newWord));
+    toggleEditModal();
   };
-
   return (
     <ThemeProvider theme={myTheme}>
-      <Text style={styles.title}>Add Word</Text>
+      <View style={styles.containerTitle}>
+        <Text style={styles.title}>Edit Word</Text>
+        <Button
+          title='Cancel'
+          type='clear'
+          titleStyle={{
+            color: myTheme.palette.red,
+          }}
+          onPress={toggleEditModal}
+        />
+      </View>
       <Divider width={1} />
-      <Animated.ScrollView
-        style={styles.container}
-        entering={SlideInRight.duration(150)}
-        exiting={SlideOutRight.duration(150)}
-      >
+      <ScrollView style={styles.container}>
         <Formik
           initialValues={{
-            examples: "",
-            examples2: "",
-            examples3: "",
-            word: "",
-            translate: "",
-            pronancuation: "",
-            definition: "",
+            examples: word?.examples[0] ? word.examples[0] : "",
+            examples2: word?.examples[1] ? word.examples[1] : "",
+            examples3: word?.examples[2] ? word.examples[2] : "",
+            word: word?.word ? word.word : "",
+            translate: word?.translation ? word.translation : "",
+            pronancuation: word?.pronancuation ? word.pronancuation : "",
+            definition: word?.definition ? word.definition : "",
           }}
           validationSchema={validationSchema}
           onSubmit={onSubmit}
@@ -139,9 +140,8 @@ const AddWordView = ({ handleTabChange }) => {
                 }}
                 errorMessage={touched.examples3 && errors.examples3}
               />
-
               <Button
-                title='ADD WORD'
+                title='EDIT WORD'
                 ViewComponent={LinearGradient}
                 linearGradientProps={{
                   colors: myTheme.palette.gradient,
@@ -158,26 +158,29 @@ const AddWordView = ({ handleTabChange }) => {
             </View>
           )}
         </Formik>
-      </Animated.ScrollView>
+      </ScrollView>
     </ThemeProvider>
   );
 };
 
-export default AddWordView;
+export default EditWordModal;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     paddingVertical: 15,
     backgroundColor: myTheme.palette.grey,
   },
-  title: {
-    fontWeight: "bold",
-    fontSize: 24,
+  containerTitle: {
+    flexDirection: "row",
     paddingTop: 60,
     paddingBottom: 15,
     paddingHorizontal: 15,
     backgroundColor: "white",
+    justifyContent: "space-between",
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: 24,
   },
   button: {
     marginHorizontal: 10,
