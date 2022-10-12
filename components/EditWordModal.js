@@ -17,9 +17,9 @@ const EditWordModal = ({ toggleEditModal, word }) => {
 
   const onSubmit = async (values) => {
     let examplesArr = [
-      values.examples.trim(),
-      values.examples2.trim(),
-      values.examples3.trim(),
+      values.examples?.trim(),
+      values.examples2?.trim(),
+      values.examples3?.trim(),
     ];
     examplesArr = examplesArr.filter((example) => example);
     let newWord = {
@@ -64,14 +64,14 @@ const EditWordModal = ({ toggleEditModal, word }) => {
           {({ values, errors, touched, handleChange, handleSubmit }) => (
             <View style={{ marginBottom: 40 }}>
               <Input
-                label='Word'
+                label='Word*'
                 name='word'
                 value={values.word}
                 onChangeText={handleChange("word")}
                 errorMessage={touched.word && errors.word}
               />
               <Input
-                label='Translation'
+                label='Translation*'
                 name='translate'
                 value={values.translate}
                 onChangeText={handleChange("translate")}
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   },
   containerTitle: {
     flexDirection: "row",
-    paddingTop: 60,
+    paddingTop: 30,
     paddingBottom: 15,
     paddingHorizontal: 15,
     backgroundColor: "white",
