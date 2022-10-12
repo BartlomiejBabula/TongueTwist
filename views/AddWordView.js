@@ -1,7 +1,8 @@
 import React, { useRef } from "react";
 import { myTheme } from "../components/Theme";
 import { StyleSheet, View, ScrollView } from "react-native";
-import { ThemeProvider, Input, Button, Text } from "@rneui/themed";
+import { ThemeProvider, Button, Text } from "@rneui/themed";
+import { Input } from '../components/common/Input'
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { LinearGradient } from "expo-linear-gradient";
@@ -65,7 +66,6 @@ const AddWordView = ({ handleTabChange }) => {
               <Input
                 label='Word'
                 name='word'
-                placeholder="word"
                 value={values.word}
                 onChangeText={handleChange("word")}
                 errorMessage={touched.word && errors.word}
@@ -77,7 +77,7 @@ const AddWordView = ({ handleTabChange }) => {
                 value={values.translate}
                 onChangeText={handleChange("translate")}
                 errorMessage={touched.translate && errors.translate}
-                ref={ref_input2}
+                forwardRef={ref_input2}
               />
               <Input
                 label='Pronancuation'
