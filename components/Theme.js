@@ -70,36 +70,11 @@ export const myTheme = createTheme({
       fontSize: 16,
     },
   },
-});
 
-// Input: {
-//   cursorColor: "#6B2C91",
-//   labelStyle: {
-//     color: "black",
-//     fontWeight: "normal",
-//     fontSize: 13,
-//     marginBottom: 3,
-//     marginLeft: 24,
-//   },
-//   errorStyle: { marginLeft: 24, marginTop: 3 },
-//   inputStyle: {
-//     fontSize: 16,
-//     padding: 1,
-//     paddingLeft: 16,
-//     paddingRight: 10,
-//     height: 45,
-//   },
-//   inputContainerStyle: {
-//     borderBottomWidth: 0,
-//     backgroundColor: "#FBFBFB",
-//     borderRadius: 30,
-//     shadowColor: "#000",
-//     shadowOffset: {
-//       width: 0,
-//       height: 2,
-//     },
-//     shadowOpacity: 0.23,
-//     shadowRadius: 2.62,
-//     elevation: 4,
-//   },
-// },
+  Dialog: {
+    overlayStyle: {
+      maxHeight: "60%",
+      width: "90%",
+    },
+  },
+});
