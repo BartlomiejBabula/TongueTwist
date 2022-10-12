@@ -43,14 +43,17 @@ const SignIn = () => {
       username: values.email,
       password: values.password,
     };
+    console.log(`>> przed requestem`)
     api
       .post(`/login`, user)
       .then(async (res) => {
+        console.log(`>> res`, res)
         AsyncStorage.setItem("access", res.data.access_token);
         setAuthHeader(res.data.access_token);
         await dispatch(getUserData());
       })
       .catch((error) => {
+        console.log(`>> error`, error)
         setErrorMessage(error.message);
       });
   };
@@ -67,8 +70,6 @@ const SignIn = () => {
           style={styles.logo}
           source={require("../pictures/logo_2.png")}
         />
-        <Text style={styles.h1}>Welcome!</Text>
-        <Text style={styles.h2}>Improve your vocabulary</Text>
         <Text style={styles.error}>{errorMessage}</Text>
         <Formik
           initialValues={{
@@ -89,6 +90,8 @@ const SignIn = () => {
                 errorMessage={touched.email && errors.email}
                 placeholder='address@email.com'
                 onSubmitEditing={() => input2.current.focus()}
+                autoCapitalize={'none'}
+                autoCorrect={false}
               />
               <Input
                 label='Password'
@@ -98,6 +101,8 @@ const SignIn = () => {
                 errorMessage={touched.password && errors.password}
                 secureTextEntry={true}
                 placeholder='********'
+                autoCapitalize={'none'}
+                autoCorrect={false}
                 ref={input2}
               />
               <Button
