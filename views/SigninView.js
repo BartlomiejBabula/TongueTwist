@@ -5,9 +5,9 @@ import api, { setAuthHeader } from "../api/api";
 import { getUserData } from "../actions/LoggingActions";
 import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Input } from '../components/common/Input'
 import {
   Text,
-  Input,
   lightColors,
   Button,
   Icon,
@@ -90,8 +90,6 @@ const SignIn = () => {
                 errorMessage={touched.email && errors.email}
                 placeholder='address@email.com'
                 onSubmitEditing={() => input2.current.focus()}
-                autoCapitalize={'none'}
-                autoCorrect={false}
               />
               <Input
                 label='Password'
@@ -101,8 +99,6 @@ const SignIn = () => {
                 errorMessage={touched.password && errors.password}
                 secureTextEntry={true}
                 placeholder='********'
-                autoCapitalize={'none'}
-                autoCorrect={false}
                 ref={input2}
               />
               <Button
