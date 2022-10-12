@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { myTheme } from "../components/Theme";
 import { StyleSheet, View, ScrollView, Image } from "react-native";
-import { SearchBar, ThemeProvider, Text, Icon } from "@rneui/themed";
+import { SearchBar, ThemeProvider, Text } from "@rneui/themed";
 import WordsListElement from "../components/WordsListElement";
 import Animated, { FadeIn, Keyframe, FadeOut } from "react-native-reanimated";
 import { useSelector } from "react-redux";
@@ -15,7 +15,8 @@ const MyWords = () => {
   const [edit, setEdit] = useState({ edit: false, element: 0 });
   const [search, setSearch] = useState("");
   const [loadingWords, setLoadingWords] = useState(false);
-  const myWords = useSelector(selectWordsList);
+
+  let myWords = useSelector(selectWordsList);
 
   const updateSearch = (search) => {
     setSearch(search);
@@ -35,6 +36,11 @@ const MyWords = () => {
       opacity: 0,
     },
   });
+
+  useEffect(() => {
+    if (search !== "") {
+    }
+  }, [search]);
 
   useEffect(async () => {
     if (loadingWords) {
@@ -74,21 +80,23 @@ const MyWords = () => {
           }
         }}
       >
-        {myWords?.map((word, key) => (
-          <View
-            key={key}
-            style={{
-              marginVertical: edit.edit && edit.element === key ? 15 : 0,
-            }}
-          >
-            <WordsListElement
-              edit={edit.edit && edit.element === key ? true : false}
-              nrElement={key}
-              word={word}
-              setEdit={setEdit}
-            />
-          </View>
-        ))}
+        {myWords
+          ?.filter((word) => word.word.match(new RegExp(search, "i")))
+          .map((word, key) => (
+            <View
+              key={key}
+              style={{
+                marginVertical: edit.edit && edit.element === key ? 15 : 0,
+              }}
+            >
+              <WordsListElement
+                edit={edit.edit && edit.element === key ? true : false}
+                nrElement={key}
+                word={word}
+                setEdit={setEdit}
+              />
+            </View>
+          ))}
 
         <View style={{ minHeight: 40 }}>
           {loadingWords && (

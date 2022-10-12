@@ -10,7 +10,6 @@ import {
   Text,
   lightColors,
   Button,
-  Icon,
   ThemeProvider,
 } from "@rneui/themed";
 import { View, StyleSheet, Image } from "react-native";
@@ -53,8 +52,7 @@ const SignIn = () => {
         await dispatch(getUserData());
       })
       .catch((error) => {
-        console.log(`>> error`, error)
-        setErrorMessage(error.message);
+        setErrorMessage(error.response.data.message);
       });
   };
 

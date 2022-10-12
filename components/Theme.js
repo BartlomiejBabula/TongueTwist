@@ -21,17 +21,17 @@ export const myTheme = createTheme({
     },
   },
   Input: {
+    cursorColor: "#6B2C91",
     labelStyle: {
-      color: "gray",
-      fontWeight: "normal",
       fontSize: 14,
-      marginBottom: 6,
+      marginBottom: 2,
+      marginLeft: 5,
+
     },
-    errorStyle: { marginLeft: 24, marginTop: 3 },
+    errorStyle: { marginTop: 2 },
     inputStyle: {
+      // color: "#4B4B4B",
       fontSize: 16,
-      padding: 1,
-      paddingLeft: 16,
       height: 45,
     },
     inputContainerStyle: {
@@ -65,6 +65,13 @@ export const myTheme = createTheme({
     },
     inputStyle: {
       fontSize: 16,
+    },
+  },
+
+  Dialog: {
+    overlayStyle: {
+      maxHeight: "60%",
+      width: "90%",
     },
   },
 });

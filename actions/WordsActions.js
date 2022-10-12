@@ -2,6 +2,7 @@ import api from "../api/api";
 export const ADD_WORD = "ADD_WORD";
 export const UPDATE_WORD = "UPDATE_WORD";
 export const UPDATE_PAGE = "UPDATE_PAGE";
+export const DELETE_WORD = "DELETE_WORD";
 export const UPDATE_WORDS_LIST = "UPDATE_WORDS_LIST";
 
 export const updateWordsList = (page) => (dispatch) => {
@@ -42,6 +43,19 @@ export const updateWord = (word) => (dispatch) => {
       dispatch({
         type: UPDATE_WORD,
         payload: updateWord,
+      });
+    })
+    .catch(function (error) {});
+};
+
+export const deleteWord = (id) => (dispatch) => {
+  api
+    .delete(`/words/${id}`)
+    .then(function (response) {
+      let deleteWord = id;
+      dispatch({
+        type: DELETE_WORD,
+        payload: deleteWord,
       });
     })
     .catch(function (error) {});
