@@ -5,7 +5,13 @@ import api, { setAuthHeader } from "../api/api";
 import { getUserData } from "../actions/LoggingActions";
 import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Text, Input, lightColors, Button, ThemeProvider } from "@rneui/themed";
+import { Input } from '../components/common/Input'
+import {
+  Text,
+  lightColors,
+  Button,
+  ThemeProvider,
+} from "@rneui/themed";
 import { View, StyleSheet, Image } from "react-native";
 import { useNavigate } from "react-router-native";
 import { myTheme } from "../components/Theme";
@@ -36,9 +42,11 @@ const SignIn = () => {
       username: values.email,
       password: values.password,
     };
+    console.log(`>> przed requestem`)
     api
       .post(`/login`, user)
       .then(async (res) => {
+        console.log(`>> res`, res)
         AsyncStorage.setItem("access", res.data.access_token);
         setAuthHeader(res.data.access_token);
         await dispatch(getUserData());
@@ -60,8 +68,6 @@ const SignIn = () => {
           style={styles.logo}
           source={require("../pictures/logo_2.png")}
         />
-        <Text style={styles.h1}>Welcome!</Text>
-        <Text style={styles.h2}>Improve your vocabulary</Text>
         <Text style={styles.error}>{errorMessage}</Text>
         <Formik
           initialValues={{

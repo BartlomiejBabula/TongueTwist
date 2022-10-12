@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { myTheme } from "../components/Theme";
+import { StyleSheet, View, ScrollView } from "react-native";
+import { Input } from '../components/common/Input'
 import api from "../api/api";
-import { StyleSheet, View, ScrollView, Modal } from "react-native";
 import {
   ThemeProvider,
-  Input,
   Button,
   Text,
   Divider,
@@ -86,7 +86,7 @@ const AddWordView = ({ handleTabChange }) => {
           setFieldValue("examples3", searchedWord.senses[0]?.examples[2]?.text);
         }
       })
-      .catch((error) => {});
+      .catch((error) => { });
     toggleOxfordDialog();
   };
 
@@ -95,7 +95,6 @@ const AddWordView = ({ handleTabChange }) => {
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Add Word</Text>
       </View>
-      <Divider width={1} />
       <Animated.ScrollView
         style={styles.container}
         entering={SlideInRight.duration(150)}
@@ -126,7 +125,6 @@ const AddWordView = ({ handleTabChange }) => {
               <Input
                 label='Word*'
                 name='word'
-                placeholder='Enter a word to search for definitions'
                 value={values.word}
                 onChangeText={handleChange("word")}
                 errorMessage={touched.word && errors.word}
@@ -154,7 +152,6 @@ const AddWordView = ({ handleTabChange }) => {
               <Input
                 label='Translation*'
                 name='translate'
-                placeholder='Word translation'
                 value={values.translate}
                 onChangeText={handleChange("translate")}
                 errorMessage={touched.translate && errors.translate}
@@ -162,7 +159,6 @@ const AddWordView = ({ handleTabChange }) => {
               <Input
                 label='Pronancuation'
                 name='pronancuation'
-                placeholder='Word pronunciation'
                 value={values.pronancuation}
                 onChangeText={handleChange("pronancuation")}
                 errorMessage={touched.pronancuation && errors.pronancuation}
@@ -170,7 +166,6 @@ const AddWordView = ({ handleTabChange }) => {
               <Input
                 label='Definition'
                 name='definition'
-                placeholder='Your word definition'
                 value={values.definition}
                 onChangeText={handleChange("definition")}
                 multiline={true}
@@ -185,7 +180,6 @@ const AddWordView = ({ handleTabChange }) => {
               <Input
                 label='Examples'
                 name='examples'
-                placeholder='First example of using your word in a sentence'
                 value={values.examples}
                 onChangeText={handleChange("examples")}
                 multiline={true}
@@ -197,38 +191,10 @@ const AddWordView = ({ handleTabChange }) => {
                 }}
                 errorMessage={touched.examples && errors.examples}
               />
-              <Input
-                label='Examples 2'
-                name='examples2'
-                placeholder='Second example of using your word in a sentence'
-                value={values.examples2}
-                onChangeText={handleChange("examples2")}
-                multiline={true}
-                numberOfLines={3}
-                inputStyle={{
-                  height: 60,
-                  textAlignVertical: "top",
-                  marginVertical: 5,
-                }}
-                errorMessage={touched.examples2 && errors.examples2}
-              />
-              <Input
-                label='Examples 3'
-                name='examples3'
-                placeholder='Third example of using your word in a sentence'
-                value={values.examples3}
-                onChangeText={handleChange("examples3")}
-                multiline={true}
-                numberOfLines={3}
-                inputStyle={{
-                  height: 60,
-                  textAlignVertical: "top",
-                  marginVertical: 5,
-                }}
-                errorMessage={touched.examples3 && errors.examples3}
-              />
               <Button
-                title='ADD WORD'
+                title="ADD"
+                buttonStyle={styles.button}
+                onPress={handleSubmit}
                 ViewComponent={LinearGradient}
                 linearGradientProps={{
                   colors: myTheme.palette.gradient,
@@ -240,7 +206,6 @@ const AddWordView = ({ handleTabChange }) => {
                   letterSpacing: 1,
                   paddingVertical: 10,
                 }}
-                onPress={handleSubmit}
               />
               <Dialog
                 isVisible={oxfordDialog}
@@ -297,7 +262,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingVertical: 15,
-    backgroundColor: myTheme.palette.grey,
   },
   title: {
     fontWeight: "bold",

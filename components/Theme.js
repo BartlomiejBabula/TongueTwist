@@ -10,7 +10,6 @@ export const myTheme = createTheme({
     gradient: ["#6B2C91", "#2E3192"],
     gradient_2: ["#0034CC", "#6B2C91"],
   },
-
   Icon: {
     size: 30,
     color: "#777777",
@@ -21,27 +20,25 @@ export const myTheme = createTheme({
       backgroundColor: "#0086d0",
     },
   },
-
   Input: {
     cursorColor: "#6B2C91",
     labelStyle: {
       fontSize: 14,
       marginBottom: 2,
       marginLeft: 5,
+
     },
     errorStyle: { marginTop: 2 },
     inputStyle: {
-      color: "#4B4B4B",
+      // color: "#4B4B4B",
       fontSize: 16,
-      paddingLeft: 12,
-      paddingRight: 12,
       height: 45,
     },
     inputContainerStyle: {
       borderBottomWidth: 0,
-      backgroundColor: "#FBFBFB",
-      borderRadius: 4,
-      elevation: 2,
+      backgroundColor: "#f6f0fa",
+      borderRadius: 16,
+      shadowColor: "#000",
     },
   },
 
