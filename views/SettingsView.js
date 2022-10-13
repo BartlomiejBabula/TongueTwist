@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import api from "../api/api";
 import { myTheme } from "../components/Theme";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import {
   Input,
   ThemeProvider,
@@ -18,16 +18,19 @@ import { useNavigate } from "react-router-native";
 import { useDispatch } from "react-redux";
 import { logOutAction } from "../actions/LogoutActions";
 import { updateUser } from "../actions/UserActions";
-import { selectUser } from "../selectors/user";
+import { updateWord } from "../actions/WordsActions";
+import { selectUser, selectWordsList } from "../selectors/user";
 import { useSelector } from "react-redux";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
 const SettingsView = () => {
   const user = useSelector(selectUser);
+  const wordList = useSelector(selectWordsList);
   const [theme, setTheme] = useState(false);
   const [nameDialog, setNameDialog] = useState(false);
   const [passwordDialog, setPasswordDialog] = useState(false);
+  const [wordsDialog, setWordsDialog] = useState(false);
   const [errorPassword, setErrorPassword] = useState("");
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -95,6 +98,18 @@ const SettingsView = () => {
     setErrorPassword("");
   };
 
+  const toggleWordsDialog = () => {
+    setWordsDialog(!wordsDialog);
+  };
+
+  const resetProgress = async (wordID) => {
+    let newProgress = {
+      id: wordID,
+      progress: 0,
+    };
+    await dispatch(updateWord(newProgress));
+  };
+
   const EditButton = (props) => (
     <Button
       title='EDIT'
@@ -138,6 +153,12 @@ const SettingsView = () => {
         </View>
         <View style={styles.menuTile}>
           <Text style={styles.subtitle}>Application</Text>
+          <Text style={styles.valueName}>Archive</Text>
+          <View style={styles.valueContainer}>
+            <Text style={styles.valueText}>Learned words</Text>
+            <EditButton name={"words"} open={toggleWordsDialog} />
+          </View>
+          <Divider />
           <Text style={styles.valueName}>Theme</Text>
           <View style={styles.valueContainer}>
             <Text style={styles.valueText}>{theme ? "DARK" : "LIGHT"}</Text>
@@ -195,7 +216,7 @@ const SettingsView = () => {
           )}
         </Formik>
         <Icon
-          size={20}
+          size={24}
           underlayColor={"white"}
           type='material-community'
           color={myTheme.palette.secondary}
@@ -264,12 +285,52 @@ const SettingsView = () => {
           )}
         </Formik>
         <Icon
-          size={20}
+          size={24}
           underlayColor={"white"}
           type='material-community'
           color={myTheme.palette.secondary}
           name={"close"}
           onPress={togglePasswordDialog}
+          containerStyle={{ position: "absolute", top: 8, right: 8 }}
+        />
+      </Dialog>
+      <Dialog isVisible={wordsDialog} onBackdropPress={toggleWordsDialog}>
+        <Dialog.Title title='Archive' />
+        <Text>Your learned words</Text>
+        <ScrollView style={{ marginTop: 20 }}>
+          {wordList
+            .filter((word) => word.progress === 5)
+            .map((word, key) => (
+              <View
+                style={{
+                  flexDirection: "row",
+                  width: "100%",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text style={styles.valueText}>{word.word.toUpperCase()}</Text>
+                <Button
+                  onPress={() => {
+                    resetProgress(word.id);
+                  }}
+                  title='RESET '
+                  type='clear'
+                  key={key}
+                  titleStyle={{
+                    color: myTheme.palette.secondary,
+                  }}
+                />
+              </View>
+            ))}
+        </ScrollView>
+        <Icon
+          size={24}
+          underlayColor={"white"}
+          type='material-community'
+          color={myTheme.palette.secondary}
+          name={"close"}
+          onPress={toggleWordsDialog}
           containerStyle={{ position: "absolute", top: 8, right: 8 }}
         />
       </Dialog>

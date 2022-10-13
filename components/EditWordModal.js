@@ -33,6 +33,7 @@ const EditWordModal = ({ toggleEditModal, word }) => {
     await dispatch(updateWord(newWord));
     toggleEditModal();
   };
+
   return (
     <ThemeProvider theme={myTheme}>
       <View style={styles.containerTitle}>
