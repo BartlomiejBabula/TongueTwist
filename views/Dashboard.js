@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
 
     alignItems: "flex-end",
-    height: 52,
+    height: 50,
     width: "100%",
   },
   buttonText: { letterSpacing: 0.5, textAlign: "center", fontSize: 12 },

@@ -82,6 +82,7 @@ const MyWords = () => {
       >
         {myWords
           ?.filter((word) => word.word.match(new RegExp(search, "i")))
+          .filter((word) => word.progress !== 5)
           .map((word, key) => (
             <View
               key={key}
