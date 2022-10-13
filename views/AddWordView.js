@@ -1,16 +1,9 @@
 import React, { useState } from "react";
 import { myTheme } from "../components/Theme";
 import { StyleSheet, View, ScrollView } from "react-native";
-import { Input } from '../components/common/Input'
+import { Input } from "../components/common/Input";
 import api from "../api/api";
-import {
-  ThemeProvider,
-  Button,
-  Text,
-  Divider,
-  Icon,
-  Dialog,
-} from "@rneui/themed";
+import { ThemeProvider, Button, Text, Icon, Dialog } from "@rneui/themed";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { LinearGradient } from "expo-linear-gradient";
@@ -21,6 +14,7 @@ import Animated, { SlideInRight, SlideOutRight } from "react-native-reanimated";
 const AddWordView = ({ handleTabChange }) => {
   const dispatch = useDispatch();
   const [oxfordDialog, setOxfordDialog] = useState(false);
+  const [moreExamples, setMoreExamples] = useState(false);
   const [oxfordSearchList, setOxfordSearchList] = useState();
   const validationSchema = Yup.object().shape({
     word: Yup.string().required("Required"),
@@ -29,9 +23,9 @@ const AddWordView = ({ handleTabChange }) => {
 
   const onSubmit = async (values) => {
     let examplesArr = [
-      values.examples?.trim(),
-      values.examples2?.trim(),
-      values.examples3?.trim(),
+      values.example?.trim(),
+      values.example2?.trim(),
+      values.example3?.trim(),
     ];
 
     examplesArr = examplesArr.filter((example) => example);
@@ -80,14 +74,32 @@ const AddWordView = ({ handleTabChange }) => {
             searchedWord.pronunciations[0]?.phoneticSpelling
           );
         }
-        if (searchedWord.senses[0]?.examples !== undefined) {
-          setFieldValue("examples", searchedWord.senses[0]?.examples[0]?.text);
-          setFieldValue("examples2", searchedWord.senses[0]?.examples[1]?.text);
-          setFieldValue("examples3", searchedWord.senses[0]?.examples[2]?.text);
+        if (searchedWord.senses[0]?.examples) {
+          setFieldValue("example", searchedWord.senses[0]?.examples[0]?.text);
+          if (searchedWord.senses[0]?.examples[1]) {
+            setMoreExamples(true);
+            setFieldValue(
+              "example2",
+              searchedWord.senses[0]?.examples[1]?.text
+            );
+            setFieldValue(
+              "example3",
+              searchedWord.senses[0]?.examples[2]?.text
+            );
+          }
         }
       })
-      .catch((error) => { });
+      .catch((error) => {});
     toggleOxfordDialog();
+  };
+
+  const toggleExample = (type) => {
+    if (type === "add") {
+      setMoreExamples(true);
+    }
+    if (type === "minus") {
+      setMoreExamples(false);
+    }
   };
 
   return (
@@ -102,9 +114,9 @@ const AddWordView = ({ handleTabChange }) => {
       >
         <Formik
           initialValues={{
-            examples: "",
-            examples2: "",
-            examples3: "",
+            example: "",
+            example2: "",
+            example3: "",
             word: "",
             translate: "",
             pronancuation: "",
@@ -178,10 +190,10 @@ const AddWordView = ({ handleTabChange }) => {
                 errorMessage={touched.definition && errors.definition}
               />
               <Input
-                label='Examples'
-                name='examples'
-                value={values.examples}
-                onChangeText={handleChange("examples")}
+                label='Example'
+                name='example'
+                value={values.example}
+                onChangeText={handleChange("example")}
                 multiline={true}
                 numberOfLines={3}
                 inputStyle={{
@@ -189,10 +201,67 @@ const AddWordView = ({ handleTabChange }) => {
                   textAlignVertical: "top",
                   marginVertical: 5,
                 }}
-                errorMessage={touched.examples && errors.examples}
+                errorMessage={touched.example && errors.example}
+                rightIcon={
+                  <View style={{ marginRight: 5 }}>
+                    {!moreExamples ? (
+                      <Icon
+                        onPress={() => {
+                          toggleExample("add");
+                        }}
+                        name='plus'
+                        type='material-community'
+                        size={30}
+                        color={myTheme.palette.primary}
+                      />
+                    ) : (
+                      <Icon
+                        onPress={() => {
+                          toggleExample("minus");
+                        }}
+                        name='minus'
+                        type='material-community'
+                        size={30}
+                        color={myTheme.palette.primary}
+                      />
+                    )}
+                  </View>
+                }
               />
+              {moreExamples && (
+                <>
+                  <Input
+                    label='Second example'
+                    name='example2'
+                    value={values.example2}
+                    onChangeText={handleChange("example2")}
+                    multiline={true}
+                    numberOfLines={3}
+                    inputStyle={{
+                      height: 60,
+                      textAlignVertical: "top",
+                      marginVertical: 5,
+                    }}
+                    errorMessage={touched.example2 && errors.example2}
+                  />
+                  <Input
+                    label='Third example'
+                    name='example3'
+                    value={values.example3}
+                    onChangeText={handleChange("example3")}
+                    multiline={true}
+                    numberOfLines={3}
+                    inputStyle={{
+                      height: 60,
+                      textAlignVertical: "top",
+                      marginVertical: 5,
+                    }}
+                    errorMessage={touched.example3 && errors.example3}
+                  />
+                </>
+              )}
               <Button
-                title="ADD"
+                title='ADD'
                 buttonStyle={styles.button}
                 onPress={handleSubmit}
                 ViewComponent={LinearGradient}
@@ -200,11 +269,9 @@ const AddWordView = ({ handleTabChange }) => {
                   colors: myTheme.palette.gradient,
                   end: { x: 0, y: 1.5 },
                 }}
-                containerStyle={styles.button}
                 titleStyle={{
                   fontWeight: "700",
                   letterSpacing: 1,
-                  paddingVertical: 10,
                 }}
               />
               <Dialog
@@ -271,13 +338,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingTop: 60,
-    paddingBottom: 15,
+    paddingBottom: 5,
     paddingHorizontal: 15,
     backgroundColor: "white",
   },
   button: {
     marginHorizontal: 10,
-    borderRadius: 7,
+    borderRadius: 14,
+    height: 50,
+    marginTop: 20,
+    marginBottom: 20,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -285,6 +355,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.46,
     shadowRadius: 11.14,
-    elevation: 2,
+    elevation: 3,
   },
 });

@@ -1,7 +1,7 @@
 import React from "react";
 import { myTheme } from "../components/Theme";
 import { StyleSheet, View, ScrollView } from "react-native";
-import { ThemeProvider, Input, Button, Text, Divider } from "@rneui/themed";
+import { ThemeProvider, Input, Button, Text } from "@rneui/themed";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { LinearGradient } from "expo-linear-gradient";
@@ -46,7 +46,6 @@ const EditWordModal = ({ toggleEditModal, word }) => {
           onPress={toggleEditModal}
         />
       </View>
-      <Divider width={1} />
       <ScrollView style={styles.container}>
         <Formik
           initialValues={{
@@ -141,17 +140,16 @@ const EditWordModal = ({ toggleEditModal, word }) => {
                 errorMessage={touched.examples3 && errors.examples3}
               />
               <Button
-                title='EDIT WORD'
+                title='EDIT'
                 ViewComponent={LinearGradient}
                 linearGradientProps={{
                   colors: myTheme.palette.gradient,
                   end: { x: 0, y: 1.5 },
                 }}
-                containerStyle={styles.button}
+                buttonStyle={styles.button}
                 titleStyle={{
                   fontWeight: "700",
                   letterSpacing: 1,
-                  paddingVertical: 10,
                 }}
                 onPress={handleSubmit}
               />
@@ -168,12 +166,11 @@ export default EditWordModal;
 const styles = StyleSheet.create({
   container: {
     paddingVertical: 15,
-    backgroundColor: myTheme.palette.grey,
   },
   containerTitle: {
     flexDirection: "row",
     paddingTop: 30,
-    paddingBottom: 15,
+    paddingBottom: 5,
     paddingHorizontal: 15,
     backgroundColor: "white",
     justifyContent: "space-between",
@@ -184,7 +181,10 @@ const styles = StyleSheet.create({
   },
   button: {
     marginHorizontal: 10,
-    borderRadius: 7,
+    borderRadius: 14,
+    height: 50,
+    marginTop: 20,
+    marginBottom: 20,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -192,6 +192,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.46,
     shadowRadius: 11.14,
-    elevation: 2,
+    elevation: 3,
   },
 });

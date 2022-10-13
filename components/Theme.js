@@ -25,11 +25,11 @@ export const myTheme = createTheme({
     labelStyle: {
       fontSize: 14,
       marginBottom: 2,
-      marginLeft: 5,
-
+      marginLeft: 15,
     },
     errorStyle: { marginTop: 2 },
     inputStyle: {
+      paddingHorizontal: 10,
       // color: "#4B4B4B",
       fontSize: 16,
       height: 45,
@@ -37,8 +37,7 @@ export const myTheme = createTheme({
     inputContainerStyle: {
       borderBottomWidth: 0,
       backgroundColor: "#f6f0fa",
-      borderRadius: 16,
-      shadowColor: "#000",
+      borderRadius: 14,
     },
   },
 
