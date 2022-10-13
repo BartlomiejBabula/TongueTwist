@@ -65,6 +65,7 @@ const WordsListElement = ({ word, nrElement, setEdit, edit }) => {
 
   const deleteThisWord = async () => {
     await dispatch(deleteWord(word.id));
+    setEdit({ edit: false, element: nrElement });
     toggleDeleteDialog();
   };
 
@@ -260,7 +261,7 @@ export default WordsListElement;
 const styles = StyleSheet.create({
   wordContainer: {
     overflow: "hidden",
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#f6f0fa",
     borderRadius: 20,
     paddingVertical: 8,
     paddingHorizontal: 17,
@@ -273,7 +274,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 2.23,
     shadowRadius: 2.62,
-    elevation: 4,
+    elevation: 3,
   },
   title: {
     paddingLeft: 5,

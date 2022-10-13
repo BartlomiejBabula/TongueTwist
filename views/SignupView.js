@@ -3,15 +3,7 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import { AppURL } from "../api/api";
 import axios from "axios";
-import {
-  Text,
-  Input,
-  lightColors,
-  CheckBox,
-  Button,
-  Icon,
-  ThemeProvider,
-} from "@rneui/themed";
+import { Text, Input, lightColors, Button, ThemeProvider } from "@rneui/themed";
 import { View, StyleSheet, Image } from "react-native";
 import { useNavigate } from "react-router-native";
 import { myTheme } from "../components/Theme";
@@ -189,7 +181,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.46,
     shadowRadius: 11.14,
-    elevation: 6,
+    elevation: 3,
   },
   error: { textAlign: "center", color: lightColors.error, marginVertical: 10 },
 });
