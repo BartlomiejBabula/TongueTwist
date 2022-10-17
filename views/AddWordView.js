@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { myTheme } from "../components/Theme";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView, BackHandler } from "react-native";
 import { Input } from "../components/common/Input";
 import api from "../api/api";
 import { ThemeProvider, Button, Text, Icon, Dialog } from "@rneui/themed";
@@ -53,6 +53,7 @@ const AddWordView = ({ handleTabChange }) => {
           console.log(error.response.data.message);
         });
     }
+    setOxfordSearchList();
   };
 
   const selectWord = async (word, setFieldValue, values) => {
@@ -102,6 +103,20 @@ const AddWordView = ({ handleTabChange }) => {
     }
   };
 
+  useEffect(() => {
+    const backAction = () => {
+      handleTabChange({ label: "My word" });
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   return (
     <ThemeProvider theme={myTheme}>
       <View style={styles.titleContainer}>
@@ -132,6 +147,8 @@ const AddWordView = ({ handleTabChange }) => {
             handleChange,
             handleSubmit,
             setFieldValue,
+            isValid,
+            dirty,
           }) => (
             <View style={{ marginBottom: 40 }}>
               <Input
@@ -266,10 +283,14 @@ const AddWordView = ({ handleTabChange }) => {
                 onPress={handleSubmit}
                 ViewComponent={LinearGradient}
                 linearGradientProps={{
-                  colors: myTheme.palette.gradient,
+                  colors:
+                    isValid && dirty
+                      ? myTheme.palette.gradient
+                      : myTheme.palette.gradient_disabled,
                   end: { x: 0, y: 1.5 },
                 }}
                 titleStyle={{
+                  color: isValid && dirty ? "white" : myTheme.palette.primary,
                   fontWeight: "700",
                   letterSpacing: 1,
                 }}
@@ -283,19 +304,26 @@ const AddWordView = ({ handleTabChange }) => {
                     <Dialog.Title title='Definition list' />
                     <Text>Found list of word definitions</Text>
                     <ScrollView style={{ marginTop: 20 }}>
-                      {oxfordSearchList?.map((word, key) => (
-                        <Button
-                          onPress={() => {
-                            selectWord(word, setFieldValue, values);
-                          }}
-                          title={word.label}
-                          type='clear'
-                          key={key}
-                          titleStyle={{
-                            color: myTheme.palette.secondary,
-                          }}
+                      {oxfordSearchList.length !== 0 ? (
+                        oxfordSearchList?.map((word, key) => (
+                          <Button
+                            onPress={() => {
+                              selectWord(word, setFieldValue, values);
+                            }}
+                            title={word.label}
+                            type='clear'
+                            key={key}
+                            titleStyle={{
+                              color: myTheme.palette.secondary,
+                            }}
+                          />
+                        ))
+                      ) : (
+                        <Dialog.Title
+                          title='Definition not found'
+                          titleStyle={{ textAlign: "center" }}
                         />
-                      ))}
+                      )}
                     </ScrollView>
                     <Icon
                       size={20}

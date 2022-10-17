@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import api from "../api/api";
 import { myTheme } from "../components/Theme";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView, BackHandler } from "react-native";
 import {
   Input,
   ThemeProvider,
@@ -23,14 +23,16 @@ import { selectUser, selectWordsList } from "../selectors/user";
 import { useSelector } from "react-redux";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { Picker } from "@react-native-picker/picker";
 
-const SettingsView = () => {
+const SettingsView = ({ handleTabChange }) => {
   const user = useSelector(selectUser);
   const wordList = useSelector(selectWordsList);
   const [theme, setTheme] = useState(false);
   const [nameDialog, setNameDialog] = useState(false);
   const [passwordDialog, setPasswordDialog] = useState(false);
   const [wordsDialog, setWordsDialog] = useState(false);
+  const [reportDialog, setReportDialog] = useState(false);
   const [errorPassword, setErrorPassword] = useState("");
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -60,6 +62,13 @@ const SettingsView = () => {
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password"), null], "Invalid repeat password")
       .required("Required"),
+  });
+
+  const validationSchema3 = Yup.object().shape({
+    reason: Yup.string().required("Required"),
+    description: Yup.string()
+      .required("Required")
+      .min(6, "Description is to short"),
   });
 
   const submitDisplayName = async (values) => {
@@ -102,12 +111,34 @@ const SettingsView = () => {
     setWordsDialog(!wordsDialog);
   };
 
+  const toggleReportDialog = () => {
+    setReportDialog(!reportDialog);
+  };
+
   const resetProgress = async (wordID) => {
     let newProgress = {
       id: wordID,
       progress: 0,
     };
     await dispatch(updateWord(newProgress));
+  };
+
+  useEffect(() => {
+    const backAction = () => {
+      handleTabChange({ label: "My word" });
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
+  const sendReport = (values) => {
+    console.log(values);
   };
 
   const EditButton = (props) => (
@@ -124,7 +155,7 @@ const SettingsView = () => {
 
   return (
     <ThemeProvider theme={myTheme}>
-      <Animated.View
+      <Animated.ScrollView
         style={styles.container}
         entering={SlideInLeft.duration(150)}
         exiting={SlideOutLeft.duration(150)}
@@ -169,10 +200,20 @@ const SettingsView = () => {
               onValueChange={(value) => setTheme(value)}
             />
           </View>
+          <Divider />
+          <Button
+            title='REPORT'
+            type='clear'
+            titleStyle={{
+              color: myTheme.palette.secondary,
+              paddingVertical: 8,
+            }}
+            onPress={toggleReportDialog}
+          />
         </View>
         <View style={styles.menuTile}>
           <Button
-            title='Logout'
+            title='LOGOUT'
             type='clear'
             titleStyle={{
               paddingVertical: 5,
@@ -182,7 +223,7 @@ const SettingsView = () => {
             onPress={logOut}
           />
         </View>
-      </Animated.View>
+      </Animated.ScrollView>
       <Dialog isVisible={nameDialog} onBackdropPress={toggleNameDialog}>
         <Dialog.Title title='Display name' />
         <Text style={{ marginBottom: 20 }}>Set your display name</Text>
@@ -225,7 +266,11 @@ const SettingsView = () => {
           containerStyle={{ position: "absolute", top: 8, right: 8 }}
         />
       </Dialog>
-      <Dialog isVisible={passwordDialog} onBackdropPress={togglePasswordDialog}>
+      <Dialog
+        isVisible={passwordDialog}
+        onBackdropPress={togglePasswordDialog}
+        overlayStyle={{ minHeight: 430 }}
+      >
         <Dialog.Title title='Password' />
         <Text>Set your new password</Text>
         <Text
@@ -331,6 +376,76 @@ const SettingsView = () => {
           color={myTheme.palette.secondary}
           name={"close"}
           onPress={toggleWordsDialog}
+          containerStyle={{ position: "absolute", top: 8, right: 8 }}
+        />
+      </Dialog>
+      <Dialog
+        isVisible={reportDialog}
+        onBackdropPress={toggleReportDialog}
+        overlayStyle={{ minHeight: 300 }}
+      >
+        <Dialog.Title title='Report' />
+        <Formik
+          initialValues={{
+            description: "",
+            reason: "",
+          }}
+          validationSchema={validationSchema3}
+          onSubmit={sendReport}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleSubmit,
+            setFieldValue,
+          }) => (
+            <>
+              <Picker
+                selectedValue={values.reason}
+                onValueChange={(itemValue, itemIndex) => {
+                  setFieldValue("reason", itemValue);
+                }}
+              >
+                <Picker.Item label='Bug report' value='bug' />
+                <Picker.Item label='Upgrade idea' value='idea' />
+                <Picker.Item label='Select reason' value='' />
+              </Picker>
+              <Input
+                label='Description'
+                name='description'
+                value={values.description}
+                onChangeText={handleChange("description")}
+                errorMessage={touched.description && errors.description}
+                containerStyle={{ paddingHorizontal: 0 }}
+                multiline={true}
+                numberOfLines={4}
+                inputStyle={{
+                  height: 80,
+                  textAlignVertical: "top",
+                  marginVertical: 5,
+                }}
+              />
+              <Button
+                title='Send'
+                type='clear'
+                titleStyle={{
+                  fontSize: 17,
+                  color: myTheme.palette.secondary,
+                }}
+                onPress={handleSubmit}
+              />
+            </>
+          )}
+        </Formik>
+        <Icon
+          size={24}
+          underlayColor={"white"}
+          type='material-community'
+          color={myTheme.palette.secondary}
+          name={"close"}
+          onPress={toggleReportDialog}
           containerStyle={{ position: "absolute", top: 8, right: 8 }}
         />
       </Dialog>

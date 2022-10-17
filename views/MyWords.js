@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { myTheme } from "../components/Theme";
-import { StyleSheet, View, ScrollView, Image } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Image,
+  BackHandler,
+  Alert,
+} from "react-native";
 import { SearchBar, ThemeProvider, Text } from "@rneui/themed";
 import WordsListElement from "../components/WordsListElement";
 import Animated, { FadeIn, Keyframe, FadeOut } from "react-native-reanimated";
@@ -49,6 +56,27 @@ const MyWords = () => {
       await dispatch(updateWordsList(pageUp));
     }
   }, [loadingWords]);
+
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert("TongueTwist", "Are you sure you want to exit app?", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel",
+        },
+        { text: "YES", onPress: () => BackHandler.exitApp() },
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <ThemeProvider theme={myTheme}>

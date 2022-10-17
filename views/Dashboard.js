@@ -44,7 +44,11 @@ const Dashboard = () => {
             exact
             element={<AddWordView handleTabChange={handleTabChange} />}
           />
-          <Route path='/settings' exact element={<SettingsView />} />
+          <Route
+            path='/settings'
+            exact
+            element={<SettingsView handleTabChange={handleTabChange} />}
+          />
         </Routes>
       </View>
       <Divider width={1} />
@@ -104,9 +108,8 @@ const styles = StyleSheet.create({
   menuBottom: {
     backgroundColor: "white",
     flexDirection: "row",
-
     alignItems: "flex-end",
-    height: 50,
+    height: 55,
     width: "100%",
   },
   buttonText: { letterSpacing: 0.5, textAlign: "center", fontSize: 12 },
