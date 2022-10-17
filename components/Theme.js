@@ -9,6 +9,7 @@ export const myTheme = createTheme({
     green: "#3CEC10",
     gradient: ["#6B2C91", "#2E3192"],
     gradient_2: ["#0034CC", "#6B2C91"],
+    gradient_disabled: ["#fcf7ff", "#f6f0fa"],
   },
   Icon: {
     size: 30,
@@ -25,9 +26,14 @@ export const myTheme = createTheme({
     labelStyle: {
       fontSize: 14,
       marginBottom: 2,
-      marginLeft: 15,
+      marginLeft: 10,
     },
-    errorStyle: { marginTop: 2 },
+    errorStyle: {
+      marginTop: 2,
+      marginLeft: 10,
+      color: "#e76f51",
+      fontWeight: "bold",
+    },
     inputStyle: {
       paddingHorizontal: 10,
       // color: "#4B4B4B",
