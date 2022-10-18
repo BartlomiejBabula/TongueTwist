@@ -6,6 +6,7 @@ import { StyleSheet, View } from "react-native";
 import { Input, ThemeProvider, Text, Button, Icon } from "@rneui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
+import Animated, { SlideInLeft } from "react-native-reanimated";
 import * as Yup from "yup";
 
 const DisplayNameModal = ({ toggleNameDialog, user }) => {
@@ -25,7 +26,10 @@ const DisplayNameModal = ({ toggleNameDialog, user }) => {
 
   return (
     <ThemeProvider theme={myTheme}>
-      <View style={styles.container}>
+      <Animated.View
+        style={styles.container}
+        entering={SlideInLeft.duration(150)}
+      >
         <View style={styles.containerTitle}>
           <Icon
             size={26}
@@ -72,7 +76,7 @@ const DisplayNameModal = ({ toggleNameDialog, user }) => {
             </>
           )}
         </Formik>
-      </View>
+      </Animated.View>
     </ThemeProvider>
   );
 };

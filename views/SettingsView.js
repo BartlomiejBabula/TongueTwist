@@ -148,21 +148,21 @@ const SettingsView = ({ handleTabChange }) => {
       <Modal
         visible={nameDialog}
         onRequestClose={toggleNameDialog}
-        animationType='slide'
+        animationType='none'
       >
         <DisplayNameModal toggleNameDialog={toggleNameDialog} user={user} />
       </Modal>
       <Modal
         visible={passwordDialog}
         onRequestClose={togglePasswordDialog}
-        animationType='slide'
+        animationType='none'
       >
         <ChangePasswordModal togglePasswordDialog={togglePasswordDialog} />
       </Modal>
       <Modal
         visible={wordsDialog}
         onRequestClose={toggleWordsDialog}
-        animationType='slide'
+        animationType='none'
       >
         <ArchiveWordsModal
           toggleWordsDialog={toggleWordsDialog}
@@ -171,7 +171,7 @@ const SettingsView = ({ handleTabChange }) => {
       </Modal>
       <Modal
         visible={reportDialog}
-        animationType='slide'
+        animationType='none'
         onRequestClose={toggleReportDialog}
       >
         <FeedbackModal toggleReportDialog={toggleReportDialog} user={user} />

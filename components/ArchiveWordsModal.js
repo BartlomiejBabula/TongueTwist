@@ -1,9 +1,10 @@
 import React from "react";
 import { myTheme } from "./Theme";
 import { StyleSheet, View, ScrollView } from "react-native";
-import { ThemeProvider, Text, Button, Icon, Divider } from "@rneui/themed";
+import { ThemeProvider, Text, Button, Icon } from "@rneui/themed";
 import { updateWord } from "../actions/WordsActions";
 import { useDispatch } from "react-redux";
+import Animated, { SlideInLeft } from "react-native-reanimated";
 
 const ArchiveWordsModal = ({ toggleWordsDialog, wordList }) => {
   const dispatch = useDispatch();
@@ -17,7 +18,10 @@ const ArchiveWordsModal = ({ toggleWordsDialog, wordList }) => {
 
   return (
     <ThemeProvider theme={myTheme}>
-      <View style={styles.container}>
+      <Animated.View
+        style={styles.container}
+        entering={SlideInLeft.duration(150)}
+      >
         <Icon
           size={26}
           underlayColor={"white"}
@@ -26,12 +30,16 @@ const ArchiveWordsModal = ({ toggleWordsDialog, wordList }) => {
           onPress={toggleWordsDialog}
         />
         <Text style={styles.title}>Archive</Text>
-      </View>
-      <ScrollView style={{ paddingHorizontal: 20 }}>
+      </Animated.View>
+      <Animated.ScrollView
+        style={{ paddingHorizontal: 20 }}
+        entering={SlideInLeft.duration(150)}
+      >
         {wordList
           .filter((word) => word.progress === 5)
           .map((word, key) => (
             <View
+              key={key}
               style={{
                 flexDirection: "row",
                 width: "100%",
@@ -53,7 +61,7 @@ const ArchiveWordsModal = ({ toggleWordsDialog, wordList }) => {
               />
             </View>
           ))}
-      </ScrollView>
+      </Animated.ScrollView>
     </ThemeProvider>
   );
 };
