@@ -15,7 +15,7 @@ import { Icon, ThemeProvider, FAB, Text, Dialog, Button } from "@rneui/themed";
 import { useDispatch } from "react-redux";
 import { updateWord, deleteWord } from "../actions/WordsActions";
 
-const WordsListElement = ({ word, nrElement, setEdit, edit }) => {
+const WordsListElement = ({ word, nrElement, setEdit, edit, checkEdit }) => {
   const dispatch = useDispatch();
   const [expand, setExpand] = useState(false);
   const [deleteDialog, setDeleteDialog] = useState(false);
@@ -30,10 +30,6 @@ const WordsListElement = ({ word, nrElement, setEdit, edit }) => {
       hight: height.value,
     };
   });
-
-  useEffect(() => {
-    setEdit({ edit: false, element: nrElement });
-  }, [expand]);
 
   const progressChange = async (type) => {
     if (type === "+") {
@@ -85,16 +81,19 @@ const WordsListElement = ({ word, nrElement, setEdit, edit }) => {
         )}
         <Pressable
           onLongPress={() => {
+            setExpand(false);
             setEdit({ edit: !edit, element: nrElement });
             Vibration.vibrate();
           }}
           onPress={() => {
-            if (!edit) {
+            if (!checkEdit) {
               setExpand(!expand);
               if (!expand) {
                 height.value = withSpring(310, { stiffness: 100, mass: 0.5 });
               } else
                 height.value = withSpring(80, { stiffness: 100, mass: 0.5 });
+            } else {
+              setEdit({ edit: false, element: nrElement });
             }
           }}
         >

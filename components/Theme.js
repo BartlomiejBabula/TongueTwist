@@ -11,10 +11,6 @@ export const myTheme = createTheme({
     gradient_2: ["#0034CC", "#6B2C91"],
     gradient_disabled: ["#fcf7ff", "#f6f0fa"],
   },
-  Icon: {
-    size: 30,
-    color: "#777777",
-  },
 
   Avatar: {
     containerStyle: {
@@ -36,7 +32,7 @@ export const myTheme = createTheme({
     },
     inputStyle: {
       paddingHorizontal: 10,
-      // color: "#4B4B4B",
+      color: "#4B4B4B",
       fontSize: 16,
       height: 45,
     },

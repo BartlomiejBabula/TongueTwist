@@ -70,14 +70,10 @@ const Dashboard = () => {
                     ? myTheme.palette.primary
                     : "white",
                 }}
-                size={28}
+                size={26}
                 underlayColor={"white"}
                 type='material-community'
-                color={
-                  button.clicked
-                    ? myTheme.palette.primary
-                    : myTheme.palette.silver
-                }
+                color={button.clicked ? myTheme.palette.primary : "#555"}
                 name={button.clicked ? button.icon : button.icon + "-outline"}
                 onPress={() => {
                   handleTabChange(button);
@@ -87,7 +83,7 @@ const Dashboard = () => {
                 style={[
                   button.clicked
                     ? { color: myTheme.palette.primary }
-                    : { color: "#777" },
+                    : { color: "#555" },
                   styles.buttonText,
                 ]}
               >
@@ -109,10 +105,15 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     flexDirection: "row",
     alignItems: "flex-end",
-    height: 55,
+    height: "7%",
     width: "100%",
   },
-  buttonText: { letterSpacing: 0.5, textAlign: "center", fontSize: 12 },
+  buttonText: {
+    letterSpacing: 0.2,
+    textAlign: "center",
+    fontSize: 12,
+    marginTop: 1,
+  },
 });
 
 export default Dashboard;

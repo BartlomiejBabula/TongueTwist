@@ -120,6 +120,7 @@ const MyWords = () => {
             >
               <WordsListElement
                 edit={edit.edit && edit.element === key ? true : false}
+                checkEdit={edit.edit}
                 nrElement={key}
                 word={word}
                 setEdit={setEdit}
