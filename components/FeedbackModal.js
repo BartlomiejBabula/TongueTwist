@@ -10,7 +10,7 @@ import Animated, { SlideInLeft } from "react-native-reanimated";
 
 const FeedbackModal = ({ toggleReportDialog, user }) => {
   const validationSchema = Yup.object().shape({
-    reason: Yup.string().required("Required"),
+    // reason: Yup.string().required("Required"),
     name: Yup.string().required("Required"),
     description: Yup.string()
       .required("Required")
@@ -29,7 +29,7 @@ const FeedbackModal = ({ toggleReportDialog, user }) => {
     <ThemeProvider theme={myTheme}>
       <Animated.View
         style={styles.container}
-        layout={SlideInLeft.duration(150)}
+        entering={SlideInLeft.duration(150)}
       >
         <Animated.View style={styles.containerTitle}>
           <Icon
@@ -46,7 +46,7 @@ const FeedbackModal = ({ toggleReportDialog, user }) => {
             name: user.displayName ? user.displayName : "",
             email: user.email ? user.email : "",
             description: "",
-            reason: "",
+            // reason: "",
           }}
           validationSchema={validationSchema}
           onSubmit={sendReport}
@@ -60,7 +60,7 @@ const FeedbackModal = ({ toggleReportDialog, user }) => {
             setFieldValue,
           }) => (
             <>
-              <Picker
+              {/* <Picker
                 selectedValue={values.reason}
                 onValueChange={(itemValue, itemIndex) => {
                   setFieldValue("reason", itemValue);
@@ -69,7 +69,7 @@ const FeedbackModal = ({ toggleReportDialog, user }) => {
                 <Picker.Item label='Bug report' value='bug' />
                 <Picker.Item label='Upgrade idea' value='idea' />
                 <Picker.Item label='Select reason' value='' />
-              </Picker>
+              </Picker> */}
               <Input
                 label='Name'
                 name='name'
