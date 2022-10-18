@@ -6,7 +6,7 @@ import { getUserData } from "../actions/LoggingActions";
 import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Input } from "../components/common/Input";
-import { Text, lightColors, Button, ThemeProvider } from "@rneui/themed";
+import { Text, lightColors, Button, ThemeProvider, Icon } from "@rneui/themed";
 import { View, StyleSheet, Image } from "react-native";
 import { useNavigate } from "react-router-native";
 import { myTheme } from "../components/Theme";
@@ -18,6 +18,7 @@ const SignIn = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(true);
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email("Invalid email address")
@@ -37,11 +38,9 @@ const SignIn = () => {
       username: values.email,
       password: values.password,
     };
-    console.log(`>> przed requestem`);
     api
       .post(`/login`, user)
       .then(async (res) => {
-        console.log(`>> res`, res);
         AsyncStorage.setItem("access", res.data.access_token);
         setAuthHeader(res.data.access_token);
         await dispatch(getUserData());
@@ -90,9 +89,22 @@ const SignIn = () => {
                 value={values.password}
                 onChangeText={handleChange("password")}
                 errorMessage={touched.password && errors.password}
-                secureTextEntry={true}
+                secureTextEntry={showPassword}
                 placeholder='********'
                 ref={input2}
+                rightIcon={
+                  <Icon
+                    name='eye'
+                    type='material-community'
+                    color='#b1b1b1'
+                    underlayColor={"white"}
+                    size={26}
+                    containerStyle={{ marginRight: 7 }}
+                    onPress={() => {
+                      setShowPassword(!showPassword);
+                    }}
+                  />
+                }
               />
               <Button
                 title='SIGN IN'
@@ -148,11 +160,11 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 8,
+      height: 2,
     },
-    shadowOpacity: 0.46,
-    shadowRadius: 11.14,
-    elevation: 3,
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
   },
   error: { textAlign: "center", color: lightColors.error, marginVertical: 10 },
 });

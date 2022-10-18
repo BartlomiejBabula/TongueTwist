@@ -3,7 +3,14 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import { AppURL } from "../api/api";
 import axios from "axios";
-import { Text, Input, lightColors, Button, ThemeProvider } from "@rneui/themed";
+import {
+  Text,
+  Input,
+  lightColors,
+  Button,
+  ThemeProvider,
+  Icon,
+} from "@rneui/themed";
 import { View, StyleSheet, Image } from "react-native";
 import { useNavigate } from "react-router-native";
 import { myTheme } from "../components/Theme";
@@ -15,6 +22,8 @@ const SignUp = () => {
   const input3 = useRef(null);
   let navigate = useNavigate();
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(true);
+  const [showRePassword, setShowRePassword] = useState(true);
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email("Invalid email address")
@@ -41,7 +50,6 @@ const SignUp = () => {
       .post(AppURL + "/register", user)
       .then((response) => {
         if (response.data !== null) {
-          // setError("");
           navigate({ pathname: "/" }, { replace: true });
         }
       })
@@ -115,10 +123,23 @@ const SignUp = () => {
                 value={values.password}
                 onChangeText={handleChange("password")}
                 errorMessage={touched.password && errors.password}
-                secureTextEntry={true}
+                secureTextEntry={showPassword}
                 placeholder='********'
                 ref={input2}
                 onSubmitEditing={() => input3.current.focus()}
+                rightIcon={
+                  <Icon
+                    name='eye'
+                    type='material-community'
+                    color='#b1b1b1'
+                    underlayColor={"white"}
+                    size={26}
+                    containerStyle={{ marginRight: 7 }}
+                    onPress={() => {
+                      setShowPassword(!showPassword);
+                    }}
+                  />
+                }
               />
               <Input
                 label='Repeat password'
@@ -126,9 +147,21 @@ const SignUp = () => {
                 value={values.confirmPassword}
                 onChangeText={handleChange("confirmPassword")}
                 errorMessage={touched.confirmPassword && errors.confirmPassword}
-                secureTextEntry={true}
+                secureTextEntry={showRePassword}
                 placeholder='********'
                 ref={input3}
+                rightIcon={
+                  <Icon
+                    name='eye'
+                    type='material-community'
+                    color='#b1b1b1'
+                    size={26}
+                    containerStyle={{ marginRight: 7 }}
+                    onPress={() => {
+                      setShowRePassword(!showRePassword);
+                    }}
+                  />
+                }
               />
               <Button
                 title='SIGN UP'
@@ -177,11 +210,11 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 8,
+      height: 2,
     },
-    shadowOpacity: 0.46,
-    shadowRadius: 11.14,
-    elevation: 3,
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
   },
   error: { textAlign: "center", color: lightColors.error, marginVertical: 10 },
 });
