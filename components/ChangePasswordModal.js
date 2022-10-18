@@ -6,6 +6,7 @@ import { Input, ThemeProvider, Text, Button, Icon } from "@rneui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import Animated, { SlideInLeft } from "react-native-reanimated";
 
 const ChangePasswordModal = ({ togglePasswordDialog }) => {
   const [errorPassword, setErrorPassword] = useState("");
@@ -49,7 +50,10 @@ const ChangePasswordModal = ({ togglePasswordDialog }) => {
 
   return (
     <ThemeProvider theme={myTheme}>
-      <View style={styles.container}>
+      <Animated.View
+        style={styles.container}
+        entering={SlideInLeft.duration(150)}
+      >
         <View style={styles.containerTitle}>
           <Icon
             size={26}
@@ -162,7 +166,7 @@ const ChangePasswordModal = ({ togglePasswordDialog }) => {
             </>
           )}
         </Formik>
-      </View>
+      </Animated.View>
     </ThemeProvider>
   );
 };

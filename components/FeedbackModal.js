@@ -6,6 +6,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { Picker } from "@react-native-picker/picker";
+import Animated, { SlideInLeft } from "react-native-reanimated";
 
 const FeedbackModal = ({ toggleReportDialog, user }) => {
   const validationSchema = Yup.object().shape({
@@ -26,8 +27,11 @@ const FeedbackModal = ({ toggleReportDialog, user }) => {
 
   return (
     <ThemeProvider theme={myTheme}>
-      <View style={styles.container}>
-        <View style={styles.containerTitle}>
+      <Animated.View
+        style={styles.container}
+        layout={SlideInLeft.duration(150)}
+      >
+        <Animated.View style={styles.containerTitle}>
           <Icon
             size={26}
             underlayColor={"white"}
@@ -36,7 +40,7 @@ const FeedbackModal = ({ toggleReportDialog, user }) => {
             onPress={toggleReportDialog}
           />
           <Text style={styles.title}>Send us Feedback</Text>
-        </View>
+        </Animated.View>
         <Formik
           initialValues={{
             name: user.displayName ? user.displayName : "",
@@ -115,7 +119,7 @@ const FeedbackModal = ({ toggleReportDialog, user }) => {
             </>
           )}
         </Formik>
-      </View>
+      </Animated.View>
     </ThemeProvider>
   );
 };
