@@ -12,67 +12,71 @@ export const myTheme = createTheme({
     gradient_disabled: ["#fcf7ff", "#f6f0fa"],
   },
 
-  Avatar: {
-    containerStyle: {
-      backgroundColor: "#0086d0",
-    },
-  },
-  Input: {
-    cursorColor: "#6B2C91",
-    labelStyle: {
-      fontSize: 14,
-      marginBottom: 2,
-      marginLeft: 10,
-    },
-    errorStyle: {
-      marginTop: 2,
-      marginLeft: 10,
-      color: "#e76f51",
-      fontWeight: "bold",
-    },
-    inputStyle: {
-      paddingHorizontal: 10,
-      color: "#4B4B4B",
-      fontSize: 16,
-      height: 45,
-    },
-    inputContainerStyle: {
-      borderBottomWidth: 0,
-      backgroundColor: "#f6f0fa",
-      borderRadius: 14,
-    },
-  },
-
-  SearchBar: {
-    containerStyle: {
-      width: 190,
-      backgroundColor: null,
-      borderTopWidth: null,
-      borderBottomWidth: null,
-      padding: 0,
-    },
-    inputContainerStyle: {
-      borderRadius: 30,
-      height: 35,
-      backgroundColor: "#F5F5F5",
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2,
+  components: {
+    Avatar: {
+      containerStyle: {
+        backgroundColor: "#0086d0",
       },
-      shadowOpacity: 0.23,
-      shadowRadius: 2.62,
-      elevation: 1,
     },
-    inputStyle: {
-      fontSize: 16,
+    Input: {
+      autoCapitalize: "none",
+      autoCorrect: false,
+      cursorColor: "#6B2C91",
+      labelStyle: {
+        fontSize: 14,
+        marginBottom: 2,
+        marginLeft: 10,
+      },
+      errorStyle: {
+        marginTop: 2,
+        marginLeft: 10,
+        color: "#e76f51",
+        fontWeight: "bold",
+      },
+      inputStyle: {
+        paddingHorizontal: 10,
+        color: "#4B4B4B",
+        fontSize: 16,
+        height: 45,
+      },
+      inputContainerStyle: {
+        borderBottomWidth: 0,
+        backgroundColor: "#f6f0fa",
+        borderRadius: 14,
+      },
     },
-  },
 
-  Dialog: {
-    overlayStyle: {
-      maxHeight: "60%",
-      width: "90%",
+    SearchBar: {
+      containerStyle: {
+        width: 190,
+        backgroundColor: null,
+        borderTopWidth: null,
+        borderBottomWidth: null,
+        padding: 0,
+      },
+      inputContainerStyle: {
+        borderRadius: 30,
+        height: 35,
+        backgroundColor: "#F5F5F5",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 1,
+      },
+      inputStyle: {
+        fontSize: 16,
+      },
+    },
+
+    Dialog: {
+      overlayStyle: {
+        maxHeight: "60%",
+        width: "90%",
+      },
     },
   },
 });

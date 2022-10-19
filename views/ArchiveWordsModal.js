@@ -1,5 +1,5 @@
 import React from "react";
-import { myTheme } from "./Theme";
+import { myTheme } from "../components/Theme";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { ThemeProvider, Text, Button, Icon } from "@rneui/themed";
 import { updateWord } from "../actions/WordsActions";

@@ -1,27 +1,26 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { updateUser } from "../actions/UserActions";
-import { myTheme } from "./Theme";
+import { myTheme } from "../components/Theme";
 import { StyleSheet, View } from "react-native";
 import { Input, ThemeProvider, Text, Button, Icon } from "@rneui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
-import Animated, { SlideInLeft } from "react-native-reanimated";
 import * as Yup from "yup";
+import Animated, { SlideInLeft } from "react-native-reanimated";
 
-const DisplayNameModal = ({ toggleNameDialog, user }) => {
-  const dispatch = useDispatch();
+const FeedbackModal = ({ toggleReportDialog, user }) => {
   const validationSchema = Yup.object().shape({
-    name: Yup.string()
+    name: Yup.string().required("Required"),
+    description: Yup.string()
       .required("Required")
-      .min(2, "Name is to short - should be 2 chars minimum")
-      .max(18, "Name is to long - should be 18 chars maximum"),
+      .min(6, "Description is to short"),
+    email: Yup.string()
+      .email("Invalid email address")
+      .max(32, "Email address is to long - should be 32 chars maximum")
+      .required("Required"),
   });
 
-  const submitDisplayName = async (values) => {
-    let newName = { displayName: values.name };
-    await dispatch(updateUser(newName));
-    toggleNameDialog();
+  const sendReport = (values) => {
+    console.log(values);
   };
 
   return (
@@ -30,36 +29,60 @@ const DisplayNameModal = ({ toggleNameDialog, user }) => {
         style={styles.container}
         entering={SlideInLeft.duration(150)}
       >
-        <View style={styles.containerTitle}>
+        <Animated.View style={styles.containerTitle}>
           <Icon
             size={26}
             underlayColor={"white"}
             type='material-community'
             name={"arrow-left"}
-            onPress={toggleNameDialog}
+            onPress={toggleReportDialog}
           />
-          <Text style={styles.title}>Display name</Text>
-        </View>
-        <Text style={styles.text}>Set your new display name</Text>
+          <Text style={styles.title}>Send us Feedback</Text>
+        </Animated.View>
         <Formik
           initialValues={{
-            name: user?.displayName,
+            name: user.displayName ? user.displayName : "",
+            email: user.email ? user.email : "",
+            description: "",
           }}
           validationSchema={validationSchema}
-          onSubmit={submitDisplayName}
+          onSubmit={sendReport}
         >
           {({ values, errors, touched, handleChange, handleSubmit }) => (
             <>
               <Input
-                label='New name'
+                label='Name'
                 name='name'
                 value={values.name}
                 onChangeText={handleChange("name")}
                 errorMessage={touched.name && errors.name}
                 containerStyle={{ paddingHorizontal: 0 }}
               />
+              <Input
+                label='Email'
+                name='email'
+                value={values.email}
+                onChangeText={handleChange("email")}
+                errorMessage={touched.email && errors.email}
+                containerStyle={{ paddingHorizontal: 0 }}
+              />
+              <Input
+                label='Description'
+                name='description'
+                value={values.description}
+                onChangeText={handleChange("description")}
+                errorMessage={touched.description && errors.description}
+                containerStyle={{ paddingHorizontal: 0 }}
+                multiline={true}
+                numberOfLines={5}
+                inputStyle={{
+                  height: 100,
+                  textAlignVertical: "top",
+                  marginVertical: 5,
+                }}
+              />
               <Button
-                title='Save'
+                title='Send'
                 buttonStyle={styles.button}
                 ViewComponent={LinearGradient}
                 linearGradientProps={{
@@ -81,7 +104,7 @@ const DisplayNameModal = ({ toggleNameDialog, user }) => {
   );
 };
 
-export default DisplayNameModal;
+export default FeedbackModal;
 
 const styles = StyleSheet.create({
   container: {
@@ -98,12 +121,6 @@ const styles = StyleSheet.create({
     marginLeft: "8%",
     fontWeight: "bold",
     fontSize: 22,
-  },
-  text: {
-    marginHorizontal: 15,
-    fontWeight: "bold",
-    fontSize: 16,
-    marginBottom: 20,
   },
   button: {
     marginHorizontal: 10,

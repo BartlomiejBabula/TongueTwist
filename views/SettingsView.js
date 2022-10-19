@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { myTheme } from "../components/Theme";
 import { StyleSheet, ScrollView, BackHandler, Modal } from "react-native";
-import {
-  ThemeProvider,
-  Text,
-  Divider,
-  Button,
-  BottomSheet,
-  Icon,
-  ListItem,
-} from "@rneui/themed";
+import { ThemeProvider, Text, Divider, Button, Icon } from "@rneui/themed";
 import Animated, { SlideInLeft, SlideOutLeft } from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigate } from "react-router-native";
@@ -17,15 +9,14 @@ import { useDispatch } from "react-redux";
 import { logOutAction } from "../actions/LogoutActions";
 import { selectUser, selectWordsList } from "../selectors/user";
 import { useSelector } from "react-redux";
-import ArchiveWordsModal from "../components/ArchiveWordsModal";
-import FeedbackModal from "../components/FeedbackModal";
-import ChangePasswordModal from "../components/ChangePasswordModal";
-import DisplayNameModal from "../components/DisplayNameModal";
+import ArchiveWordsModal from "./ArchiveWordsModal";
+import FeedbackModal from "./FeedbackModal";
+import ChangePasswordModal from "./ChangePasswordModal";
+import DisplayNameModal from "./DisplayNameModal";
 
 const SettingsView = ({ handleTabChange }) => {
   const user = useSelector(selectUser);
   const wordList = useSelector(selectWordsList);
-  const [themeDialog, setThemeDialog] = useState(false);
   const [nameDialog, setNameDialog] = useState(false);
   const [passwordDialog, setPasswordDialog] = useState(false);
   const [wordsDialog, setWordsDialog] = useState(false);
@@ -132,13 +123,6 @@ const SettingsView = ({ handleTabChange }) => {
           icon={"comment-alert"}
         />
         <EditButton
-          open={() => {
-            setThemeDialog(true);
-          }}
-          title={"Theme"}
-          icon={"brightness-6"}
-        />
-        <EditButton
           title={"Logout"}
           open={logOut}
           icon={"logout"}
@@ -176,24 +160,6 @@ const SettingsView = ({ handleTabChange }) => {
       >
         <FeedbackModal toggleReportDialog={toggleReportDialog} user={user} />
       </Modal>
-      <BottomSheet
-        onBackdropPress={() => {
-          setThemeDialog(false);
-        }}
-        isVisible={themeDialog}
-      >
-        {themeList.map((l, i) => (
-          <ListItem
-            key={i}
-            containerStyle={l.containerStyle}
-            onPress={l.onPress}
-          >
-            <ListItem.Content>
-              <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
-            </ListItem.Content>
-          </ListItem>
-        ))}
-      </BottomSheet>
     </ThemeProvider>
   );
 };
