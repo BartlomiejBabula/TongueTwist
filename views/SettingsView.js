@@ -24,8 +24,8 @@ const SettingsView = ({ handleTabChange }) => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const logOut = () => {
-    dispatch(logOutAction());
+  const logOut = async () => {
+    await dispatch(logOutAction());
     AsyncStorage.removeItem("access");
     navigate({ pathname: "/" }, { replace: true });
   };

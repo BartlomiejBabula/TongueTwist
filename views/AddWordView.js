@@ -125,9 +125,13 @@ const AddWordView = ({ handleTabChange }) => {
 
   return (
     <ThemeProvider theme={myTheme}>
-      <View style={styles.titleContainer}>
+      <Animated.View
+        entering={SlideInRight.duration(150)}
+        exiting={SlideOutRight.duration(150)}
+        style={styles.titleContainer}
+      >
         <Text style={styles.title}>Add Word</Text>
-      </View>
+      </Animated.View>
       <Animated.ScrollView
         style={styles.container}
         entering={SlideInRight.duration(150)}

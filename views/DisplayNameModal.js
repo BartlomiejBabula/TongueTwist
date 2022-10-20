@@ -59,7 +59,7 @@ const DisplayNameModal = ({ toggleNameDialog, user }) => {
                 containerStyle={{ paddingHorizontal: 0 }}
               />
               <Button
-                title='Save'
+                title='Update name'
                 buttonStyle={styles.button}
                 ViewComponent={LinearGradient}
                 linearGradientProps={{

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NativeRouter, Route, Routes } from "react-router-native";
 import SignUp from "../views/SignupView";
+import SignUpInfo from "../views/SignupInfoView";
 import SignIn from "../views/SigninView";
 import Dashboard from "../views/Dashboard";
 import { useSelector } from "react-redux";
@@ -33,6 +34,7 @@ const Router = () => {
       <Routes>
         <Route path='/' exact element={<SignIn />} />
         <Route path='/Register' exact element={<SignUp />} />
+        <Route path='/CreatedAccountView' exact element={<SignUpInfo />} />
       </Routes>
     </NativeRouter>
   );

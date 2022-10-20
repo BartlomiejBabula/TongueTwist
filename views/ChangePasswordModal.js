@@ -149,7 +149,7 @@ const ChangePasswordModal = ({ togglePasswordDialog }) => {
                 }
               />
               <Button
-                title='Save'
+                title='Update password'
                 buttonStyle={styles.button}
                 ViewComponent={LinearGradient}
                 linearGradientProps={{

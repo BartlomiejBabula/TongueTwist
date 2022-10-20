@@ -82,7 +82,7 @@ const FeedbackModal = ({ toggleReportDialog, user }) => {
                 }}
               />
               <Button
-                title='Send'
+                title='Send Feedback'
                 buttonStyle={styles.button}
                 ViewComponent={LinearGradient}
                 linearGradientProps={{
