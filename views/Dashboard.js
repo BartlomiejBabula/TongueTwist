@@ -14,9 +14,9 @@ const Dashboard = () => {
   let navigate = useNavigate();
   const { theme } = useTheme();
   const [buttonList, setButtonList] = useState([
-    { icon: "pencil", label: "Add word", clicked: false },
+    { icon: "pencil-plus", label: "Add word", clicked: false },
     { icon: "book-open", label: "My word", clicked: true },
-    { icon: "account", label: "Settings", clicked: false },
+    { icon: "cog", label: "Settings", clicked: false },
   ]);
 
   const handleTabChange = (type) => {
@@ -91,6 +91,7 @@ const Dashboard = () => {
                     ? theme.colors.primary
                     : theme.colors.menu,
                 }}
+                underlayColor={theme.colors.menu}
                 size={26}
                 type='material-community'
                 color={button.clicked ? theme.colors.primary : "#777"}
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.2,
     textAlign: "center",
     fontSize: 12,
-    marginTop: 1,
+    marginTop: 4,
   },
 });
 
