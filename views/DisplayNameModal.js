@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../actions/UserActions";
-import { myTheme } from "./Theme";
+import { myTheme } from "../components/Theme";
 import { StyleSheet, View } from "react-native";
 import { Input, ThemeProvider, Text, Button, Icon } from "@rneui/themed";
 import { LinearGradient } from "expo-linear-gradient";
@@ -59,7 +59,7 @@ const DisplayNameModal = ({ toggleNameDialog, user }) => {
                 containerStyle={{ paddingHorizontal: 0 }}
               />
               <Button
-                title='Save'
+                title='Update name'
                 buttonStyle={styles.button}
                 ViewComponent={LinearGradient}
                 linearGradientProps={{

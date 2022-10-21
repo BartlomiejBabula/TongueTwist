@@ -3,7 +3,7 @@ import { StyleSheet, View, Pressable, Vibration, Modal } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { myTheme } from "./Theme";
 import ProgressBar from "./ProgressBar";
-import EditWordModal from "./EditWordModal";
+import EditWordModal from "../views/EditWordModal";
 import Animated, {
   Layout,
   withSpring,

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import api from "../api/api";
-import { myTheme } from "./Theme";
+import { myTheme } from "../components/Theme";
 import { StyleSheet, View } from "react-native";
 import { Input, ThemeProvider, Text, Button, Icon } from "@rneui/themed";
 import { LinearGradient } from "expo-linear-gradient";
@@ -149,7 +149,7 @@ const ChangePasswordModal = ({ togglePasswordDialog }) => {
                 }
               />
               <Button
-                title='Save'
+                title='Update password'
                 buttonStyle={styles.button}
                 ViewComponent={LinearGradient}
                 linearGradientProps={{

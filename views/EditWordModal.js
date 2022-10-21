@@ -61,14 +61,7 @@ const EditWordModal = ({ toggleEditModal, word }) => {
           validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleSubmit,
-            isValid,
-          }) => (
+          {({ values, errors, touched, handleChange, handleSubmit }) => (
             <View style={{ marginBottom: 40 }}>
               <Input
                 label='Word*'
@@ -152,13 +145,11 @@ const EditWordModal = ({ toggleEditModal, word }) => {
                 ViewComponent={LinearGradient}
                 buttonStyle={styles.button}
                 linearGradientProps={{
-                  colors: isValid
-                    ? myTheme.palette.gradient
-                    : myTheme.palette.gradient_disabled,
+                  colors: myTheme.palette.gradient,
                   end: { x: 0, y: 1.5 },
                 }}
                 titleStyle={{
-                  color: isValid ? "white" : myTheme.palette.primary,
+                  color: "white",
                   fontWeight: "700",
                   letterSpacing: 1,
                 }}

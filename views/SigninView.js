@@ -5,8 +5,14 @@ import api, { setAuthHeader } from "../api/api";
 import { getUserData } from "../actions/LoggingActions";
 import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Input } from "../components/common/Input";
-import { Text, lightColors, Button, ThemeProvider, Icon } from "@rneui/themed";
+import {
+  Text,
+  lightColors,
+  Button,
+  ThemeProvider,
+  Icon,
+  Input,
+} from "@rneui/themed";
 import { View, StyleSheet, Image } from "react-native";
 import { useNavigate } from "react-router-native";
 import { myTheme } from "../components/Theme";

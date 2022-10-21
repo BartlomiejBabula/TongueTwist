@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { myTheme } from "../components/Theme";
 import { StyleSheet, View, ScrollView, BackHandler } from "react-native";
-import { Input } from "../components/common/Input";
 import api from "../api/api";
-import { ThemeProvider, Button, Text, Icon, Dialog } from "@rneui/themed";
+import {
+  ThemeProvider,
+  Button,
+  Text,
+  Icon,
+  Dialog,
+  Input,
+} from "@rneui/themed";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { LinearGradient } from "expo-linear-gradient";
@@ -119,9 +125,13 @@ const AddWordView = ({ handleTabChange }) => {
 
   return (
     <ThemeProvider theme={myTheme}>
-      <View style={styles.titleContainer}>
+      <Animated.View
+        entering={SlideInRight.duration(150)}
+        exiting={SlideOutRight.duration(150)}
+        style={styles.titleContainer}
+      >
         <Text style={styles.title}>Add Word</Text>
-      </View>
+      </Animated.View>
       <Animated.ScrollView
         style={styles.container}
         entering={SlideInRight.duration(150)}
@@ -147,8 +157,6 @@ const AddWordView = ({ handleTabChange }) => {
             handleChange,
             handleSubmit,
             setFieldValue,
-            isValid,
-            dirty,
           }) => (
             <View style={{ marginBottom: 40 }}>
               <Input
@@ -283,14 +291,11 @@ const AddWordView = ({ handleTabChange }) => {
                 onPress={handleSubmit}
                 ViewComponent={LinearGradient}
                 linearGradientProps={{
-                  colors:
-                    isValid && dirty
-                      ? myTheme.palette.gradient
-                      : myTheme.palette.gradient_disabled,
+                  colors: myTheme.palette.gradient,
                   end: { x: 0, y: 1.5 },
                 }}
                 titleStyle={{
-                  color: isValid && dirty ? "white" : myTheme.palette.primary,
+                  color: "white",
                   fontWeight: "700",
                   letterSpacing: 1,
                 }}

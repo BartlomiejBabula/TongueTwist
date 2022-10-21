@@ -50,7 +50,7 @@ const SignUp = () => {
       .post(AppURL + "/register", user)
       .then((response) => {
         if (response.data !== null) {
-          navigate({ pathname: "/" }, { replace: true });
+          navigate({ pathname: "/CreatedAccountView" }, { replace: true });
         }
       })
       .catch((error) => {

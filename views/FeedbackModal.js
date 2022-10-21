@@ -1,16 +1,14 @@
 import React from "react";
-import { myTheme } from "./Theme";
+import { myTheme } from "../components/Theme";
 import { StyleSheet, View } from "react-native";
 import { Input, ThemeProvider, Text, Button, Icon } from "@rneui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { Picker } from "@react-native-picker/picker";
 import Animated, { SlideInLeft } from "react-native-reanimated";
 
 const FeedbackModal = ({ toggleReportDialog, user }) => {
   const validationSchema = Yup.object().shape({
-    // reason: Yup.string().required("Required"),
     name: Yup.string().required("Required"),
     description: Yup.string()
       .required("Required")
@@ -46,30 +44,12 @@ const FeedbackModal = ({ toggleReportDialog, user }) => {
             name: user.displayName ? user.displayName : "",
             email: user.email ? user.email : "",
             description: "",
-            // reason: "",
           }}
           validationSchema={validationSchema}
           onSubmit={sendReport}
         >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleSubmit,
-            setFieldValue,
-          }) => (
+          {({ values, errors, touched, handleChange, handleSubmit }) => (
             <>
-              {/* <Picker
-                selectedValue={values.reason}
-                onValueChange={(itemValue, itemIndex) => {
-                  setFieldValue("reason", itemValue);
-                }}
-              >
-                <Picker.Item label='Bug report' value='bug' />
-                <Picker.Item label='Upgrade idea' value='idea' />
-                <Picker.Item label='Select reason' value='' />
-              </Picker> */}
               <Input
                 label='Name'
                 name='name'
@@ -102,7 +82,7 @@ const FeedbackModal = ({ toggleReportDialog, user }) => {
                 }}
               />
               <Button
-                title='Send'
+                title='Send Feedback'
                 buttonStyle={styles.button}
                 ViewComponent={LinearGradient}
                 linearGradientProps={{
