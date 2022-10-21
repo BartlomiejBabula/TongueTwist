@@ -1,12 +1,11 @@
 import { createTheme } from "@rneui/themed";
 
-let dupa = "dark";
-
 export const myTheme = createTheme({
   lightColors: {
     primary: "#6B2C91",
     secondary: "#2E3192",
     background: "white",
+    input_background: "#f6f0fa",
     error: "#e76f51",
     gradient: ["#6B2C91", "#2E3192"],
     gradient_2: ["#0034CC", "#6B2C91"],
@@ -17,6 +16,7 @@ export const myTheme = createTheme({
     primary: "#9b68ba",
     secondary: "#9b68ba",
     background: "#303030",
+    input_background: "#424242",
     error: "#e76f51",
     gradient: ["#9b68ba", "#212121"],
     gradient_2: ["#303030", "#212121"],
@@ -24,7 +24,7 @@ export const myTheme = createTheme({
     menu: "#212121",
   },
 
-  mode: dupa === "dark" ? "dark" : "light",
+  mode: "dark",
 
   components: {
     Input: (props) => ({

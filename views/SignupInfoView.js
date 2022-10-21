@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, Button, ThemeProvider, useTheme } from "@rneui/themed";
+import { Text, Button, useTheme } from "@rneui/themed";
 import { View, StyleSheet, Image } from "react-native";
 import { useNavigate } from "react-router-native";
 import { myTheme } from "../components/Theme";
@@ -11,53 +11,48 @@ const SignUpInfo = () => {
   let navigate = useNavigate();
 
   return (
-    <ThemeProvider theme={myTheme}>
-      <View
-        style={[
-          styles.cointeiner,
-          { backgroundColor: theme.colors.background },
-        ]}
+    <View
+      style={[styles.cointeiner, { backgroundColor: theme.colors.background }]}
+    >
+      <Animated.View
+        entering={SlideInLeft.duration(250)}
+        exiting={SlideOutLeft.duration(250)}
       >
-        <Animated.View
-          entering={SlideInLeft.duration(250)}
-          exiting={SlideOutLeft.duration(250)}
-        >
-          <View style={styles.cointeinerLogo}>
-            {theme.mode === "dark" ? (
-              <Image
-                resizeMode='center'
-                style={styles.logo}
-                source={require("../pictures/logo_2_dark.png")}
-              />
-            ) : (
-              <Image
-                resizeMode='center'
-                style={styles.logo}
-                source={require("../pictures/logo_2.png")}
-              />
-            )}
-          </View>
-          <Text style={styles.h1}>Congratulations!</Text>
-          <Text style={[styles.h2, { color: theme.colors.black }]}>
-            Your account has been successfully created. Please check your
-            mailbox, you are going to receive an email with activation link
-          </Text>
-          <Button
-            title='OK'
-            buttonStyle={styles.button}
-            onPress={() => {
-              navigate({ pathname: "/" }, { replace: true });
-            }}
-            ViewComponent={LinearGradient}
-            linearGradientProps={{
-              colors: theme.colors.gradient,
-              end: { x: 0, y: 1.5 },
-            }}
-            titleStyle={{ fontWeight: "700", letterSpacing: 1 }}
-          />
-        </Animated.View>
-      </View>
-    </ThemeProvider>
+        <View style={styles.cointeinerLogo}>
+          {theme.mode === "dark" ? (
+            <Image
+              resizeMode='center'
+              style={styles.logo}
+              source={require("../pictures/logo_2_dark.png")}
+            />
+          ) : (
+            <Image
+              resizeMode='center'
+              style={styles.logo}
+              source={require("../pictures/logo_2.png")}
+            />
+          )}
+        </View>
+        <Text style={styles.h1}>Congratulations!</Text>
+        <Text style={[styles.h2, { color: theme.colors.black }]}>
+          Your account has been successfully created. Please check your mailbox,
+          you are going to receive an email with activation link
+        </Text>
+        <Button
+          title='OK'
+          buttonStyle={styles.button}
+          onPress={() => {
+            navigate({ pathname: "/" }, { replace: true });
+          }}
+          ViewComponent={LinearGradient}
+          linearGradientProps={{
+            colors: theme.colors.gradient,
+            end: { x: 0, y: 1.5 },
+          }}
+          titleStyle={{ fontWeight: "700", letterSpacing: 1 }}
+        />
+      </Animated.View>
+    </View>
   );
 };
 

@@ -5,8 +5,7 @@ import MyWords from "./MyWords";
 import AddWordView from "./AddWordView";
 import SettingsView from "./SettingsView";
 import { StyleSheet, View } from "react-native";
-import { Icon, ThemeProvider, Text, Divider, useTheme } from "@rneui/themed";
-import { myTheme } from "../components/Theme";
+import { Icon, Text, Divider, useTheme } from "@rneui/themed";
 import { useNavigate } from "react-router-native";
 import * as NavigationBar from "expo-navigation-bar";
 
@@ -50,7 +49,7 @@ const Dashboard = () => {
   }, [theme.mode]);
 
   return (
-    <ThemeProvider theme={myTheme}>
+    <>
       <StatusBar
         animated={true}
         style={theme.mode === "dark" ? "light" : "dark"}
@@ -113,7 +112,7 @@ const Dashboard = () => {
           );
         })}
       </View>
-    </ThemeProvider>
+    </>
   );
 };
 

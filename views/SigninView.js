@@ -5,17 +5,9 @@ import api, { setAuthHeader } from "../api/api";
 import { getUserData } from "../actions/LoggingActions";
 import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-  Text,
-  Button,
-  ThemeProvider,
-  Icon,
-  Input,
-  useTheme,
-} from "@rneui/themed";
+import { Text, Button, Icon, Input, useTheme } from "@rneui/themed";
 import { View, StyleSheet, Image } from "react-native";
 import { useNavigate } from "react-router-native";
-import { myTheme } from "../components/Theme";
 import { LinearGradient } from "expo-linear-gradient";
 import Animated, { SlideOutRight, SlideInRight } from "react-native-reanimated";
 
@@ -58,100 +50,95 @@ const SignIn = () => {
   };
 
   return (
-    <ThemeProvider theme={myTheme}>
-      <Animated.View
-        style={[
-          styles.cointeiner,
-          { backgroundColor: theme.colors.background },
-        ]}
-        entering={SlideInRight.duration(250)}
-        exiting={SlideOutRight.duration(250)}
-      >
-        {theme.mode === "dark" ? (
-          <Image
-            resizeMode='center'
-            style={styles.logo}
-            source={require("../pictures/logo_2_dark.png")}
-          />
-        ) : (
-          <Image
-            resizeMode='center'
-            style={styles.logo}
-            source={require("../pictures/logo_2.png")}
-          />
-        )}
-        <Text style={[styles.error, { color: theme.colors.error }]}>
-          {errorMessage}
-        </Text>
-        <Formik
-          initialValues={{
-            email: "",
-            password: "",
-          }}
-          validationSchema={validationSchema}
-          onSubmit={onSubmit}
-        >
-          {({ values, errors, touched, handleChange, handleSubmit }) => (
-            <View>
-              <Input
-                label='Email'
-                name='email'
-                keyboardType={"email-address"}
-                value={values.email}
-                onChangeText={handleChange("email")}
-                errorMessage={touched.email && errors.email}
-                placeholder='address@email.com'
-                onSubmitEditing={() => input2.current.focus()}
-              />
-              <Input
-                label='Password'
-                name='password'
-                value={values.password}
-                onChangeText={handleChange("password")}
-                errorMessage={touched.password && errors.password}
-                secureTextEntry={showPassword}
-                placeholder='********'
-                ref={input2}
-                rightIcon={
-                  <Icon
-                    name='eye'
-                    type='material-community'
-                    color='#b1b1b1'
-                    underlayColor={"white"}
-                    size={26}
-                    containerStyle={{ marginRight: 7 }}
-                    onPress={() => {
-                      setShowPassword(!showPassword);
-                    }}
-                  />
-                }
-              />
-              <Button
-                title='SIGN IN'
-                buttonStyle={styles.button}
-                onPress={handleSubmit}
-                ViewComponent={LinearGradient}
-                linearGradientProps={{
-                  colors: theme.colors.gradient,
-                  end: { x: 0, y: 1.5 },
-                }}
-                titleStyle={{ fontWeight: "700", letterSpacing: 1 }}
-              />
-            </View>
-          )}
-        </Formik>
-        <Button
-          title='CREATE A NEW ACCOUNT'
-          type='clear'
-          titleStyle={{
-            color: theme.colors.primary,
-          }}
-          onPress={() => {
-            navigate({ pathname: "/Register" }, { replace: true });
-          }}
+    <Animated.View
+      style={[styles.cointeiner, { backgroundColor: theme.colors.background }]}
+      entering={SlideInRight.duration(250)}
+      exiting={SlideOutRight.duration(250)}
+    >
+      {theme.mode === "dark" ? (
+        <Image
+          resizeMode='center'
+          style={styles.logo}
+          source={require("../pictures/logo_2_dark.png")}
         />
-      </Animated.View>
-    </ThemeProvider>
+      ) : (
+        <Image
+          resizeMode='center'
+          style={styles.logo}
+          source={require("../pictures/logo_2.png")}
+        />
+      )}
+      <Text style={[styles.error, { color: theme.colors.error }]}>
+        {errorMessage}
+      </Text>
+      <Formik
+        initialValues={{
+          email: "",
+          password: "",
+        }}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        {({ values, errors, touched, handleChange, handleSubmit }) => (
+          <View>
+            <Input
+              label='Email'
+              name='email'
+              keyboardType={"email-address"}
+              value={values.email}
+              onChangeText={handleChange("email")}
+              errorMessage={touched.email && errors.email}
+              placeholder='address@email.com'
+              onSubmitEditing={() => input2.current.focus()}
+            />
+            <Input
+              label='Password'
+              name='password'
+              value={values.password}
+              onChangeText={handleChange("password")}
+              errorMessage={touched.password && errors.password}
+              secureTextEntry={showPassword}
+              placeholder='********'
+              ref={input2}
+              rightIcon={
+                <Icon
+                  name='eye'
+                  type='material-community'
+                  color='#b1b1b1'
+                  underlayColor={"white"}
+                  size={26}
+                  containerStyle={{ marginRight: 7 }}
+                  onPress={() => {
+                    setShowPassword(!showPassword);
+                  }}
+                />
+              }
+            />
+            <Button
+              title='SIGN IN'
+              buttonStyle={styles.button}
+              onPress={handleSubmit}
+              ViewComponent={LinearGradient}
+              linearGradientProps={{
+                colors: theme.colors.gradient,
+                end: { x: 0, y: 1.5 },
+              }}
+              titleStyle={{ fontWeight: "700", letterSpacing: 1 }}
+            />
+          </View>
+        )}
+      </Formik>
+      <Button
+        title='CREATE A NEW ACCOUNT'
+        type='clear'
+        titleStyle={{
+          color: theme.colors.primary,
+        }}
+        onPress={() => {
+          navigate({ pathname: "/Register" }, { replace: true });
+        }}
+      />
+    </Animated.View>
   );
 };
 

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { myTheme } from "../components/Theme";
 import {
   StyleSheet,
   View,
@@ -8,7 +7,7 @@ import {
   BackHandler,
   Alert,
 } from "react-native";
-import { SearchBar, ThemeProvider, Text, useTheme } from "@rneui/themed";
+import { SearchBar, Text, useTheme } from "@rneui/themed";
 import WordsListElement from "../components/WordsListElement";
 import Animated, { FadeIn, Keyframe, FadeOut } from "react-native-reanimated";
 import { useSelector } from "react-redux";
@@ -80,7 +79,7 @@ const MyWords = () => {
   }, []);
 
   return (
-    <ThemeProvider theme={myTheme}>
+    <>
       <View style={styles.topbar}>
         {theme.mode === "dark" ? (
           <Image
@@ -153,7 +152,7 @@ const MyWords = () => {
           )}
         </View>
       </Animated.ScrollView>
-    </ThemeProvider>
+    </>
   );
 };
 

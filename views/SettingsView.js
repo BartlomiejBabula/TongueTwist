@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { myTheme } from "../components/Theme";
 import { StyleSheet, ScrollView, BackHandler, Modal } from "react-native";
 import {
-  ThemeProvider,
   Text,
   Divider,
   Button,
@@ -115,7 +114,7 @@ const SettingsView = ({ handleTabChange }) => {
   ];
 
   return (
-    <ThemeProvider theme={myTheme}>
+    <>
       <Animated.ScrollView
         style={styles.container}
         entering={SlideInLeft.duration(150)}
@@ -209,7 +208,7 @@ const SettingsView = ({ handleTabChange }) => {
           </ListItem>
         ))}
       </BottomSheet>
-    </ThemeProvider>
+    </>
   );
 };
 

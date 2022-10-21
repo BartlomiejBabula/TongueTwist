@@ -1,16 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../actions/UserActions";
-import { myTheme } from "../components/Theme";
 import { StyleSheet, View } from "react-native";
-import {
-  Input,
-  ThemeProvider,
-  Text,
-  Button,
-  Icon,
-  useTheme,
-} from "@rneui/themed";
+import { Input, Text, Button, Icon, useTheme } from "@rneui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
 import Animated, { SlideInLeft } from "react-native-reanimated";
@@ -33,60 +25,58 @@ const DisplayNameModal = ({ toggleNameDialog, user }) => {
   };
 
   return (
-    <ThemeProvider theme={myTheme}>
-      <View
-        style={[styles.container, { backgroundColor: theme.colors.background }]}
-      >
-        <Animated.View entering={SlideInLeft.duration(150)}>
-          <View style={styles.containerTitle}>
-            <Icon
-              size={26}
-              underlayColor={"white"}
-              type='material-community'
-              name={"arrow-left"}
-              onPress={toggleNameDialog}
-            />
-            <Text style={styles.title}>Display name</Text>
-          </View>
-          <Text style={styles.text}>Set your new display name</Text>
-          <Formik
-            initialValues={{
-              name: user?.displayName,
-            }}
-            validationSchema={validationSchema}
-            onSubmit={submitDisplayName}
-          >
-            {({ values, errors, touched, handleChange, handleSubmit }) => (
-              <>
-                <Input
-                  label='New name'
-                  name='name'
-                  value={values.name}
-                  onChangeText={handleChange("name")}
-                  errorMessage={touched.name && errors.name}
-                  containerStyle={{ paddingHorizontal: 0 }}
-                />
-                <Button
-                  title='Update name'
-                  buttonStyle={styles.button}
-                  ViewComponent={LinearGradient}
-                  linearGradientProps={{
-                    colors: theme.colors.gradient,
-                    end: { x: 0, y: 1.5 },
-                  }}
-                  titleStyle={{
-                    color: "white",
-                    fontWeight: "700",
-                    letterSpacing: 1,
-                  }}
-                  onPress={handleSubmit}
-                />
-              </>
-            )}
-          </Formik>
-        </Animated.View>
-      </View>
-    </ThemeProvider>
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      <Animated.View entering={SlideInLeft.duration(150)}>
+        <View style={styles.containerTitle}>
+          <Icon
+            size={26}
+            underlayColor={"white"}
+            type='material-community'
+            name={"arrow-left"}
+            onPress={toggleNameDialog}
+          />
+          <Text style={styles.title}>Display name</Text>
+        </View>
+        <Text style={styles.text}>Set your new display name</Text>
+        <Formik
+          initialValues={{
+            name: user?.displayName,
+          }}
+          validationSchema={validationSchema}
+          onSubmit={submitDisplayName}
+        >
+          {({ values, errors, touched, handleChange, handleSubmit }) => (
+            <>
+              <Input
+                label='New name'
+                name='name'
+                value={values.name}
+                onChangeText={handleChange("name")}
+                errorMessage={touched.name && errors.name}
+                containerStyle={{ paddingHorizontal: 0 }}
+              />
+              <Button
+                title='Update name'
+                buttonStyle={styles.button}
+                ViewComponent={LinearGradient}
+                linearGradientProps={{
+                  colors: theme.colors.gradient,
+                  end: { x: 0, y: 1.5 },
+                }}
+                titleStyle={{
+                  color: "white",
+                  fontWeight: "700",
+                  letterSpacing: 1,
+                }}
+                onPress={handleSubmit}
+              />
+            </>
+          )}
+        </Formik>
+      </Animated.View>
+    </View>
   );
 };
 

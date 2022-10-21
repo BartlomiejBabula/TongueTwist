@@ -3,17 +3,9 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import { AppURL } from "../api/api";
 import axios from "axios";
-import {
-  Text,
-  Input,
-  Button,
-  ThemeProvider,
-  Icon,
-  useTheme,
-} from "@rneui/themed";
+import { Text, Input, Button, Icon, useTheme } from "@rneui/themed";
 import { View, StyleSheet, Image } from "react-native";
 import { useNavigate } from "react-router-native";
-import { myTheme } from "../components/Theme";
 import { LinearGradient } from "expo-linear-gradient";
 import Animated, { SlideOutLeft, SlideInLeft } from "react-native-reanimated";
 
@@ -60,149 +52,141 @@ const SignUp = () => {
   };
 
   return (
-    <ThemeProvider theme={myTheme}>
-      <Animated.View
-        style={[
-          styles.cointeiner,
-          { backgroundColor: theme.colors.background },
-        ]}
-        entering={SlideInLeft.duration(250)}
-        exiting={SlideOutLeft.duration(250)}
-      >
-        <View style={styles.cointeinerLogo}>
-          {theme.mode === "dark" ? (
-            <Image
-              resizeMode='center'
-              style={styles.logo}
-              source={require("../pictures/logo_2_dark.png")}
-            />
-          ) : (
-            <Image
-              resizeMode='center'
-              style={styles.logo}
-              source={require("../pictures/logo_2.png")}
-            />
-          )}
-          <Button
-            title='SIGN IN'
-            type='clear'
-            titleStyle={{ color: theme.colors.primary, fontSize: 14 }}
-            onPress={() => {
-              navigate({ pathname: "/" }, { replace: true });
-            }}
-            icon={{
-              name: "arrow-forward-ios",
-              size: 14,
-              color: theme.colors.primary,
-            }}
-            iconRight
+    <Animated.View
+      style={[styles.cointeiner, { backgroundColor: theme.colors.background }]}
+      entering={SlideInLeft.duration(250)}
+      exiting={SlideOutLeft.duration(250)}
+    >
+      <View style={styles.cointeinerLogo}>
+        {theme.mode === "dark" ? (
+          <Image
+            resizeMode='center'
+            style={styles.logo}
+            source={require("../pictures/logo_2_dark.png")}
           />
-        </View>
-        <Text style={styles.h1}>Create account</Text>
-        <Text
-          style={[
-            styles.h2,
-            {
-              color:
-                theme.mode === "dark" ? theme.colors.greyOutline : "#616161",
-            },
-          ]}
-        >
-          Start to improve your vocabulary
-        </Text>
-        <Text style={[styles.error, { color: theme.colors.error }]}>
-          {error}
-        </Text>
-        <Formik
-          initialValues={{
-            email: "",
-            password: "",
-            confirmPassword: "",
+        ) : (
+          <Image
+            resizeMode='center'
+            style={styles.logo}
+            source={require("../pictures/logo_2.png")}
+          />
+        )}
+        <Button
+          title='SIGN IN'
+          type='clear'
+          titleStyle={{ color: theme.colors.primary, fontSize: 14 }}
+          onPress={() => {
+            navigate({ pathname: "/" }, { replace: true });
           }}
-          validationSchema={validationSchema}
-          onSubmit={onSubmit}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            setFieldValue,
-            handleSubmit,
-          }) => (
-            <View>
-              <Input
-                label='Email'
-                name='email'
-                keyboardType={"email-address"}
-                value={values.email}
-                onChangeText={handleChange("email")}
-                errorMessage={touched.email && errors.email}
-                placeholder='address@email.com'
-                onSubmitEditing={() => input2.current.focus()}
-              />
-              <Input
-                label='Password'
-                name='password'
-                value={values.password}
-                onChangeText={handleChange("password")}
-                errorMessage={touched.password && errors.password}
-                secureTextEntry={showPassword}
-                placeholder='********'
-                ref={input2}
-                onSubmitEditing={() => input3.current.focus()}
-                rightIcon={
-                  <Icon
-                    name='eye'
-                    type='material-community'
-                    color='#b1b1b1'
-                    underlayColor={"white"}
-                    size={26}
-                    containerStyle={{ marginRight: 7 }}
-                    onPress={() => {
-                      setShowPassword(!showPassword);
-                    }}
-                  />
-                }
-              />
-              <Input
-                label='Repeat password'
-                name='confirmPassword'
-                value={values.confirmPassword}
-                onChangeText={handleChange("confirmPassword")}
-                errorMessage={touched.confirmPassword && errors.confirmPassword}
-                secureTextEntry={showRePassword}
-                placeholder='********'
-                ref={input3}
-                rightIcon={
-                  <Icon
-                    name='eye'
-                    type='material-community'
-                    color='#b1b1b1'
-                    size={26}
-                    containerStyle={{ marginRight: 7 }}
-                    onPress={() => {
-                      setShowRePassword(!showRePassword);
-                    }}
-                  />
-                }
-              />
-              <Button
-                title='SIGN UP'
-                buttonStyle={styles.button}
-                onPress={handleSubmit}
-                ViewComponent={LinearGradient}
-                linearGradientProps={{
-                  colors: theme.colors.gradient,
-                  end: { x: 0, y: 1.5 },
-                }}
-                titleStyle={{ fontWeight: "700", letterSpacing: 1 }}
-              />
-            </View>
-          )}
-        </Formik>
-      </Animated.View>
-    </ThemeProvider>
+          icon={{
+            name: "arrow-forward-ios",
+            size: 14,
+            color: theme.colors.primary,
+          }}
+          iconRight
+        />
+      </View>
+      <Text style={styles.h1}>Create account</Text>
+      <Text
+        style={[
+          styles.h2,
+          {
+            color: theme.mode === "dark" ? theme.colors.greyOutline : "#616161",
+          },
+        ]}
+      >
+        Start to improve your vocabulary
+      </Text>
+      <Text style={[styles.error, { color: theme.colors.error }]}>{error}</Text>
+      <Formik
+        initialValues={{
+          email: "",
+          password: "",
+          confirmPassword: "",
+        }}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          setFieldValue,
+          handleSubmit,
+        }) => (
+          <View>
+            <Input
+              label='Email'
+              name='email'
+              keyboardType={"email-address"}
+              value={values.email}
+              onChangeText={handleChange("email")}
+              errorMessage={touched.email && errors.email}
+              placeholder='address@email.com'
+              onSubmitEditing={() => input2.current.focus()}
+            />
+            <Input
+              label='Password'
+              name='password'
+              value={values.password}
+              onChangeText={handleChange("password")}
+              errorMessage={touched.password && errors.password}
+              secureTextEntry={showPassword}
+              placeholder='********'
+              ref={input2}
+              onSubmitEditing={() => input3.current.focus()}
+              rightIcon={
+                <Icon
+                  name='eye'
+                  type='material-community'
+                  color='#b1b1b1'
+                  underlayColor={"white"}
+                  size={26}
+                  containerStyle={{ marginRight: 7 }}
+                  onPress={() => {
+                    setShowPassword(!showPassword);
+                  }}
+                />
+              }
+            />
+            <Input
+              label='Repeat password'
+              name='confirmPassword'
+              value={values.confirmPassword}
+              onChangeText={handleChange("confirmPassword")}
+              errorMessage={touched.confirmPassword && errors.confirmPassword}
+              secureTextEntry={showRePassword}
+              placeholder='********'
+              ref={input3}
+              rightIcon={
+                <Icon
+                  name='eye'
+                  type='material-community'
+                  color='#b1b1b1'
+                  size={26}
+                  containerStyle={{ marginRight: 7 }}
+                  onPress={() => {
+                    setShowRePassword(!showRePassword);
+                  }}
+                />
+              }
+            />
+            <Button
+              title='SIGN UP'
+              buttonStyle={styles.button}
+              onPress={handleSubmit}
+              ViewComponent={LinearGradient}
+              linearGradientProps={{
+                colors: theme.colors.gradient,
+                end: { x: 0, y: 1.5 },
+              }}
+              titleStyle={{ fontWeight: "700", letterSpacing: 1 }}
+            />
+          </View>
+        )}
+      </Formik>
+    </Animated.View>
   );
 };
 

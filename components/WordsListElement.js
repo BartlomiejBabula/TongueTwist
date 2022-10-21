@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Pressable, Vibration, Modal } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { myTheme } from "./Theme";
 import ProgressBar from "./ProgressBar";
 import EditWordModal from "../views/EditWordModal";
 import Animated, {
@@ -11,15 +10,7 @@ import Animated, {
   useAnimatedStyle,
   SlideInRight,
 } from "react-native-reanimated";
-import {
-  Icon,
-  ThemeProvider,
-  FAB,
-  Text,
-  Dialog,
-  Button,
-  useTheme,
-} from "@rneui/themed";
+import { Icon, FAB, Text, Dialog, Button, useTheme } from "@rneui/themed";
 import { useDispatch } from "react-redux";
 import { updateWord, deleteWord } from "../actions/WordsActions";
 
@@ -75,7 +66,7 @@ const WordsListElement = ({ word, nrElement, setEdit, edit, checkEdit }) => {
   };
 
   return (
-    <ThemeProvider theme={myTheme}>
+    <>
       <Animated.View
         style={[
           styles.wordContainer,
@@ -274,7 +265,7 @@ const WordsListElement = ({ word, nrElement, setEdit, edit, checkEdit }) => {
       >
         <EditWordModal toggleEditModal={toggleEditModal} word={word} />
       </Modal>
-    </ThemeProvider>
+    </>
   );
 };
 

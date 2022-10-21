@@ -1,16 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { myTheme } from "../components/Theme";
 import { StyleSheet, View, ScrollView, BackHandler } from "react-native";
 import api from "../api/api";
-import {
-  ThemeProvider,
-  Button,
-  Text,
-  Icon,
-  Dialog,
-  Input,
-  useTheme,
-} from "@rneui/themed";
+import { Button, Text, Icon, Dialog, Input, useTheme } from "@rneui/themed";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { LinearGradient } from "expo-linear-gradient";
@@ -126,7 +117,7 @@ const AddWordView = ({ handleTabChange }) => {
   }, []);
 
   return (
-    <ThemeProvider theme={myTheme}>
+    <>
       <Animated.View
         entering={SlideInRight.duration(150)}
         exiting={SlideOutRight.duration(150)}
@@ -356,7 +347,7 @@ const AddWordView = ({ handleTabChange }) => {
           )}
         </Formik>
       </Animated.ScrollView>
-    </ThemeProvider>
+    </>
   );
 };
 
