@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, ScrollView, BackHandler } from "react-native";
 import api from "../api/api";
-import { Button, Text, Icon, Dialog, Input, useTheme } from "@rneui/themed";
+import { Button, Text, Icon, Dialog, useTheme } from "@rneui/themed";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { LinearGradient } from "expo-linear-gradient";
 import { addWord } from "../actions/WordsActions";
 import { useDispatch } from "react-redux";
 import Animated, { SlideInRight, SlideOutRight } from "react-native-reanimated";
+import { Input } from "../components/common/Input";
 
 const AddWordView = ({ handleTabChange }) => {
   const dispatch = useDispatch();
@@ -198,11 +199,6 @@ const AddWordView = ({ handleTabChange }) => {
                 onChangeText={handleChange("definition")}
                 multiline={true}
                 numberOfLines={3}
-                inputStyle={{
-                  height: 60,
-                  textAlignVertical: "top",
-                  marginVertical: 5,
-                }}
                 errorMessage={touched.definition && errors.definition}
               />
               <Input
@@ -212,11 +208,6 @@ const AddWordView = ({ handleTabChange }) => {
                 onChangeText={handleChange("example")}
                 multiline={true}
                 numberOfLines={3}
-                inputStyle={{
-                  height: 60,
-                  textAlignVertical: "top",
-                  marginVertical: 5,
-                }}
                 errorMessage={touched.example && errors.example}
                 rightIcon={
                   <View style={{ marginRight: 5 }}>
@@ -253,11 +244,6 @@ const AddWordView = ({ handleTabChange }) => {
                     onChangeText={handleChange("example2")}
                     multiline={true}
                     numberOfLines={3}
-                    inputStyle={{
-                      height: 60,
-                      textAlignVertical: "top",
-                      marginVertical: 5,
-                    }}
                     errorMessage={touched.example2 && errors.example2}
                   />
                   <Input
@@ -267,11 +253,6 @@ const AddWordView = ({ handleTabChange }) => {
                     onChangeText={handleChange("example3")}
                     multiline={true}
                     numberOfLines={3}
-                    inputStyle={{
-                      height: 60,
-                      textAlignVertical: "top",
-                      marginVertical: 5,
-                    }}
                     errorMessage={touched.example3 && errors.example3}
                   />
                 </>

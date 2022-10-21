@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
-import { Input, Button, Text, useTheme } from "@rneui/themed";
+import { Button, Text, useTheme } from "@rneui/themed";
+import { Input } from "../components/common/Input";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { LinearGradient } from "expo-linear-gradient";
@@ -96,11 +97,6 @@ const EditWordModal = ({ toggleEditModal, word }) => {
                 onChangeText={handleChange("definition")}
                 multiline={true}
                 numberOfLines={3}
-                inputStyle={{
-                  height: 60,
-                  textAlignVertical: "top",
-                  marginVertical: 5,
-                }}
                 errorMessage={touched.definition && errors.definition}
               />
               <Input
@@ -110,11 +106,6 @@ const EditWordModal = ({ toggleEditModal, word }) => {
                 onChangeText={handleChange("examples")}
                 multiline={true}
                 numberOfLines={3}
-                inputStyle={{
-                  height: 60,
-                  textAlignVertical: "top",
-                  marginVertical: 5,
-                }}
                 errorMessage={touched.examples && errors.examples}
               />
               <Input
@@ -124,11 +115,6 @@ const EditWordModal = ({ toggleEditModal, word }) => {
                 onChangeText={handleChange("examples2")}
                 multiline={true}
                 numberOfLines={3}
-                inputStyle={{
-                  height: 60,
-                  textAlignVertical: "top",
-                  marginVertical: 5,
-                }}
                 errorMessage={touched.examples2 && errors.examples2}
               />
               <Input
@@ -138,11 +124,6 @@ const EditWordModal = ({ toggleEditModal, word }) => {
                 onChangeText={handleChange("examples3")}
                 multiline={true}
                 numberOfLines={3}
-                inputStyle={{
-                  height: 60,
-                  textAlignVertical: "top",
-                  marginVertical: 5,
-                }}
                 errorMessage={touched.examples3 && errors.examples3}
               />
               <Button

@@ -7,7 +7,8 @@ import {
   BackHandler,
   Alert,
 } from "react-native";
-import { SearchBar, Text, useTheme } from "@rneui/themed";
+import { Text, useTheme } from "@rneui/themed";
+import { SearchBar } from "../components/common/SearchBar";
 import WordsListElement from "../components/WordsListElement";
 import Animated, { FadeIn, Keyframe, FadeOut } from "react-native-reanimated";
 import { useSelector } from "react-redux";
@@ -99,11 +100,6 @@ const MyWords = () => {
           onChangeText={updateSearch}
           value={search}
           rightIcon
-          placeholderTextColor={theme.colors.greyOutline}
-          inputStyle={{ color: theme.colors.greyOutline }}
-          searchIcon={{
-            color: theme.colors.greyOutline,
-          }}
         />
       </View>
       <Animated.ScrollView

@@ -5,7 +5,8 @@ import MyWords from "./MyWords";
 import AddWordView from "./AddWordView";
 import SettingsView from "./SettingsView";
 import { StyleSheet, View } from "react-native";
-import { Icon, Text, Divider, useTheme } from "@rneui/themed";
+import { Icon, Text, useTheme } from "@rneui/themed";
+import { Divider } from "../components/common/Divider";
 import { useNavigate } from "react-router-native";
 import * as NavigationBar from "expo-navigation-bar";
 
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
   menuBottom: {
     flexDirection: "row",
     alignItems: "flex-end",
-    height: "7.5%",
+    height: "8.5%",
     width: "100%",
   },
   buttonText: {

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import api from "../api/api";
 import { StyleSheet, View } from "react-native";
-import { Input, Text, Button, Icon, useTheme } from "@rneui/themed";
+import { Text, Button, Icon, useTheme } from "@rneui/themed";
+import { Input } from "../components/common/Input";
 import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
 import * as Yup from "yup";

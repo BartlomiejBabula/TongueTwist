@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { myTheme } from "../components/Theme";
 import { StyleSheet, ScrollView, BackHandler, Modal } from "react-native";
 import {
   Text,
-  Divider,
   Button,
   Icon,
   useTheme,
@@ -11,6 +9,7 @@ import {
   ListItem,
   useThemeMode,
 } from "@rneui/themed";
+import { Divider } from "../components/common/Divider";
 import Animated, { SlideInLeft, SlideOutLeft } from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigate } from "react-router-native";
@@ -76,7 +75,7 @@ const SettingsView = ({ handleTabChange }) => {
       title={props.title}
       type='clear'
       titleStyle={{
-        color: theme.colors.black,
+        color: theme.colors.icon,
         fontSize: 15,
       }}
       buttonStyle={{ justifyContent: "flex-start", paddingLeft: 15 }}
@@ -87,7 +86,7 @@ const SettingsView = ({ handleTabChange }) => {
         <Icon
           name={props.icon}
           type='material-community'
-          color={theme.colors.black}
+          color={theme.colors.icon}
           size={26}
           containerStyle={{ marginRight: 30 }}
         />
@@ -97,6 +96,7 @@ const SettingsView = ({ handleTabChange }) => {
 
   const themeList = [
     {
+      label: "light",
       title: "Light Theme",
       onPress: () => {
         setMode("light");
@@ -104,13 +104,13 @@ const SettingsView = ({ handleTabChange }) => {
       },
     },
     {
+      label: "dark",
       title: "Dark Theme",
       onPress: () => {
         setMode("dark");
         setThemeDialog(false);
       },
     },
-    { title: "Cancel", onPress: () => setThemeDialog(false) },
   ];
 
   return (
@@ -202,8 +202,23 @@ const SettingsView = ({ handleTabChange }) => {
             containerStyle={l.containerStyle}
             onPress={l.onPress}
           >
-            <ListItem.Content>
+            <ListItem.Content
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "baseline",
+              }}
+            >
               <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
+              {l.label === theme.mode && (
+                <Icon
+                  name='check'
+                  type='material-community'
+                  color={theme.colors.success}
+                  size={28}
+                  containerStyle={{ marginRight: 20 }}
+                />
+              )}
             </ListItem.Content>
           </ListItem>
         ))}

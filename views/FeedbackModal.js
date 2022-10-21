@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Input, Text, Button, Icon, useTheme } from "@rneui/themed";
+import { Text, Button, Icon, useTheme } from "@rneui/themed";
+import { Input } from "../components/common/Input";
 import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -74,11 +75,7 @@ const FeedbackModal = ({ toggleReportDialog, user }) => {
                 containerStyle={{ paddingHorizontal: 0 }}
                 multiline={true}
                 numberOfLines={5}
-                inputStyle={{
-                  height: 100,
-                  textAlignVertical: "top",
-                  marginVertical: 5,
-                }}
+                height={100}
               />
               <Button
                 title='Send Feedback'
