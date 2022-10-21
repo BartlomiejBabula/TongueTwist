@@ -6,10 +6,10 @@ import axios from "axios";
 import {
   Text,
   Input,
-  lightColors,
   Button,
   ThemeProvider,
   Icon,
+  useTheme,
 } from "@rneui/themed";
 import { View, StyleSheet, Image } from "react-native";
 import { useNavigate } from "react-router-native";
@@ -18,6 +18,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import Animated, { SlideOutLeft, SlideInLeft } from "react-native-reanimated";
 
 const SignUp = () => {
+  const { theme } = useTheme();
   const input2 = useRef(null);
   const input3 = useRef(null);
   let navigate = useNavigate();
@@ -61,34 +62,57 @@ const SignUp = () => {
   return (
     <ThemeProvider theme={myTheme}>
       <Animated.View
-        style={styles.cointeiner}
+        style={[
+          styles.cointeiner,
+          { backgroundColor: theme.colors.background },
+        ]}
         entering={SlideInLeft.duration(250)}
         exiting={SlideOutLeft.duration(250)}
       >
         <View style={styles.cointeinerLogo}>
-          <Image
-            resizeMode='center'
-            style={styles.logo}
-            source={require("../pictures/logo_2.png")}
-          />
+          {theme.mode === "dark" ? (
+            <Image
+              resizeMode='center'
+              style={styles.logo}
+              source={require("../pictures/logo_2_dark.png")}
+            />
+          ) : (
+            <Image
+              resizeMode='center'
+              style={styles.logo}
+              source={require("../pictures/logo_2.png")}
+            />
+          )}
           <Button
             title='SIGN IN'
             type='clear'
-            titleStyle={{ color: myTheme.palette.primary, fontSize: 14 }}
+            titleStyle={{ color: theme.colors.primary, fontSize: 14 }}
             onPress={() => {
               navigate({ pathname: "/" }, { replace: true });
             }}
             icon={{
               name: "arrow-forward-ios",
               size: 14,
-              color: myTheme.palette.primary,
+              color: theme.colors.primary,
             }}
             iconRight
           />
         </View>
         <Text style={styles.h1}>Create account</Text>
-        <Text style={styles.h2}>Start to improve your vocabulary</Text>
-        <Text style={styles.error}>{error}</Text>
+        <Text
+          style={[
+            styles.h2,
+            {
+              color:
+                theme.mode === "dark" ? theme.colors.greyOutline : "#616161",
+            },
+          ]}
+        >
+          Start to improve your vocabulary
+        </Text>
+        <Text style={[styles.error, { color: theme.colors.error }]}>
+          {error}
+        </Text>
         <Formik
           initialValues={{
             email: "",
@@ -169,7 +193,7 @@ const SignUp = () => {
                 onPress={handleSubmit}
                 ViewComponent={LinearGradient}
                 linearGradientProps={{
-                  colors: myTheme.palette.gradient,
+                  colors: theme.colors.gradient,
                   end: { x: 0, y: 1.5 },
                 }}
                 titleStyle={{ fontWeight: "700", letterSpacing: 1 }}
@@ -197,7 +221,6 @@ const styles = StyleSheet.create({
   h2: {
     marginLeft: 10,
     fontSize: 16,
-    color: "#616161",
     letterSpacing: 1,
     marginVertical: 5,
   },
@@ -216,5 +239,5 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
     elevation: 4,
   },
-  error: { textAlign: "center", color: lightColors.error, marginVertical: 10 },
+  error: { textAlign: "center", marginVertical: 10 },
 });

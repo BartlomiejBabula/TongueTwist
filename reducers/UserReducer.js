@@ -15,7 +15,13 @@ const initState = {
 export const userReducer = (state = initState, action) => {
   switch (action.type) {
     case USER_LOGGED_IN: {
-      return { ...state, ...action.payload, isLogged: true, page: 1 };
+      return {
+        ...state,
+        ...action.payload,
+        isLogged: true,
+        page: 1,
+        theme: "light",
+      };
     }
     case USER_LOGGED_OUT: {
       return { isLogged: false };

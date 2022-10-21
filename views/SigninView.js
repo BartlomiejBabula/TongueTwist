@@ -7,11 +7,11 @@ import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   Text,
-  lightColors,
   Button,
   ThemeProvider,
   Icon,
   Input,
+  useTheme,
 } from "@rneui/themed";
 import { View, StyleSheet, Image } from "react-native";
 import { useNavigate } from "react-router-native";
@@ -20,6 +20,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import Animated, { SlideOutRight, SlideInRight } from "react-native-reanimated";
 
 const SignIn = () => {
+  const { theme } = useTheme();
   const input2 = useRef(null);
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -59,16 +60,29 @@ const SignIn = () => {
   return (
     <ThemeProvider theme={myTheme}>
       <Animated.View
-        style={styles.cointeiner}
+        style={[
+          styles.cointeiner,
+          { backgroundColor: theme.colors.background },
+        ]}
         entering={SlideInRight.duration(250)}
         exiting={SlideOutRight.duration(250)}
       >
-        <Image
-          resizeMode='center'
-          style={styles.logo}
-          source={require("../pictures/logo_2.png")}
-        />
-        <Text style={styles.error}>{errorMessage}</Text>
+        {theme.mode === "dark" ? (
+          <Image
+            resizeMode='center'
+            style={styles.logo}
+            source={require("../pictures/logo_2_dark.png")}
+          />
+        ) : (
+          <Image
+            resizeMode='center'
+            style={styles.logo}
+            source={require("../pictures/logo_2.png")}
+          />
+        )}
+        <Text style={[styles.error, { color: theme.colors.error }]}>
+          {errorMessage}
+        </Text>
         <Formik
           initialValues={{
             email: "",
@@ -118,7 +132,7 @@ const SignIn = () => {
                 onPress={handleSubmit}
                 ViewComponent={LinearGradient}
                 linearGradientProps={{
-                  colors: myTheme.palette.gradient,
+                  colors: theme.colors.gradient,
                   end: { x: 0, y: 1.5 },
                 }}
                 titleStyle={{ fontWeight: "700", letterSpacing: 1 }}
@@ -130,7 +144,7 @@ const SignIn = () => {
           title='CREATE A NEW ACCOUNT'
           type='clear'
           titleStyle={{
-            color: myTheme.palette.primary,
+            color: theme.colors.primary,
           }}
           onPress={() => {
             navigate({ pathname: "/Register" }, { replace: true });
@@ -149,14 +163,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 35,
   },
   logo: { width: 140, marginLeft: 5, marginTop: 10 },
-  h1: { marginLeft: 10, marginTop: 30, fontSize: 24, fontWeight: "700" },
-  h2: {
-    marginLeft: 10,
-    fontSize: 16,
-    color: "#616161",
-    letterSpacing: 1,
-    marginVertical: 5,
-  },
   button: {
     marginHorizontal: 10,
     borderRadius: 30,
@@ -172,5 +178,5 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
     elevation: 4,
   },
-  error: { textAlign: "center", color: lightColors.error, marginVertical: 10 },
+  error: { textAlign: "center", marginVertical: 10 },
 });

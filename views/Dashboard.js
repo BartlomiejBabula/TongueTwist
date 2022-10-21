@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { StatusBar } from "expo-status-bar";
 import { Route, Routes } from "react-router-native";
 import MyWords from "./MyWords";
 import AddWordView from "./AddWordView";
 import SettingsView from "./SettingsView";
 import { StyleSheet, View } from "react-native";
-import { Icon, ThemeProvider, Text, Divider } from "@rneui/themed";
+import { Icon, ThemeProvider, Text, Divider, useTheme } from "@rneui/themed";
 import { myTheme } from "../components/Theme";
 import { useNavigate } from "react-router-native";
+import * as NavigationBar from "expo-navigation-bar";
 
 const Dashboard = () => {
   let navigate = useNavigate();
+  const { theme } = useTheme();
   const [buttonList, setButtonList] = useState([
     { icon: "pencil", label: "Add word", clicked: false },
     { icon: "book-open", label: "My word", clicked: true },
@@ -22,6 +25,7 @@ const Dashboard = () => {
         ? (button.clicked = true)
         : (button.clicked = false);
     });
+
     switch (type.label) {
       case "Add word":
         return navigate({ pathname: "/addword" }, { replace: true });
@@ -34,9 +38,26 @@ const Dashboard = () => {
     }
   };
 
+  useEffect(() => {
+    NavigationBar.setVisibilityAsync("hidden");
+    if (theme.mode === "dark") {
+      NavigationBar.setBackgroundColorAsync(theme.colors.menu);
+      NavigationBar.setButtonStyleAsync("light");
+    } else {
+      NavigationBar.setBackgroundColorAsync("white");
+      NavigationBar.setButtonStyleAsync("dark");
+    }
+  }, [theme.mode]);
+
   return (
     <ThemeProvider theme={myTheme}>
-      <View style={styles.container}>
+      <StatusBar
+        animated={true}
+        style={theme.mode === "dark" ? "light" : "dark"}
+      />
+      <View
+        style={[styles.container, { backgroundColor: theme.colors.background }]}
+      >
         <Routes>
           <Route path='/' exact element={<MyWords />} />
           <Route
@@ -52,7 +73,7 @@ const Dashboard = () => {
         </Routes>
       </View>
       <Divider width={1} />
-      <View style={styles.menuBottom}>
+      <View style={[styles.menuBottom, { backgroundColor: theme.colors.menu }]}>
         {buttonList.map((button, key) => {
           return (
             <View
@@ -65,15 +86,14 @@ const Dashboard = () => {
               <Icon
                 containerStyle={{
                   borderTopWidth: 4,
-                  paddingTop: 2,
+                  paddingTop: 4,
                   borderTopColor: button.clicked
-                    ? myTheme.palette.primary
-                    : "white",
+                    ? theme.colors.primary
+                    : theme.colors.menu,
                 }}
                 size={26}
-                underlayColor={"white"}
                 type='material-community'
-                color={button.clicked ? myTheme.palette.primary : "#555"}
+                color={button.clicked ? theme.colors.primary : "#777"}
                 name={button.clicked ? button.icon : button.icon + "-outline"}
                 onPress={() => {
                   handleTabChange(button);
@@ -82,8 +102,8 @@ const Dashboard = () => {
               <Text
                 style={[
                   button.clicked
-                    ? { color: myTheme.palette.primary }
-                    : { color: "#555" },
+                    ? { color: theme.colors.primary }
+                    : { color: "#777" },
                   styles.buttonText,
                 ]}
               >
@@ -102,10 +122,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   menuBottom: {
-    backgroundColor: "white",
     flexDirection: "row",
     alignItems: "flex-end",
-    height: "7%",
+    height: "7.5%",
     width: "100%",
   },
   buttonText: {

@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { myTheme } from "../components/Theme";
 import { StyleSheet, ScrollView, BackHandler, Modal } from "react-native";
-import { ThemeProvider, Text, Divider, Button, Icon } from "@rneui/themed";
+import {
+  ThemeProvider,
+  Text,
+  Divider,
+  Button,
+  Icon,
+  useTheme,
+  BottomSheet,
+  ListItem,
+  useThemeMode,
+} from "@rneui/themed";
 import Animated, { SlideInLeft, SlideOutLeft } from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigate } from "react-router-native";
@@ -15,8 +25,11 @@ import ChangePasswordModal from "./ChangePasswordModal";
 import DisplayNameModal from "./DisplayNameModal";
 
 const SettingsView = ({ handleTabChange }) => {
+  const { theme } = useTheme();
   const user = useSelector(selectUser);
   const wordList = useSelector(selectWordsList);
+  const { mode, setMode } = useThemeMode();
+  const [themeDialog, setThemeDialog] = useState(false);
   const [nameDialog, setNameDialog] = useState(false);
   const [passwordDialog, setPasswordDialog] = useState(false);
   const [wordsDialog, setWordsDialog] = useState(false);
@@ -51,7 +64,6 @@ const SettingsView = ({ handleTabChange }) => {
       handleTabChange({ label: "My word" });
       return true;
     };
-
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
       backAction
@@ -65,7 +77,7 @@ const SettingsView = ({ handleTabChange }) => {
       title={props.title}
       type='clear'
       titleStyle={{
-        color: "#333",
+        color: theme.colors.black,
         fontSize: 15,
       }}
       buttonStyle={{ justifyContent: "flex-start", paddingLeft: 15 }}
@@ -76,7 +88,7 @@ const SettingsView = ({ handleTabChange }) => {
         <Icon
           name={props.icon}
           type='material-community'
-          color='#555'
+          color={theme.colors.black}
           size={26}
           containerStyle={{ marginRight: 30 }}
         />
@@ -85,8 +97,20 @@ const SettingsView = ({ handleTabChange }) => {
   );
 
   const themeList = [
-    { title: "Light Theme", onPress: () => setThemeDialog(false) },
-    { title: "Dark Theme", onPress: () => setThemeDialog(false) },
+    {
+      title: "Light Theme",
+      onPress: () => {
+        setMode("light");
+        setThemeDialog(false);
+      },
+    },
+    {
+      title: "Dark Theme",
+      onPress: () => {
+        setMode("dark");
+        setThemeDialog(false);
+      },
+    },
     { title: "Cancel", onPress: () => setThemeDialog(false) },
   ];
 
@@ -121,6 +145,13 @@ const SettingsView = ({ handleTabChange }) => {
           title={"Send Feedback"}
           open={toggleReportDialog}
           icon={"comment-alert"}
+        />
+        <EditButton
+          open={() => {
+            setThemeDialog(true);
+          }}
+          title={"Theme"}
+          icon={"brightness-6"}
         />
         <EditButton
           title={"Logout"}
@@ -160,6 +191,24 @@ const SettingsView = ({ handleTabChange }) => {
       >
         <FeedbackModal toggleReportDialog={toggleReportDialog} user={user} />
       </Modal>
+      <BottomSheet
+        onBackdropPress={() => {
+          setThemeDialog(false);
+        }}
+        isVisible={themeDialog}
+      >
+        {themeList.map((l, i) => (
+          <ListItem
+            key={i}
+            containerStyle={l.containerStyle}
+            onPress={l.onPress}
+          >
+            <ListItem.Content>
+              <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
+            </ListItem.Content>
+          </ListItem>
+        ))}
+      </BottomSheet>
     </ThemeProvider>
   );
 };
@@ -176,13 +225,12 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     paddingBottom: 10,
     paddingHorizontal: 15,
-    backgroundColor: "white",
   },
   subtitle: {
     fontWeight: "bold",
     fontSize: 18,
     marginLeft: 15,
     marginTop: 15,
-    marginBottom: 5,
+    marginBottom: 7,
   },
 });

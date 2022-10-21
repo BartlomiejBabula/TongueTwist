@@ -21,8 +21,9 @@
       }
     },
     "androidNavigationBar": {
-      "barStyle": "dark-content",
-      "backgroundColor": "#FFFFFF"
+      // "visible": "false",
+      // "barStyle": "dark-content"
+      // "backgroundColor": "transparent"
     },
     "android": {
       "softwareKeyboardLayoutMode": "pan",

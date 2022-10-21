@@ -2,13 +2,21 @@ import React, { useState } from "react";
 import api from "../api/api";
 import { myTheme } from "../components/Theme";
 import { StyleSheet, View } from "react-native";
-import { Input, ThemeProvider, Text, Button, Icon } from "@rneui/themed";
+import {
+  Input,
+  ThemeProvider,
+  Text,
+  Button,
+  Icon,
+  useTheme,
+} from "@rneui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Animated, { SlideInLeft } from "react-native-reanimated";
 
 const ChangePasswordModal = ({ togglePasswordDialog }) => {
+  const { theme } = useTheme();
   const [errorPassword, setErrorPassword] = useState("");
   const [showPassword, setShowPassword] = useState(true);
   const [showRePassword, setShowRePassword] = useState(true);
@@ -50,123 +58,128 @@ const ChangePasswordModal = ({ togglePasswordDialog }) => {
 
   return (
     <ThemeProvider theme={myTheme}>
-      <Animated.View
-        style={styles.container}
-        entering={SlideInLeft.duration(150)}
+      <View
+        style={[styles.container, { backgroundColor: theme.colors.background }]}
       >
-        <View style={styles.containerTitle}>
-          <Icon
-            size={26}
-            underlayColor={"white"}
-            type='material-community'
-            name={"arrow-left"}
-            onPress={togglePasswordDialog}
-          />
-          <Text style={styles.title}>Change Password</Text>
-        </View>
-        <Text style={styles.text}>Set your new password</Text>
-        <Text
-          style={{
-            marginVertical: 5,
-            color: myTheme.palette.red,
-            textAlign: "center",
-          }}
-        >
-          {errorPassword}
-        </Text>
-        <Formik
-          initialValues={{
-            currentPassword: "",
-            password: "",
-            confirmPassword: "",
-          }}
-          validationSchema={validationSchema}
-          onSubmit={submitPassword}
-        >
-          {({ values, errors, touched, handleChange, handleSubmit }) => (
-            <>
-              <Input
-                label='Current password'
-                name='currentPassword'
-                secureTextEntry={showCurrentPassword}
-                value={values.currentPassword}
-                onChangeText={handleChange("currentPassword")}
-                errorMessage={touched.currentPassword && errors.currentPassword}
-                rightIcon={
-                  <Icon
-                    name='eye'
-                    type='material-community'
-                    color='#b1b1b1'
-                    underlayColor={"white"}
-                    size={26}
-                    containerStyle={{ marginRight: 7 }}
-                    onPress={() => {
-                      setShowCurrentPassword(!showCurrentPassword);
-                    }}
-                  />
-                }
-              />
-              <Input
-                label='New password'
-                name='password'
-                secureTextEntry={showPassword}
-                value={values.password}
-                onChangeText={handleChange("password")}
-                errorMessage={touched.password && errors.password}
-                rightIcon={
-                  <Icon
-                    name='eye'
-                    type='material-community'
-                    color='#b1b1b1'
-                    underlayColor={"white"}
-                    size={26}
-                    containerStyle={{ marginRight: 7 }}
-                    onPress={() => {
-                      setShowPassword(!showPassword);
-                    }}
-                  />
-                }
-              />
-              <Input
-                label='Confirm password'
-                name='confirmPassword'
-                secureTextEntry={showRePassword}
-                value={values.confirmPassword}
-                onChangeText={handleChange("confirmPassword")}
-                errorMessage={touched.confirmPassword && errors.confirmPassword}
-                rightIcon={
-                  <Icon
-                    name='eye'
-                    type='material-community'
-                    color='#b1b1b1'
-                    underlayColor={"white"}
-                    size={26}
-                    containerStyle={{ marginRight: 7 }}
-                    onPress={() => {
-                      setShowRePassword(!showRePassword);
-                    }}
-                  />
-                }
-              />
-              <Button
-                title='Update password'
-                buttonStyle={styles.button}
-                ViewComponent={LinearGradient}
-                linearGradientProps={{
-                  colors: myTheme.palette.gradient,
-                  end: { x: 0, y: 1.5 },
-                }}
-                titleStyle={{
-                  color: "white",
-                  fontWeight: "700",
-                  letterSpacing: 1,
-                }}
-                onPress={handleSubmit}
-              />
-            </>
-          )}
-        </Formik>
-      </Animated.View>
+        <Animated.View entering={SlideInLeft.duration(150)}>
+          <View style={styles.containerTitle}>
+            <Icon
+              size={26}
+              underlayColor={"white"}
+              type='material-community'
+              name={"arrow-left"}
+              onPress={togglePasswordDialog}
+            />
+            <Text style={styles.title}>Change Password</Text>
+          </View>
+          <Text style={styles.text}>Set your new password</Text>
+          <Text
+            style={{
+              marginVertical: 5,
+              color: theme.colors.error,
+              textAlign: "center",
+            }}
+          >
+            {errorPassword}
+          </Text>
+          <Formik
+            initialValues={{
+              currentPassword: "",
+              password: "",
+              confirmPassword: "",
+            }}
+            validationSchema={validationSchema}
+            onSubmit={submitPassword}
+          >
+            {({ values, errors, touched, handleChange, handleSubmit }) => (
+              <>
+                <Input
+                  label='Current password'
+                  name='currentPassword'
+                  secureTextEntry={showCurrentPassword}
+                  value={values.currentPassword}
+                  onChangeText={handleChange("currentPassword")}
+                  errorMessage={
+                    touched.currentPassword && errors.currentPassword
+                  }
+                  rightIcon={
+                    <Icon
+                      name='eye'
+                      type='material-community'
+                      color='#b1b1b1'
+                      underlayColor={"white"}
+                      size={26}
+                      containerStyle={{ marginRight: 7 }}
+                      onPress={() => {
+                        setShowCurrentPassword(!showCurrentPassword);
+                      }}
+                    />
+                  }
+                />
+                <Input
+                  label='New password'
+                  name='password'
+                  secureTextEntry={showPassword}
+                  value={values.password}
+                  onChangeText={handleChange("password")}
+                  errorMessage={touched.password && errors.password}
+                  rightIcon={
+                    <Icon
+                      name='eye'
+                      type='material-community'
+                      color='#b1b1b1'
+                      underlayColor={"white"}
+                      size={26}
+                      containerStyle={{ marginRight: 7 }}
+                      onPress={() => {
+                        setShowPassword(!showPassword);
+                      }}
+                    />
+                  }
+                />
+                <Input
+                  label='Confirm password'
+                  name='confirmPassword'
+                  secureTextEntry={showRePassword}
+                  value={values.confirmPassword}
+                  onChangeText={handleChange("confirmPassword")}
+                  errorMessage={
+                    touched.confirmPassword && errors.confirmPassword
+                  }
+                  rightIcon={
+                    <Icon
+                      name='eye'
+                      type='material-community'
+                      color='#b1b1b1'
+                      underlayColor={"white"}
+                      size={26}
+                      containerStyle={{ marginRight: 7 }}
+                      onPress={() => {
+                        setShowRePassword(!showRePassword);
+                      }}
+                    />
+                  }
+                />
+                <Button
+                  title='Update password'
+                  buttonStyle={styles.button}
+                  ViewComponent={LinearGradient}
+                  linearGradientProps={{
+                    colors: theme.colors.gradient,
+                    end: { x: 0, y: 1.5 },
+                  }}
+                  titleStyle={{
+                    color: "white",
+                    fontWeight: "700",
+                    letterSpacing: 1,
+                  }}
+                  onPress={handleSubmit}
+                />
+              </>
+            )}
+          </Formik>
+        </Animated.View>
+      </View>
     </ThemeProvider>
   );
 };
@@ -176,12 +189,12 @@ export default ChangePasswordModal;
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 15,
+    flex: 1,
   },
   containerTitle: {
     flexDirection: "row",
     paddingTop: 30,
     paddingBottom: 35,
-    backgroundColor: "white",
     alignItems: "center",
   },
   title: {

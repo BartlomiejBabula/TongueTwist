@@ -1,31 +1,51 @@
-import { createTheme, darkColors } from "@rneui/themed";
+import { createTheme } from "@rneui/themed";
+
+let dupa = "dark";
 
 export const myTheme = createTheme({
-  palette: {
+  lightColors: {
     primary: "#6B2C91",
     secondary: "#2E3192",
-    grey: "#F5F5F5",
-    red: "#e76f51",
-    green: "#3CEC10",
+    background: "white",
+    error: "#e76f51",
     gradient: ["#6B2C91", "#2E3192"],
     gradient_2: ["#0034CC", "#6B2C91"],
     gradient_disabled: ["#fcf7ff", "#f6f0fa"],
+    menu: "white",
+  },
+  darkColors: {
+    primary: "#9b68ba",
+    secondary: "#9b68ba",
+    background: "#303030",
+    error: "#e76f51",
+    gradient: ["#9b68ba", "#212121"],
+    gradient_2: ["#303030", "#212121"],
+    gradient_disabled: ["#fcf7ff", "#f6f0fa"],
+    menu: "#212121",
   },
 
+  mode: dupa === "dark" ? "dark" : "light",
+
   components: {
-    Avatar: {
-      containerStyle: {
-        backgroundColor: "#0086d0",
-      },
-    },
-    Input: {
+    Input: (props) => ({
+      placeholderTextColor:
+        myTheme.mode === "dark"
+          ? myTheme.lightColors.greyOutline
+          : myTheme.lightColors.grey3,
       autoCapitalize: "none",
       autoCorrect: false,
-      cursorColor: "#6B2C91",
+      cursorColor:
+        myTheme.mode === "dark"
+          ? myTheme.darkColors.primary
+          : myTheme.lightColors.primary,
       labelStyle: {
         fontSize: 14,
         marginBottom: 2,
         marginLeft: 10,
+        color:
+          myTheme.mode === "dark"
+            ? myTheme.lightColors.greyOutline
+            : myTheme.lightColors.grey3,
       },
       errorStyle: {
         marginTop: 2,
@@ -35,18 +55,22 @@ export const myTheme = createTheme({
       },
       inputStyle: {
         paddingHorizontal: 10,
-        color: "#4B4B4B",
+        color: myTheme.mode === "dark" ? myTheme.darkColors.black : "#4B4B4B",
         fontSize: 16,
         height: 45,
       },
       inputContainerStyle: {
         borderBottomWidth: 0,
-        backgroundColor: "#f6f0fa",
+        backgroundColor: myTheme.mode === "dark" ? "#424242" : "#f6f0fa",
         borderRadius: 14,
       },
-    },
+    }),
 
-    SearchBar: {
+    Divider: () => ({
+      color: myTheme.mode === "dark" ? "#505050" : null,
+    }),
+
+    SearchBar: () => ({
       containerStyle: {
         width: 190,
         backgroundColor: null,
@@ -57,7 +81,7 @@ export const myTheme = createTheme({
       inputContainerStyle: {
         borderRadius: 30,
         height: 35,
-        backgroundColor: "#F5F5F5",
+        backgroundColor: myTheme.mode === "dark" ? "#424242" : "#F5F5F5",
         shadowColor: "#000",
         shadowOffset: {
           width: 0,
@@ -70,13 +94,16 @@ export const myTheme = createTheme({
       inputStyle: {
         fontSize: 16,
       },
-    },
-
-    Dialog: {
+    }),
+    Dialog: () => ({
       overlayStyle: {
+        backgroundColor: myTheme.mode === "dark" ? "#212121" : "white",
         maxHeight: "60%",
         width: "90%",
       },
-    },
+    }),
+    Icon: () => ({
+      underlayColor: myTheme.mode === "dark" ? "#212121" : "white",
+    }),
   },
 });

@@ -3,7 +3,14 @@ import { useDispatch } from "react-redux";
 import { updateUser } from "../actions/UserActions";
 import { myTheme } from "../components/Theme";
 import { StyleSheet, View } from "react-native";
-import { Input, ThemeProvider, Text, Button, Icon } from "@rneui/themed";
+import {
+  Input,
+  ThemeProvider,
+  Text,
+  Button,
+  Icon,
+  useTheme,
+} from "@rneui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
 import Animated, { SlideInLeft } from "react-native-reanimated";
@@ -11,6 +18,7 @@ import * as Yup from "yup";
 
 const DisplayNameModal = ({ toggleNameDialog, user }) => {
   const dispatch = useDispatch();
+  const { theme } = useTheme();
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .required("Required")
@@ -26,57 +34,58 @@ const DisplayNameModal = ({ toggleNameDialog, user }) => {
 
   return (
     <ThemeProvider theme={myTheme}>
-      <Animated.View
-        style={styles.container}
-        entering={SlideInLeft.duration(150)}
+      <View
+        style={[styles.container, { backgroundColor: theme.colors.background }]}
       >
-        <View style={styles.containerTitle}>
-          <Icon
-            size={26}
-            underlayColor={"white"}
-            type='material-community'
-            name={"arrow-left"}
-            onPress={toggleNameDialog}
-          />
-          <Text style={styles.title}>Display name</Text>
-        </View>
-        <Text style={styles.text}>Set your new display name</Text>
-        <Formik
-          initialValues={{
-            name: user?.displayName,
-          }}
-          validationSchema={validationSchema}
-          onSubmit={submitDisplayName}
-        >
-          {({ values, errors, touched, handleChange, handleSubmit }) => (
-            <>
-              <Input
-                label='New name'
-                name='name'
-                value={values.name}
-                onChangeText={handleChange("name")}
-                errorMessage={touched.name && errors.name}
-                containerStyle={{ paddingHorizontal: 0 }}
-              />
-              <Button
-                title='Update name'
-                buttonStyle={styles.button}
-                ViewComponent={LinearGradient}
-                linearGradientProps={{
-                  colors: myTheme.palette.gradient,
-                  end: { x: 0, y: 1.5 },
-                }}
-                titleStyle={{
-                  color: "white",
-                  fontWeight: "700",
-                  letterSpacing: 1,
-                }}
-                onPress={handleSubmit}
-              />
-            </>
-          )}
-        </Formik>
-      </Animated.View>
+        <Animated.View entering={SlideInLeft.duration(150)}>
+          <View style={styles.containerTitle}>
+            <Icon
+              size={26}
+              underlayColor={"white"}
+              type='material-community'
+              name={"arrow-left"}
+              onPress={toggleNameDialog}
+            />
+            <Text style={styles.title}>Display name</Text>
+          </View>
+          <Text style={styles.text}>Set your new display name</Text>
+          <Formik
+            initialValues={{
+              name: user?.displayName,
+            }}
+            validationSchema={validationSchema}
+            onSubmit={submitDisplayName}
+          >
+            {({ values, errors, touched, handleChange, handleSubmit }) => (
+              <>
+                <Input
+                  label='New name'
+                  name='name'
+                  value={values.name}
+                  onChangeText={handleChange("name")}
+                  errorMessage={touched.name && errors.name}
+                  containerStyle={{ paddingHorizontal: 0 }}
+                />
+                <Button
+                  title='Update name'
+                  buttonStyle={styles.button}
+                  ViewComponent={LinearGradient}
+                  linearGradientProps={{
+                    colors: theme.colors.gradient,
+                    end: { x: 0, y: 1.5 },
+                  }}
+                  titleStyle={{
+                    color: "white",
+                    fontWeight: "700",
+                    letterSpacing: 1,
+                  }}
+                  onPress={handleSubmit}
+                />
+              </>
+            )}
+          </Formik>
+        </Animated.View>
+      </View>
     </ThemeProvider>
   );
 };
@@ -86,12 +95,12 @@ export default DisplayNameModal;
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 15,
+    flex: 1,
   },
   containerTitle: {
     flexDirection: "row",
     paddingTop: 30,
     paddingBottom: 35,
-    backgroundColor: "white",
     alignItems: "center",
   },
   title: {

@@ -11,12 +11,21 @@ import Animated, {
   useAnimatedStyle,
   SlideInRight,
 } from "react-native-reanimated";
-import { Icon, ThemeProvider, FAB, Text, Dialog, Button } from "@rneui/themed";
+import {
+  Icon,
+  ThemeProvider,
+  FAB,
+  Text,
+  Dialog,
+  Button,
+  useTheme,
+} from "@rneui/themed";
 import { useDispatch } from "react-redux";
 import { updateWord, deleteWord } from "../actions/WordsActions";
 
 const WordsListElement = ({ word, nrElement, setEdit, edit, checkEdit }) => {
   const dispatch = useDispatch();
+  const { theme } = useTheme();
   const [expand, setExpand] = useState(false);
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -68,15 +77,26 @@ const WordsListElement = ({ word, nrElement, setEdit, edit, checkEdit }) => {
   return (
     <ThemeProvider theme={myTheme}>
       <Animated.View
-        style={[styles.wordContainer, animatedStyle]}
+        style={[
+          styles.wordContainer,
+          animatedStyle,
+          {
+            borderColor: theme.mode === "dark" ? "#303030" : "white",
+            backgroundColor: theme.mode === "dark" ? "#d1c9d6" : "#f6f0fa",
+          },
+        ]}
         layout={Layout.springify().stiffness(90).mass(0.6)}
         entering={SlideInRight.duration(150).delay(nrElement * 100)}
       >
         {!edit && (
           <LinearGradient
-            colors={myTheme.palette.gradient_2}
+            colors={theme.colors.gradient_2}
             start={{ x: 2, y: 2 }}
-            style={{ width: "150%", height: "150%", position: "absolute" }}
+            style={{
+              width: "150%",
+              height: 310,
+              position: "absolute",
+            }}
           />
         )}
         <Pressable
@@ -106,7 +126,7 @@ const WordsListElement = ({ word, nrElement, setEdit, edit, checkEdit }) => {
           >
             <View>
               <Text
-                style={[styles.title, { color: edit ? "#616161" : "white" }]}
+                style={[styles.title, { color: edit ? "#404040" : "white" }]}
               >
                 {word.word.toLowerCase()}
               </Text>
@@ -126,14 +146,14 @@ const WordsListElement = ({ word, nrElement, setEdit, edit, checkEdit }) => {
                   <FAB
                     disabled={word.progress === 0 && true}
                     size={"small"}
-                    color={myTheme.palette.red}
+                    color={theme.colors.error}
                     icon={{ name: "clear", color: "white" }}
                     onPress={() => progressChange("-")}
                   />
                   <FAB
                     disabled={word.progress === 5 && true}
                     size={"small"}
-                    color={myTheme.palette.green}
+                    color={theme.colors.success}
                     icon={{ name: "check", color: "white" }}
                     onPress={() => progressChange("+")}
                   />
@@ -154,13 +174,13 @@ const WordsListElement = ({ word, nrElement, setEdit, edit, checkEdit }) => {
               >
                 <Icon
                   name='edit'
-                  color={myTheme.palette.green}
+                  color={theme.colors.success}
                   size={34}
                   onPress={toggleEditModal}
                 />
                 <Icon
                   name='delete'
-                  color={myTheme.palette.red}
+                  color={theme.colors.error}
                   size={34}
                   onPress={toggleDeleteDialog}
                 />
@@ -209,7 +229,10 @@ const WordsListElement = ({ word, nrElement, setEdit, edit, checkEdit }) => {
         </Pressable>
       </Animated.View>
       <Dialog isVisible={deleteDialog} onBackdropPress={toggleDeleteDialog}>
-        <Dialog.Title title={`Delete`} />
+        <Dialog.Title
+          title={`Delete`}
+          titleStyle={{ color: theme.colors.black }}
+        />
         <Text style={{ marginBottom: 20 }}>
           Are you sure you want to delete "{word.word}"?
         </Text>
@@ -219,7 +242,7 @@ const WordsListElement = ({ word, nrElement, setEdit, edit, checkEdit }) => {
             title='YES'
             type='clear'
             titleStyle={{
-              color: myTheme.palette.secondary,
+              color: theme.colors.secondary,
             }}
             onPress={deleteThisWord}
           />
@@ -228,7 +251,7 @@ const WordsListElement = ({ word, nrElement, setEdit, edit, checkEdit }) => {
             title='NO'
             type='clear'
             titleStyle={{
-              color: myTheme.palette.secondary,
+              color: theme.colors.secondary,
             }}
             onPress={toggleDeleteDialog}
           />
@@ -238,7 +261,7 @@ const WordsListElement = ({ word, nrElement, setEdit, edit, checkEdit }) => {
           size={20}
           underlayColor={"white"}
           type='material-community'
-          color={myTheme.palette.secondary}
+          color={theme.colors.secondary}
           name={"close"}
           onPress={toggleDeleteDialog}
           containerStyle={{ position: "absolute", top: 8, right: 8 }}
@@ -260,8 +283,8 @@ export default WordsListElement;
 const styles = StyleSheet.create({
   wordContainer: {
     overflow: "hidden",
-    backgroundColor: "#f6f0fa",
-    borderRadius: 20,
+    borderRadius: 15,
+    borderWidth: 0.6,
     paddingVertical: 8,
     paddingHorizontal: 17,
     marginVertical: 5,

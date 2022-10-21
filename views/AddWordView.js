@@ -9,6 +9,7 @@ import {
   Icon,
   Dialog,
   Input,
+  useTheme,
 } from "@rneui/themed";
 import * as Yup from "yup";
 import { Formik } from "formik";
@@ -19,6 +20,7 @@ import Animated, { SlideInRight, SlideOutRight } from "react-native-reanimated";
 
 const AddWordView = ({ handleTabChange }) => {
   const dispatch = useDispatch();
+  const { theme } = useTheme();
   const [oxfordDialog, setOxfordDialog] = useState(false);
   const [moreExamples, setMoreExamples] = useState(false);
   const [oxfordSearchList, setOxfordSearchList] = useState();
@@ -179,9 +181,7 @@ const AddWordView = ({ handleTabChange }) => {
                     type='material-community'
                     size={40}
                     color={
-                      values.word.length < 3
-                        ? "#b1b1b1"
-                        : myTheme.palette.primary
+                      values.word.length < 3 ? "#b1b1b1" : theme.colors.primary
                     }
                   />
                 }
@@ -237,7 +237,7 @@ const AddWordView = ({ handleTabChange }) => {
                         name='plus'
                         type='material-community'
                         size={30}
-                        color={myTheme.palette.primary}
+                        color={theme.colors.primary}
                       />
                     ) : (
                       <Icon
@@ -247,7 +247,7 @@ const AddWordView = ({ handleTabChange }) => {
                         name='minus'
                         type='material-community'
                         size={30}
-                        color={myTheme.palette.primary}
+                        color={theme.colors.primary}
                       />
                     )}
                   </View>
@@ -291,11 +291,12 @@ const AddWordView = ({ handleTabChange }) => {
                 onPress={handleSubmit}
                 ViewComponent={LinearGradient}
                 linearGradientProps={{
-                  colors: myTheme.palette.gradient,
+                  colors: theme.colors.gradient,
                   end: { x: 0, y: 1.5 },
                 }}
                 titleStyle={{
-                  color: "white",
+                  color:
+                    theme.mode === "dark" ? theme.colors.disabled : "white",
                   fontWeight: "700",
                   letterSpacing: 1,
                 }}
@@ -306,7 +307,10 @@ const AddWordView = ({ handleTabChange }) => {
               >
                 {oxfordSearchList ? (
                   <>
-                    <Dialog.Title title='Definition list' />
+                    <Dialog.Title
+                      title='Definition list'
+                      titleStyle={{ color: theme.colors.black }}
+                    />
                     <Text>Found list of word definitions</Text>
                     <ScrollView style={{ marginTop: 20 }}>
                       {oxfordSearchList.length !== 0 ? (
@@ -319,7 +323,7 @@ const AddWordView = ({ handleTabChange }) => {
                             type='clear'
                             key={key}
                             titleStyle={{
-                              color: myTheme.palette.secondary,
+                              color: theme.colors.secondary,
                             }}
                           />
                         ))
@@ -334,7 +338,7 @@ const AddWordView = ({ handleTabChange }) => {
                       size={20}
                       underlayColor={"white"}
                       type='material-community'
-                      color={myTheme.palette.secondary}
+                      color={theme.colors.secondary}
                       name={"close"}
                       onPress={toggleOxfordDialog}
                       containerStyle={{
@@ -373,7 +377,6 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     paddingBottom: 5,
     paddingHorizontal: 15,
-    backgroundColor: "white",
   },
   button: {
     marginHorizontal: 10,

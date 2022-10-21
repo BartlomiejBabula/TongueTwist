@@ -8,7 +8,7 @@ import {
   BackHandler,
   Alert,
 } from "react-native";
-import { SearchBar, ThemeProvider, Text } from "@rneui/themed";
+import { SearchBar, ThemeProvider, Text, useTheme } from "@rneui/themed";
 import WordsListElement from "../components/WordsListElement";
 import Animated, { FadeIn, Keyframe, FadeOut } from "react-native-reanimated";
 import { useSelector } from "react-redux";
@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { updateWordsList, updatePage } from "../actions/WordsActions";
 
 const MyWords = () => {
+  const { theme } = useTheme();
   const dispatch = useDispatch();
   const page = useSelector(selectPage);
   const [edit, setEdit] = useState({ edit: false, element: 0 });
@@ -81,16 +82,29 @@ const MyWords = () => {
   return (
     <ThemeProvider theme={myTheme}>
       <View style={styles.topbar}>
-        <Image
-          resizeMode='center'
-          style={{ height: 42, width: 42 }}
-          source={require("../pictures/logo.png")}
-        />
+        {theme.mode === "dark" ? (
+          <Image
+            resizeMode='center'
+            style={{ height: 38, width: 38 }}
+            source={require("../pictures/logo_dark.png")}
+          />
+        ) : (
+          <Image
+            resizeMode='center'
+            style={{ height: 38, width: 38 }}
+            source={require("../pictures/logo.png")}
+          />
+        )}
         <SearchBar
           placeholder='Search word...'
           onChangeText={updateSearch}
           value={search}
           rightIcon
+          placeholderTextColor={theme.colors.greyOutline}
+          inputStyle={{ color: theme.colors.greyOutline }}
+          searchIcon={{
+            color: theme.colors.greyOutline,
+          }}
         />
       </View>
       <Animated.ScrollView

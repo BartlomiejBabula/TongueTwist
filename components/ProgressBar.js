@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { View } from "react-native";
-import { ThemeProvider } from "@rneui/themed";
+import { ThemeProvider, useTheme } from "@rneui/themed";
 import { myTheme } from "../components/Theme";
 
 const ProgressBar = (progress) => {
+  const { theme } = useTheme();
   const [newProgress, setNewProgress] = useState(progress);
   useEffect(() => {
     setNewProgress(progress);
@@ -47,7 +48,7 @@ const ProgressBar = (progress) => {
             style={{
               height: 15,
               width: 20,
-              backgroundColor: bar.progress ? myTheme.palette.green : "#DDDDDD",
+              backgroundColor: bar.progress ? theme.colors.success : "#DDDDDD",
               borderRightWidth: bars.length !== key + 1 ? 1.3 : 0,
               borderRightColor: "white",
               alignSelf: "center",

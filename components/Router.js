@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { NativeRouter, Route, Routes } from "react-router-native";
 import SignUp from "../views/SignupView";
 import SignUpInfo from "../views/SignupInfoView";
@@ -8,8 +8,9 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { LogBox } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { selectUser, selectWordsList } from "../selectors/user";
+import { selectWordsList } from "../selectors/user";
 import { getUserData } from "../actions/LoggingActions";
+import * as NavigationBar from "expo-navigation-bar";
 
 LogBox.ignoreAllLogs();
 
@@ -19,6 +20,8 @@ const Router = () => {
   useEffect(() => {
     dispatch(getUserData());
   }, [dispatch]);
+
+  NavigationBar.setVisibilityAsync("hidden");
 
   const isLogged = useSelector(selectWordsList);
   return isLogged ? (

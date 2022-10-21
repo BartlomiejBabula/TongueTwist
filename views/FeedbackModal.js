@@ -1,13 +1,21 @@
 import React from "react";
 import { myTheme } from "../components/Theme";
 import { StyleSheet, View } from "react-native";
-import { Input, ThemeProvider, Text, Button, Icon } from "@rneui/themed";
+import {
+  Input,
+  ThemeProvider,
+  Text,
+  Button,
+  Icon,
+  useTheme,
+} from "@rneui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Animated, { SlideInLeft } from "react-native-reanimated";
 
 const FeedbackModal = ({ toggleReportDialog, user }) => {
+  const { theme } = useTheme();
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Required"),
     description: Yup.string()
@@ -25,81 +33,82 @@ const FeedbackModal = ({ toggleReportDialog, user }) => {
 
   return (
     <ThemeProvider theme={myTheme}>
-      <Animated.View
-        style={styles.container}
-        entering={SlideInLeft.duration(150)}
+      <View
+        style={[styles.container, { backgroundColor: theme.colors.background }]}
       >
-        <Animated.View style={styles.containerTitle}>
-          <Icon
-            size={26}
-            underlayColor={"white"}
-            type='material-community'
-            name={"arrow-left"}
-            onPress={toggleReportDialog}
-          />
-          <Text style={styles.title}>Send us Feedback</Text>
+        <Animated.View entering={SlideInLeft.duration(150)}>
+          <Animated.View style={styles.containerTitle}>
+            <Icon
+              size={26}
+              underlayColor={"white"}
+              type='material-community'
+              name={"arrow-left"}
+              onPress={toggleReportDialog}
+            />
+            <Text style={styles.title}>Send us Feedback</Text>
+          </Animated.View>
+          <Formik
+            initialValues={{
+              name: user.displayName ? user.displayName : "",
+              email: user.email ? user.email : "",
+              description: "",
+            }}
+            validationSchema={validationSchema}
+            onSubmit={sendReport}
+          >
+            {({ values, errors, touched, handleChange, handleSubmit }) => (
+              <>
+                <Input
+                  label='Name'
+                  name='name'
+                  value={values.name}
+                  onChangeText={handleChange("name")}
+                  errorMessage={touched.name && errors.name}
+                  containerStyle={{ paddingHorizontal: 0 }}
+                />
+                <Input
+                  label='Email'
+                  name='email'
+                  value={values.email}
+                  onChangeText={handleChange("email")}
+                  errorMessage={touched.email && errors.email}
+                  containerStyle={{ paddingHorizontal: 0 }}
+                />
+                <Input
+                  label='Description'
+                  name='description'
+                  value={values.description}
+                  onChangeText={handleChange("description")}
+                  errorMessage={touched.description && errors.description}
+                  containerStyle={{ paddingHorizontal: 0 }}
+                  multiline={true}
+                  numberOfLines={5}
+                  inputStyle={{
+                    height: 100,
+                    textAlignVertical: "top",
+                    marginVertical: 5,
+                  }}
+                />
+                <Button
+                  title='Send Feedback'
+                  buttonStyle={styles.button}
+                  ViewComponent={LinearGradient}
+                  linearGradientProps={{
+                    colors: theme.colors.gradient,
+                    end: { x: 0, y: 1.5 },
+                  }}
+                  titleStyle={{
+                    color: "white",
+                    fontWeight: "700",
+                    letterSpacing: 1,
+                  }}
+                  onPress={handleSubmit}
+                />
+              </>
+            )}
+          </Formik>
         </Animated.View>
-        <Formik
-          initialValues={{
-            name: user.displayName ? user.displayName : "",
-            email: user.email ? user.email : "",
-            description: "",
-          }}
-          validationSchema={validationSchema}
-          onSubmit={sendReport}
-        >
-          {({ values, errors, touched, handleChange, handleSubmit }) => (
-            <>
-              <Input
-                label='Name'
-                name='name'
-                value={values.name}
-                onChangeText={handleChange("name")}
-                errorMessage={touched.name && errors.name}
-                containerStyle={{ paddingHorizontal: 0 }}
-              />
-              <Input
-                label='Email'
-                name='email'
-                value={values.email}
-                onChangeText={handleChange("email")}
-                errorMessage={touched.email && errors.email}
-                containerStyle={{ paddingHorizontal: 0 }}
-              />
-              <Input
-                label='Description'
-                name='description'
-                value={values.description}
-                onChangeText={handleChange("description")}
-                errorMessage={touched.description && errors.description}
-                containerStyle={{ paddingHorizontal: 0 }}
-                multiline={true}
-                numberOfLines={5}
-                inputStyle={{
-                  height: 100,
-                  textAlignVertical: "top",
-                  marginVertical: 5,
-                }}
-              />
-              <Button
-                title='Send Feedback'
-                buttonStyle={styles.button}
-                ViewComponent={LinearGradient}
-                linearGradientProps={{
-                  colors: myTheme.palette.gradient,
-                  end: { x: 0, y: 1.5 },
-                }}
-                titleStyle={{
-                  color: "white",
-                  fontWeight: "700",
-                  letterSpacing: 1,
-                }}
-                onPress={handleSubmit}
-              />
-            </>
-          )}
-        </Formik>
-      </Animated.View>
+      </View>
     </ThemeProvider>
   );
 };
@@ -109,12 +118,12 @@ export default FeedbackModal;
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 15,
+    flex: 1,
   },
   containerTitle: {
     flexDirection: "row",
     paddingTop: 30,
     paddingBottom: 35,
-    backgroundColor: "white",
     alignItems: "center",
   },
   title: {
