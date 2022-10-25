@@ -1,13 +1,14 @@
 import React from "react";
-import { myTheme } from "../components/Theme";
 import { StyleSheet, View } from "react-native";
-import { Input, ThemeProvider, Text, Button, Icon } from "@rneui/themed";
+import { Text, Button, Icon, useTheme } from "@rneui/themed";
+import { Input } from "../components/common/Input";
 import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Animated, { SlideInLeft } from "react-native-reanimated";
 
 const FeedbackModal = ({ toggleReportDialog, user }) => {
+  const { theme } = useTheme();
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Required"),
     description: Yup.string()
@@ -24,11 +25,10 @@ const FeedbackModal = ({ toggleReportDialog, user }) => {
   };
 
   return (
-    <ThemeProvider theme={myTheme}>
-      <Animated.View
-        style={styles.container}
-        entering={SlideInLeft.duration(150)}
-      >
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      <Animated.View entering={SlideInLeft.duration(150)}>
         <Animated.View style={styles.containerTitle}>
           <Icon
             size={26}
@@ -75,18 +75,14 @@ const FeedbackModal = ({ toggleReportDialog, user }) => {
                 containerStyle={{ paddingHorizontal: 0 }}
                 multiline={true}
                 numberOfLines={5}
-                inputStyle={{
-                  height: 100,
-                  textAlignVertical: "top",
-                  marginVertical: 5,
-                }}
+                height={100}
               />
               <Button
                 title='Send Feedback'
                 buttonStyle={styles.button}
                 ViewComponent={LinearGradient}
                 linearGradientProps={{
-                  colors: myTheme.palette.gradient,
+                  colors: theme.colors.gradient,
                   end: { x: 0, y: 1.5 },
                 }}
                 titleStyle={{
@@ -100,7 +96,7 @@ const FeedbackModal = ({ toggleReportDialog, user }) => {
           )}
         </Formik>
       </Animated.View>
-    </ThemeProvider>
+    </View>
   );
 };
 
@@ -109,12 +105,12 @@ export default FeedbackModal;
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 15,
+    flex: 1,
   },
   containerTitle: {
     flexDirection: "row",
     paddingTop: 30,
     paddingBottom: 35,
-    backgroundColor: "white",
     alignItems: "center",
   },
   title: {

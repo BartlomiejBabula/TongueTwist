@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import api from "../api/api";
-import { myTheme } from "../components/Theme";
 import { StyleSheet, View } from "react-native";
-import { Input, ThemeProvider, Text, Button, Icon } from "@rneui/themed";
+import { Text, Button, Icon, useTheme } from "@rneui/themed";
+import { Input } from "../components/common/Input";
 import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Animated, { SlideInLeft } from "react-native-reanimated";
 
 const ChangePasswordModal = ({ togglePasswordDialog }) => {
+  const { theme } = useTheme();
   const [errorPassword, setErrorPassword] = useState("");
   const [showPassword, setShowPassword] = useState(true);
   const [showRePassword, setShowRePassword] = useState(true);
@@ -49,11 +50,10 @@ const ChangePasswordModal = ({ togglePasswordDialog }) => {
   };
 
   return (
-    <ThemeProvider theme={myTheme}>
-      <Animated.View
-        style={styles.container}
-        entering={SlideInLeft.duration(150)}
-      >
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      <Animated.View entering={SlideInLeft.duration(150)}>
         <View style={styles.containerTitle}>
           <Icon
             size={26}
@@ -68,7 +68,7 @@ const ChangePasswordModal = ({ togglePasswordDialog }) => {
         <Text
           style={{
             marginVertical: 5,
-            color: myTheme.palette.red,
+            color: theme.colors.error,
             textAlign: "center",
           }}
         >
@@ -153,7 +153,7 @@ const ChangePasswordModal = ({ togglePasswordDialog }) => {
                 buttonStyle={styles.button}
                 ViewComponent={LinearGradient}
                 linearGradientProps={{
-                  colors: myTheme.palette.gradient,
+                  colors: theme.colors.gradient,
                   end: { x: 0, y: 1.5 },
                 }}
                 titleStyle={{
@@ -167,7 +167,7 @@ const ChangePasswordModal = ({ togglePasswordDialog }) => {
           )}
         </Formik>
       </Animated.View>
-    </ThemeProvider>
+    </View>
   );
 };
 
@@ -176,12 +176,12 @@ export default ChangePasswordModal;
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 15,
+    flex: 1,
   },
   containerTitle: {
     flexDirection: "row",
     paddingTop: 30,
     paddingBottom: 35,
-    backgroundColor: "white",
     alignItems: "center",
   },
   title: {

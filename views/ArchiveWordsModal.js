@@ -1,12 +1,12 @@
 import React from "react";
-import { myTheme } from "../components/Theme";
 import { StyleSheet, View, ScrollView } from "react-native";
-import { ThemeProvider, Text, Button, Icon } from "@rneui/themed";
+import { Text, Button, Icon, useTheme } from "@rneui/themed";
 import { updateWord } from "../actions/WordsActions";
 import { useDispatch } from "react-redux";
 import Animated, { SlideInLeft } from "react-native-reanimated";
 
 const ArchiveWordsModal = ({ toggleWordsDialog, wordList }) => {
+  const { theme } = useTheme();
   const dispatch = useDispatch();
   const resetProgress = async (wordID) => {
     let newProgress = {
@@ -17,7 +17,7 @@ const ArchiveWordsModal = ({ toggleWordsDialog, wordList }) => {
   };
 
   return (
-    <ThemeProvider theme={myTheme}>
+    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <Animated.View entering={SlideInLeft.duration(150)}>
         <View style={styles.container}>
           <Icon
@@ -54,14 +54,14 @@ const ArchiveWordsModal = ({ toggleWordsDialog, wordList }) => {
                   type='clear'
                   key={key}
                   titleStyle={{
-                    color: myTheme.palette.secondary,
+                    color: theme.colors.secondary,
                   }}
                 />
               </View>
             ))}
         </ScrollView>
       </Animated.View>
-    </ThemeProvider>
+    </View>
   );
 };
 
@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingTop: 30,
     paddingBottom: 35,
-    backgroundColor: "white",
     alignItems: "center",
   },
   title: {
@@ -87,8 +86,8 @@ const styles = StyleSheet.create({
   },
   text: {
     marginHorizontal: 14,
-    fontWeight: "bold",
+    // fontWeight: "bold",
     fontSize: 16,
-    marginBottom: 20,
+    marginBottom: 25,
   },
 });
