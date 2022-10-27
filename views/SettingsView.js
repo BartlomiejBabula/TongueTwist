@@ -21,6 +21,7 @@ import ArchiveWordsModal from "./ArchiveWordsModal";
 import FeedbackModal from "./FeedbackModal";
 import ChangePasswordModal from "./ChangePasswordModal";
 import DisplayNameModal from "./DisplayNameModal";
+import { setTheme } from "../components/Theme";
 
 const SettingsView = ({ handleTabChange }) => {
   const { theme } = useTheme();
@@ -98,8 +99,8 @@ const SettingsView = ({ handleTabChange }) => {
     {
       label: "light",
       title: "Light Theme",
-      onPress: () => {
-        setMode("light");
+      onPress: async () => {
+        setTheme(setMode, "light");
         setThemeDialog(false);
       },
     },
@@ -107,7 +108,7 @@ const SettingsView = ({ handleTabChange }) => {
       label: "dark",
       title: "Dark Theme",
       onPress: () => {
-        setMode("dark");
+        setTheme(setMode, "dark");
         setThemeDialog(false);
       },
     },
@@ -188,7 +189,7 @@ const SettingsView = ({ handleTabChange }) => {
         animationType='none'
         onRequestClose={toggleReportDialog}
       >
-        <FeedbackModal toggleReportDialog={toggleReportDialog} user={user} />
+        <FeedbackModal toggleReportDialog={toggleReportDialog} />
       </Modal>
       <BottomSheet
         onBackdropPress={() => {

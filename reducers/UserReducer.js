@@ -1,4 +1,5 @@
 import { USER_LOGGED_IN } from "../actions/LoggingActions";
+import { NO_USER } from "../actions/LoggingActions";
 import { USER_LOGGED_OUT } from "../actions/LogoutActions";
 import { GET_WORDS_LIST } from "../actions/LoggingActions";
 import { ADD_WORD } from "../actions/WordsActions";
@@ -20,7 +21,12 @@ export const userReducer = (state = initState, action) => {
         ...action.payload,
         isLogged: true,
         page: 1,
-        theme: "light",
+      };
+    }
+    case NO_USER: {
+      return {
+        ...state,
+        wordsList: false,
       };
     }
     case USER_LOGGED_OUT: {

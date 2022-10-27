@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import api from "../api/api";
 import { StyleSheet, View } from "react-native";
 import { Text, Button, Icon, useTheme } from "@rneui/themed";
 import { Input } from "../components/common/Input";
@@ -7,21 +8,30 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Animated, { SlideInLeft } from "react-native-reanimated";
 
-const FeedbackModal = ({ toggleReportDialog, user }) => {
+const FeedbackModal = ({ toggleReportDialog }) => {
   const { theme } = useTheme();
+  const [isSent, setIsSent] = useState(false);
+  const [bttLoading, setBttLoading] = useState(false);
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Required"),
     description: Yup.string()
       .required("Required")
       .min(6, "Description is to short"),
-    email: Yup.string()
-      .email("Invalid email address")
-      .max(32, "Email address is to long - should be 32 chars maximum")
-      .required("Required"),
   });
 
   const sendReport = (values) => {
-    console.log(values);
+    let message = {
+      type: 1,
+      message: values.description,
+    };
+    setBttLoading(true);
+    api
+      .post(`/users/feedback`, message)
+      .then(async (res) => {
+        setIsSent(true);
+      })
+      .catch((error) => {
+        setBttLoading(false);
+      });
   };
 
   return (
@@ -39,62 +49,70 @@ const FeedbackModal = ({ toggleReportDialog, user }) => {
           />
           <Text style={styles.title}>Send us Feedback</Text>
         </Animated.View>
-        <Formik
-          initialValues={{
-            name: user.displayName ? user.displayName : "",
-            email: user.email ? user.email : "",
-            description: "",
-          }}
-          validationSchema={validationSchema}
-          onSubmit={sendReport}
-        >
-          {({ values, errors, touched, handleChange, handleSubmit }) => (
-            <>
-              <Input
-                label='Name'
-                name='name'
-                value={values.name}
-                onChangeText={handleChange("name")}
-                errorMessage={touched.name && errors.name}
-                containerStyle={{ paddingHorizontal: 0 }}
-              />
-              <Input
-                label='Email'
-                name='email'
-                value={values.email}
-                onChangeText={handleChange("email")}
-                errorMessage={touched.email && errors.email}
-                containerStyle={{ paddingHorizontal: 0 }}
-              />
-              <Input
-                label='Description'
-                name='description'
-                value={values.description}
-                onChangeText={handleChange("description")}
-                errorMessage={touched.description && errors.description}
-                containerStyle={{ paddingHorizontal: 0 }}
-                multiline={true}
-                numberOfLines={5}
-                height={100}
-              />
-              <Button
-                title='Send Feedback'
-                buttonStyle={styles.button}
-                ViewComponent={LinearGradient}
-                linearGradientProps={{
-                  colors: theme.colors.gradient,
-                  end: { x: 0, y: 1.5 },
-                }}
-                titleStyle={{
-                  color: "white",
-                  fontWeight: "700",
-                  letterSpacing: 1,
-                }}
-                onPress={handleSubmit}
-              />
-            </>
-          )}
-        </Formik>
+        {isSent ? (
+          <>
+            <Text style={styles.subtitle}>Thank you for you Feedback</Text>
+            <Text style={styles.text}>
+              We cannot respond to you personally, but please know that your
+              message has been received and will be reviewed by us developer
+              team.
+            </Text>
+            <Button
+              title='Back'
+              buttonStyle={styles.button}
+              ViewComponent={LinearGradient}
+              linearGradientProps={{
+                colors: theme.colors.gradient,
+                end: { x: 0, y: 1.5 },
+              }}
+              titleStyle={{
+                color: "white",
+                fontWeight: "700",
+                letterSpacing: 1,
+              }}
+              onPress={toggleReportDialog}
+            />
+          </>
+        ) : (
+          <Formik
+            initialValues={{
+              description: "",
+            }}
+            validationSchema={validationSchema}
+            onSubmit={sendReport}
+          >
+            {({ values, errors, touched, handleChange, handleSubmit }) => (
+              <>
+                <Input
+                  label='Description'
+                  name='description'
+                  value={values.description}
+                  onChangeText={handleChange("description")}
+                  errorMessage={touched.description && errors.description}
+                  containerStyle={{ paddingHorizontal: 0 }}
+                  multiline={true}
+                  numberOfLines={5}
+                  height={100}
+                />
+                <Button
+                  title='Send Feedback'
+                  buttonStyle={styles.button}
+                  ViewComponent={LinearGradient}
+                  linearGradientProps={{
+                    colors: theme.colors.gradient,
+                    end: { x: 0, y: 1.5 },
+                  }}
+                  titleStyle={{
+                    color: "white",
+                    fontWeight: "700",
+                    letterSpacing: 1,
+                  }}
+                  onPress={handleSubmit}
+                />
+              </>
+            )}
+          </Formik>
+        )}
       </Animated.View>
     </View>
   );
@@ -117,6 +135,18 @@ const styles = StyleSheet.create({
     marginLeft: "8%",
     fontWeight: "bold",
     fontSize: 22,
+  },
+  subtitle: {
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 20,
+    marginTop: "30%",
+    marginBottom: 35,
+  },
+  text: {
+    fontSize: 16,
+    marginBottom: 25,
+    marginHorizontal: 15,
   },
   button: {
     marginHorizontal: 10,

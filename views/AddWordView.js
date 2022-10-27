@@ -13,6 +13,7 @@ import { Input } from "../components/common/Input";
 const AddWordView = ({ handleTabChange }) => {
   const dispatch = useDispatch();
   const { theme } = useTheme();
+  const [bttLoading, setBttLoading] = useState(false);
   const [oxfordDialog, setOxfordDialog] = useState(false);
   const [moreExamples, setMoreExamples] = useState(false);
   const [oxfordSearchList, setOxfordSearchList] = useState();
@@ -22,6 +23,7 @@ const AddWordView = ({ handleTabChange }) => {
   });
 
   const onSubmit = async (values) => {
+    setBttLoading(true);
     let examplesArr = [
       values.example?.trim(),
       values.example2?.trim(),
@@ -259,6 +261,7 @@ const AddWordView = ({ handleTabChange }) => {
               )}
               <Button
                 title='ADD'
+                loading={bttLoading}
                 buttonStyle={styles.button}
                 onPress={handleSubmit}
                 ViewComponent={LinearGradient}

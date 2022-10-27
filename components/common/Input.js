@@ -17,6 +17,7 @@ export const Input = (props) => {
       labelStyle={style.label}
       errorStyle={style.error}
       inputStyle={props.multiline ? style.inputMultiline : style.input}
+      ref={props.inputRef}
       {...props}
     />
   );
