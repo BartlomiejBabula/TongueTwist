@@ -46,7 +46,11 @@ const ProgressBar = (progress) => {
           style={{
             height: 15,
             width: 20,
-            backgroundColor: bar.progress ? theme.colors.success : "#DDDDDD",
+            backgroundColor: bar.progress
+              ? theme.colors.success
+              : theme.mode === "dark"
+              ? theme.colors.greyOutline
+              : theme.colors.disabled,
             borderRightWidth: bars.length !== key + 1 ? 1.3 : 0,
             borderRightColor: "white",
             alignSelf: "center",

@@ -219,7 +219,11 @@ const WordsListElement = ({ word, nrElement, setEdit, edit, checkEdit }) => {
           )}
         </Pressable>
       </Animated.View>
-      <Dialog isVisible={deleteDialog} onBackdropPress={toggleDeleteDialog}>
+      <Dialog
+        overlayStyle={{ backgroundColor: theme.colors.background }}
+        isVisible={deleteDialog}
+        onBackdropPress={toggleDeleteDialog}
+      >
         <Dialog.Title
           title={`Delete`}
           titleStyle={{ color: theme.colors.black }}
