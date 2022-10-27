@@ -19,6 +19,7 @@ const SignIn = () => {
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(true);
+  const [bttLoading, setBttLoading] = useState(false);
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email("Invalid email address")
@@ -34,6 +35,7 @@ const SignIn = () => {
   });
 
   const onSubmit = (values) => {
+    setBttLoading(true);
     let user = {
       username: values.email,
       password: values.password,
@@ -47,6 +49,7 @@ const SignIn = () => {
       })
       .catch((error) => {
         setErrorMessage(error.response.data.message);
+        setBttLoading(false);
       });
   };
 
@@ -100,7 +103,7 @@ const SignIn = () => {
               errorMessage={touched.password && errors.password}
               secureTextEntry={showPassword}
               placeholder='********'
-              ref={input2}
+              inputRef={input2}
               rightIcon={
                 <Icon
                   name='eye'
@@ -116,6 +119,7 @@ const SignIn = () => {
               }
             />
             <Button
+              loading={bttLoading}
               title='SIGN IN'
               buttonStyle={styles.button}
               onPress={handleSubmit}
@@ -150,7 +154,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 35,
   },
-  logo: { width: 140, marginLeft: 5, marginTop: 10 },
+  logo: { width: "45%", marginLeft: 5, marginTop: 10 },
   button: {
     marginHorizontal: 10,
     borderRadius: 30,

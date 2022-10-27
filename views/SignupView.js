@@ -18,6 +18,7 @@ const SignUp = () => {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(true);
   const [showRePassword, setShowRePassword] = useState(true);
+  const [bttLoading, setBttLoading] = useState(false);
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email("Invalid email address")
@@ -36,6 +37,7 @@ const SignUp = () => {
   });
 
   const onSubmit = (values) => {
+    setBttLoading(true);
     let user = {
       email: values.email,
       password: values.password,
@@ -49,6 +51,7 @@ const SignUp = () => {
       })
       .catch((error) => {
         setError(error.response.data.message);
+        setBttLoading(false);
       });
   };
 
@@ -108,14 +111,7 @@ const SignUp = () => {
         validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          setFieldValue,
-          handleSubmit,
-        }) => (
+        {({ values, errors, touched, handleChange, handleSubmit }) => (
           <View>
             <Input
               label='Email'
@@ -135,7 +131,7 @@ const SignUp = () => {
               errorMessage={touched.password && errors.password}
               secureTextEntry={showPassword}
               placeholder='********'
-              ref={input2}
+              inputRef={input2}
               onSubmitEditing={() => input3.current.focus()}
               rightIcon={
                 <Icon
@@ -159,7 +155,7 @@ const SignUp = () => {
               errorMessage={touched.confirmPassword && errors.confirmPassword}
               secureTextEntry={showRePassword}
               placeholder='********'
-              ref={input3}
+              inputRef={input3}
               rightIcon={
                 <Icon
                   name='eye'
@@ -174,6 +170,7 @@ const SignUp = () => {
               }
             />
             <Button
+              loading={bttLoading}
               title='SIGN UP'
               buttonStyle={styles.button}
               onPress={handleSubmit}
@@ -201,7 +198,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  logo: { width: 140, marginLeft: 5 },
+  logo: { width: "45%", marginLeft: 5 },
   h1: { marginLeft: 10, marginTop: 30, fontSize: 24, fontWeight: "700" },
   h2: {
     marginLeft: 10,

@@ -11,20 +11,33 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { selectWordsList } from "../selectors/user";
 import { getUserData } from "../actions/LoggingActions";
 import * as NavigationBar from "expo-navigation-bar";
+import LoadingView from "../views/LoadingView";
+import { setTheme } from "../components/Theme";
+import { useThemeMode } from "@rneui/themed";
 
 LogBox.ignoreAllLogs();
 
 const Router = () => {
+  const [loading, setLoading] = React.useState(true);
   const dispatch = useDispatch();
+  const isLogged = useSelector(selectWordsList);
+  const { mode, setMode } = useThemeMode();
 
   useEffect(() => {
     dispatch(getUserData());
   }, [dispatch]);
 
-  NavigationBar.setVisibilityAsync("hidden");
+  useEffect(() => {
+    setTheme(setMode);
+    if (isLogged !== undefined) {
+      setLoading(false);
+    }
+  }, [isLogged]);
 
-  const isLogged = useSelector(selectWordsList);
-  return isLogged ? (
+  NavigationBar.setVisibilityAsync("hidden");
+  return loading ? (
+    <LoadingView />
+  ) : isLogged ? (
     <NativeRouter>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Routes>
