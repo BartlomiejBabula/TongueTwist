@@ -35,9 +35,9 @@ const AddWordView = ({ handleTabChange }) => {
     let newWord = {
       word: values.word.trim(),
       translation: values.translate.trim(),
-      pronancuation: values.pronancuation.trim(),
+      pronancuation: values.pronancuation?.trim(),
       examples: examplesArr,
-      definition: values.definition.trim(),
+      definition: values.definition?.trim(),
     };
     await dispatch(addWord(newWord));
     handleTabChange({ label: "My word" });
@@ -279,6 +279,7 @@ const AddWordView = ({ handleTabChange }) => {
               <Dialog
                 isVisible={oxfordDialog}
                 onBackdropPress={toggleOxfordDialog}
+                overlayStyle={{ backgroundColor: theme.colors.background }}
               >
                 {oxfordSearchList ? (
                   <>
@@ -286,7 +287,7 @@ const AddWordView = ({ handleTabChange }) => {
                       title='Definition list'
                       titleStyle={{ color: theme.colors.black }}
                     />
-                    <Text>Found list of word definitions</Text>
+                    <Text>List of word definitions</Text>
                     <ScrollView style={{ marginTop: 20 }}>
                       {oxfordSearchList.length !== 0 ? (
                         oxfordSearchList?.map((word, key) => (

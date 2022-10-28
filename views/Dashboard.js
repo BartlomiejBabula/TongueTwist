@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { StatusBar } from "expo-status-bar";
 import { Route, Routes } from "react-router-native";
 import MyWords from "./MyWords";
 import AddWordView from "./AddWordView";
@@ -51,10 +50,6 @@ const Dashboard = () => {
 
   return (
     <>
-      <StatusBar
-        animated={true}
-        style={theme.mode === "dark" ? "light" : "dark"}
-      />
       <View
         style={[styles.container, { backgroundColor: theme.colors.background }]}
       >

@@ -20,7 +20,7 @@ const WordsListElement = ({ word, nrElement, setEdit, edit, checkEdit }) => {
   const [expand, setExpand] = useState(false);
   const [deleteDialog, setDeleteDialog] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const height = useSharedValue(81);
+  const height = useSharedValue(80);
   let updateDate = new Date(word.progressUpdated).getDate();
   let today = new Date().getDate();
 
@@ -85,7 +85,7 @@ const WordsListElement = ({ word, nrElement, setEdit, edit, checkEdit }) => {
             start={{ x: 2, y: 2 }}
             style={{
               width: "150%",
-              height: 310,
+              height: 400,
               position: "absolute",
             }}
           />
@@ -100,9 +100,9 @@ const WordsListElement = ({ word, nrElement, setEdit, edit, checkEdit }) => {
             if (!checkEdit) {
               setExpand(!expand);
               if (!expand) {
-                height.value = withSpring(310, { stiffness: 100, mass: 0.5 });
+                height.value = withSpring(400, { stiffness: 30, mass: 0.8 });
               } else
-                height.value = withSpring(80, { stiffness: 100, mass: 0.5 });
+                height.value = withSpring(80, { stiffness: 30, mass: 0.8 });
             } else {
               setEdit({ edit: false, element: nrElement });
             }
@@ -115,7 +115,7 @@ const WordsListElement = ({ word, nrElement, setEdit, edit, checkEdit }) => {
               alignItems: "center",
             }}
           >
-            <View>
+            <View style={{ marginBottom: 8 }}>
               <Text
                 style={[styles.title, { color: edit ? "#404040" : "white" }]}
               >

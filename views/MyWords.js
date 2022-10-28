@@ -51,10 +51,12 @@ const MyWords = () => {
   }, [search]);
 
   useEffect(async () => {
-    if (loadingWords) {
-      let pageUp = page + 1;
-      await dispatch(updatePage(pageUp));
-      await dispatch(updateWordsList(pageUp));
+    if (myWords.length > 20) {
+      if (loadingWords) {
+        let pageUp = page + 1;
+        await dispatch(updatePage(pageUp));
+        await dispatch(updateWordsList(pageUp));
+      }
     }
   }, [loadingWords]);
 
@@ -106,14 +108,16 @@ const MyWords = () => {
         entering={FadeIn.duration(200)}
         exiting={FadeOut.duration(200)}
         onScroll={(e) => {
-          if (
-            e.nativeEvent.contentOffset.y +
-              e.nativeEvent.layoutMeasurement.height >=
-            e.nativeEvent.contentSize.height * 0.999
-          ) {
-            setLoadingWords(true);
-          } else {
-            setLoadingWords(false);
+          if (myWords.length > 20) {
+            if (
+              e.nativeEvent.contentOffset.y +
+                e.nativeEvent.layoutMeasurement.height >=
+              e.nativeEvent.contentSize.height * 0.999
+            ) {
+              setLoadingWords(true);
+            } else {
+              setLoadingWords(false);
+            }
           }
         }}
       >
