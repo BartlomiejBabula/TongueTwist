@@ -10,7 +10,6 @@ import { LogBox } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { selectWordsList } from "../selectors/user";
 import { getUserData } from "../actions/LoggingActions";
-import * as NavigationBar from "expo-navigation-bar";
 import LoadingView from "../views/LoadingView";
 import { setTheme } from "../components/Theme";
 import { useThemeMode } from "@rneui/themed";
@@ -34,7 +33,6 @@ const Router = () => {
     }
   }, [isLogged]);
 
-  NavigationBar.setVisibilityAsync("hidden");
   return loading ? (
     <LoadingView />
   ) : isLogged ? (
