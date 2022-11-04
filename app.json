@@ -17,21 +17,30 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSRemindersUsageDescription": "Access calendar"
+        "NSRemindersUsageDescription": "Access calendar",
+        "NSPhotoLibraryUsageDescription": "The app accesses your photos to let you share them with your friends.",
+        "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera",
+        "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
       }
     },
-    "androidNavigationBar": {
-      // "visible": "false",
-      // "barStyle": "dark-content"
-      // "backgroundColor": "transparent"
-    },
     "android": {
+      "package": "com.tongueTwist",
+      "versionCode": 1,
+      "compileSdkVersion": 31,
+      "targetSdkVersion": 31,
+      "buildToolsVersion": "31.0.0",
       "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "permissions": ["READ_CALENDAR", "WRITE_CALENDAR", "VIBRATE"]
+      "permissions": [
+        "VIBRATE",
+        "android.permission.CAMERA",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -43,6 +52,11 @@
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "d5f3c89b-3375-479e-9f74-6bc5610f3436"
+      }
+    }
   }
 }

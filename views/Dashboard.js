@@ -6,10 +6,11 @@ import SettingsView from "./SettingsView";
 import { StyleSheet, View } from "react-native";
 import { Icon, Text, useTheme } from "@rneui/themed";
 import { Divider } from "../components/common/Divider";
-import { useNavigate } from "react-router-native";
+import { useNavigate, useLocation } from "react-router-native";
 import * as NavigationBar from "expo-navigation-bar";
 
 const Dashboard = () => {
+  const location = useLocation();
   let navigate = useNavigate();
   const { theme } = useTheme();
   const [buttonList, setButtonList] = useState([
@@ -27,18 +28,17 @@ const Dashboard = () => {
 
     switch (type.label) {
       case "Add word":
-        return navigate({ pathname: "/addword" }, { replace: true });
+        return navigate({ pathname: "/addword" });
       case "Settings":
-        return navigate({ pathname: "/settings" }, { replace: true });
+        return navigate({ pathname: "/settings" });
       case "My word":
-        return navigate({ pathname: "/" }, { replace: true });
+        return navigate({ pathname: "/" });
       default:
-        return navigate({ pathname: "/" }, { replace: true });
+        return navigate({ pathname: "/" });
     }
   };
 
-  useEffect(() => {
-    NavigationBar.setVisibilityAsync("hidden");
+  useEffect(async () => {
     if (theme.mode === "dark") {
       NavigationBar.setBackgroundColorAsync(theme.colors.menu);
       NavigationBar.setButtonStyleAsync("light");
@@ -47,6 +47,12 @@ const Dashboard = () => {
       NavigationBar.setButtonStyleAsync("dark");
     }
   }, [theme.mode]);
+
+  useEffect(() => {
+    if (location.pathname === "/settings") {
+      handleTabChange({ label: "Settings" });
+    }
+  }, [location.pathname]);
 
   return (
     <>
@@ -74,18 +80,12 @@ const Dashboard = () => {
             <View
               key={key}
               style={{
-                width: "33.34%",
+                width: "20%",
                 height: "100%",
               }}
             >
               <Icon
-                containerStyle={{
-                  borderTopWidth: 4,
-                  paddingTop: 4,
-                  borderTopColor: button.clicked
-                    ? theme.colors.primary
-                    : theme.colors.menu,
-                }}
+                containerStyle={{ paddingTop: 4 }}
                 underlayColor={theme.colors.menu}
                 size={26}
                 type='material-community'
@@ -120,14 +120,15 @@ const styles = StyleSheet.create({
   menuBottom: {
     flexDirection: "row",
     alignItems: "flex-end",
-    height: "8.5%",
+    height: 50,
     width: "100%",
+    justifyContent: "space-evenly",
   },
   buttonText: {
     letterSpacing: 0.2,
     textAlign: "center",
     fontSize: 12,
-    marginTop: 4,
+    marginTop: 2,
   },
 });
 

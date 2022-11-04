@@ -15,24 +15,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigate } from "react-router-native";
 import { useDispatch } from "react-redux";
 import { logOutAction } from "../actions/LogoutActions";
-import { selectUser, selectWordsList } from "../selectors/user";
-import { useSelector } from "react-redux";
-import ArchiveWordsModal from "./ArchiveWordsModal";
-import FeedbackModal from "./FeedbackModal";
-import ChangePasswordModal from "./ChangePasswordModal";
-import DisplayNameModal from "./DisplayNameModal";
 import { setTheme } from "../components/Theme";
 
 const SettingsView = ({ handleTabChange }) => {
   const { theme } = useTheme();
-  const user = useSelector(selectUser);
-  const wordList = useSelector(selectWordsList);
   const { mode, setMode } = useThemeMode();
   const [themeDialog, setThemeDialog] = useState(false);
-  const [nameDialog, setNameDialog] = useState(false);
-  const [passwordDialog, setPasswordDialog] = useState(false);
-  const [wordsDialog, setWordsDialog] = useState(false);
-  const [reportDialog, setReportDialog] = useState(false);
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -43,19 +31,19 @@ const SettingsView = ({ handleTabChange }) => {
   };
 
   const toggleNameDialog = () => {
-    setNameDialog(!nameDialog);
+    navigate({ pathname: "/settingsNameDialog" });
   };
 
   const togglePasswordDialog = () => {
-    setPasswordDialog(!passwordDialog);
+    navigate({ pathname: "/settingsPasswordChange" });
   };
 
   const toggleWordsDialog = () => {
-    setWordsDialog(!wordsDialog);
+    navigate({ pathname: "/settingsArchiveWords" });
   };
 
   const toggleReportDialog = () => {
-    setReportDialog(!reportDialog);
+    navigate({ pathname: "/settingsFeedback" });
   };
 
   useEffect(() => {
@@ -160,37 +148,6 @@ const SettingsView = ({ handleTabChange }) => {
           style={{ marginTop: 30 }}
         />
       </Animated.ScrollView>
-      <Modal
-        visible={nameDialog}
-        onRequestClose={toggleNameDialog}
-        animationType='none'
-      >
-        <DisplayNameModal toggleNameDialog={toggleNameDialog} user={user} />
-      </Modal>
-      <Modal
-        visible={passwordDialog}
-        onRequestClose={togglePasswordDialog}
-        animationType='none'
-      >
-        <ChangePasswordModal togglePasswordDialog={togglePasswordDialog} />
-      </Modal>
-      <Modal
-        visible={wordsDialog}
-        onRequestClose={toggleWordsDialog}
-        animationType='none'
-      >
-        <ArchiveWordsModal
-          toggleWordsDialog={toggleWordsDialog}
-          wordList={wordList}
-        />
-      </Modal>
-      <Modal
-        visible={reportDialog}
-        animationType='none'
-        onRequestClose={toggleReportDialog}
-      >
-        <FeedbackModal toggleReportDialog={toggleReportDialog} />
-      </Modal>
       <BottomSheet
         onBackdropPress={() => {
           setThemeDialog(false);

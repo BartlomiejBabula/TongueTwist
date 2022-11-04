@@ -1,21 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import api from "../api/api";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, BackHandler } from "react-native";
 import { Text, Button, Icon, useTheme } from "@rneui/themed";
 import { Input } from "../components/common/Input";
 import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import Animated, { SlideInLeft } from "react-native-reanimated";
+import Animated, { SlideInLeft, SlideOutLeft } from "react-native-reanimated";
+import { useNavigate } from "react-router-native";
 
-const FeedbackModal = ({ toggleReportDialog }) => {
+const FeedbackModal = () => {
+  let navigate = useNavigate();
   const { theme } = useTheme();
   const [isSent, setIsSent] = useState(false);
   const [bttLoading, setBttLoading] = useState(false);
   const validationSchema = Yup.object().shape({
     description: Yup.string()
       .required("Required")
-      .min(6, "Description is to short"),
+      .min(6, "Message is to short"),
   });
 
   const sendReport = (values) => {
@@ -34,18 +36,37 @@ const FeedbackModal = ({ toggleReportDialog }) => {
       });
   };
 
+  useEffect(() => {
+    const backAction = () => {
+      navigate(-1);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   return (
     <View
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      <Animated.View entering={SlideInLeft.duration(150)}>
+      <Animated.View
+        entering={SlideInLeft.duration(200)}
+        exiting={SlideOutLeft.duration(150)}
+      >
         <Animated.View style={styles.containerTitle}>
           <Icon
             size={26}
             underlayColor={"white"}
             type='material-community'
             name={"arrow-left"}
-            onPress={toggleReportDialog}
+            onPress={() => {
+              navigate(-1);
+            }}
           />
           <Text style={styles.title}>Send us Feedback</Text>
         </Animated.View>
@@ -70,7 +91,9 @@ const FeedbackModal = ({ toggleReportDialog }) => {
                 fontWeight: "700",
                 letterSpacing: 1,
               }}
-              onPress={toggleReportDialog}
+              onPress={() => {
+                navigate(-1);
+              }}
             />
           </>
         ) : (
@@ -84,7 +107,7 @@ const FeedbackModal = ({ toggleReportDialog }) => {
             {({ values, errors, touched, handleChange, handleSubmit }) => (
               <>
                 <Input
-                  label='Description'
+                  label='Message'
                   name='description'
                   value={values.description}
                   onChangeText={handleChange("description")}
@@ -122,6 +145,7 @@ export default FeedbackModal;
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 30,
     paddingHorizontal: 15,
     flex: 1,
   },

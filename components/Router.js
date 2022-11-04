@@ -13,6 +13,11 @@ import { getUserData } from "../actions/LoggingActions";
 import LoadingView from "../views/LoadingView";
 import { setTheme } from "../components/Theme";
 import { useThemeMode } from "@rneui/themed";
+import DisplayNameModal from "../views/DisplayNameModal";
+import ChangePasswordModal from "../views/ChangePasswordModal";
+import ArchiveWordsModal from "../views/ArchiveWordsModal";
+import FeedbackModal from "../views/FeedbackModal";
+import EditWordModal from "../views/EditWordModal";
 
 LogBox.ignoreAllLogs();
 
@@ -40,6 +45,22 @@ const Router = () => {
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Routes>
           <Route path='/*' exact element={<Dashboard />} />
+          <Route
+            path='/settingsNameDialog'
+            exact
+            element={<DisplayNameModal />}
+          />
+          <Route
+            path='/settingsPasswordChange'
+            exact
+            element={<ChangePasswordModal />}
+          />
+          <Route
+            path='/settingsArchiveWords'
+            exact
+            element={<ArchiveWordsModal />}
+          />
+          <Route path='/settingsFeedback' exact element={<FeedbackModal />} />
         </Routes>
       </GestureHandlerRootView>
     </NativeRouter>
