@@ -50,12 +50,12 @@ const MyWords = () => {
     }
   }, [search]);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (myWords.length > 20) {
       if (loadingWords) {
         let pageUp = page + 1;
-        await dispatch(updatePage(pageUp));
-        await dispatch(updateWordsList(pageUp));
+        dispatch(updatePage(pageUp));
+        dispatch(updateWordsList(pageUp));
       }
     }
   }, [loadingWords]);

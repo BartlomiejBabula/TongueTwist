@@ -38,7 +38,7 @@ const Dashboard = () => {
     }
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     if (theme.mode === "dark") {
       NavigationBar.setBackgroundColorAsync(theme.colors.menu);
       NavigationBar.setButtonStyleAsync("light");

@@ -13,7 +13,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
@@ -26,9 +28,6 @@
     "android": {
       "package": "com.tongueTwist",
       "versionCode": 1,
-      "compileSdkVersion": 31,
-      "targetSdkVersion": 31,
-      "buildToolsVersion": "31.0.0",
       "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -45,17 +44,10 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      [
-        "expo-image-picker",
-        {
-          "photosPermission": "The app accesses your photos to let you share them with your friends."
-        }
-      ]
-    ],
+    "plugins": [],
     "extra": {
       "eas": {
-        "projectId": "d5f3c89b-3375-479e-9f74-6bc5610f3436"
+        "projectId": "6bd95d75-ce13-4fb6-bc19-a1cfe2912f14"
       }
     }
   }
