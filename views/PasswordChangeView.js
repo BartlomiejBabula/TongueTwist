@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import api from "../api/api";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, BackHandler } from "react-native";
+import { useNavigate } from "react-router-native";
 import { Text, Button, Icon, useTheme } from "@rneui/themed";
 import { Input } from "../components/common/Input";
 import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import Animated, { SlideInLeft } from "react-native-reanimated";
+import Animated, { SlideInLeft, SlideOutLeft } from "react-native-reanimated";
 
-const ChangePasswordModal = ({ togglePasswordDialog }) => {
+const PasswordChangeView = () => {
   const { theme } = useTheme();
+  let navigate = useNavigate();
   const [errorPassword, setErrorPassword] = useState("");
   const [showPassword, setShowPassword] = useState(true);
   const [showRePassword, setShowRePassword] = useState(true);
@@ -42,25 +44,44 @@ const ChangePasswordModal = ({ togglePasswordDialog }) => {
     await api
       .post("/password-change", newPassword)
       .then((res) => {
-        togglePasswordDialog();
+        navigate(-1);
       })
       .catch((error) => {
         setErrorPassword("Invalid current password");
       });
   };
 
+  useEffect(() => {
+    const backAction = () => {
+      navigate(-1);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
   return (
     <View
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      <Animated.View entering={SlideInLeft.duration(150)}>
+      <Animated.View
+        entering={SlideInLeft.duration(200)}
+        exiting={SlideOutLeft.duration(150)}
+      >
         <View style={styles.containerTitle}>
           <Icon
             size={26}
             underlayColor={"white"}
             type='material-community'
             name={"arrow-left"}
-            onPress={togglePasswordDialog}
+            onPress={() => {
+              navigate(-1);
+            }}
           />
           <Text style={styles.title}>Change Password</Text>
         </View>
@@ -171,10 +192,11 @@ const ChangePasswordModal = ({ togglePasswordDialog }) => {
   );
 };
 
-export default ChangePasswordModal;
+export default PasswordChangeView;
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 30,
     paddingHorizontal: 15,
     flex: 1,
   },

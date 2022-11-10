@@ -10,7 +10,12 @@ import {
 import { Text, useTheme } from "@rneui/themed";
 import { SearchBar } from "../components/common/SearchBar";
 import WordsListElement from "../components/WordsListElement";
-import Animated, { FadeIn, Keyframe, FadeOut } from "react-native-reanimated";
+import Animated, {
+  FadeIn,
+  Keyframe,
+  FadeOut,
+  Layout,
+} from "react-native-reanimated";
 import { useSelector } from "react-redux";
 import { selectWordsList, selectPage } from "../selectors/user";
 import { useDispatch } from "react-redux";
@@ -50,12 +55,12 @@ const MyWords = () => {
     }
   }, [search]);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (myWords.length > 20) {
       if (loadingWords) {
         let pageUp = page + 1;
-        await dispatch(updatePage(pageUp));
-        await dispatch(updateWordsList(pageUp));
+        dispatch(updatePage(pageUp));
+        dispatch(updateWordsList(pageUp));
       }
     }
   }, [loadingWords]);
@@ -105,8 +110,6 @@ const MyWords = () => {
         />
       </View>
       <Animated.ScrollView
-        entering={FadeIn.duration(200)}
-        exiting={FadeOut.duration(200)}
         onScroll={(e) => {
           if (myWords.length > 20) {
             if (
@@ -125,7 +128,8 @@ const MyWords = () => {
           ?.filter((word) => word.word.match(new RegExp(search, "i")))
           .filter((word) => word.progress !== 5)
           .map((word, key) => (
-            <View
+            <Animated.View
+              layout={Layout.springify().stiffness(90).mass(0.6)}
               key={key}
               style={{
                 marginVertical: edit.edit && edit.element === key ? 15 : 0,
@@ -138,7 +142,7 @@ const MyWords = () => {
                 word={word}
                 setEdit={setEdit}
               />
-            </View>
+            </Animated.View>
           ))}
 
         <View style={{ minHeight: 40 }}>

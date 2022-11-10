@@ -77,7 +77,7 @@ const WordsListElement = ({ word, nrElement, setEdit, edit, checkEdit }) => {
           },
         ]}
         layout={Layout.springify().stiffness(90).mass(0.6)}
-        entering={SlideInRight.duration(150).delay(nrElement * 100)}
+        entering={SlideInRight.duration(150).delay((nrElement + 1) * 100)}
       >
         {!edit && (
           <LinearGradient

@@ -154,7 +154,7 @@ const AddWordView = ({ handleTabChange }) => {
             handleSubmit,
             setFieldValue,
           }) => (
-            <View style={{ marginBottom: 40 }}>
+            <View style={{ marginBottom: 40, justifyContent: "center" }}>
               <Input
                 label='Word*'
                 name='word'

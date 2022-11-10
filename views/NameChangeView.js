@@ -1,15 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-native";
 import { updateUser } from "../actions/UserActions";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, BackHandler } from "react-native";
+import { selectUser } from "../selectors/user";
+import { useSelector } from "react-redux";
 import { Text, Button, Icon, useTheme } from "@rneui/themed";
 import { Input } from "../components/common/Input";
 import { LinearGradient } from "expo-linear-gradient";
 import { Formik } from "formik";
-import Animated, { SlideInLeft } from "react-native-reanimated";
+import Animated, { SlideInLeft, SlideOutLeft } from "react-native-reanimated";
 import * as Yup from "yup";
 
-const DisplayNameModal = ({ toggleNameDialog, user }) => {
+const NameChangeView = () => {
+  const user = useSelector(selectUser);
+  let navigate = useNavigate();
   const dispatch = useDispatch();
   const { theme } = useTheme();
   const validationSchema = Yup.object().shape({
@@ -22,21 +27,40 @@ const DisplayNameModal = ({ toggleNameDialog, user }) => {
   const submitDisplayName = async (values) => {
     let newName = { displayName: values.name };
     await dispatch(updateUser(newName));
-    toggleNameDialog();
+    navigate(-1);
   };
+
+  useEffect(() => {
+    const backAction = () => {
+      navigate(-1);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <View
       style={[styles.container, { backgroundColor: theme.colors.background }]}
     >
-      <Animated.View entering={SlideInLeft.duration(150)}>
+      <Animated.View
+        entering={SlideInLeft.duration(200)}
+        exiting={SlideOutLeft.duration(150)}
+      >
         <View style={styles.containerTitle}>
           <Icon
             size={26}
             underlayColor={"white"}
             type='material-community'
             name={"arrow-left"}
-            onPress={toggleNameDialog}
+            onPress={() => {
+              navigate(-1);
+            }}
           />
           <Text style={styles.title}>Display name</Text>
         </View>
@@ -81,10 +105,11 @@ const DisplayNameModal = ({ toggleNameDialog, user }) => {
   );
 };
 
-export default DisplayNameModal;
+export default NameChangeView;
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 30,
     paddingHorizontal: 15,
     flex: 1,
   },
