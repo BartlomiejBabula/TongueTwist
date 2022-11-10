@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { selectWordsList } from "../selectors/user";
 import Animated, { SlideInLeft, SlideOutLeft } from "react-native-reanimated";
 
-const ArchiveWordsModal = () => {
+const ArchiveWordsView = () => {
   const { theme } = useTheme();
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -93,7 +93,7 @@ const ArchiveWordsModal = () => {
   );
 };
 
-export default ArchiveWordsModal;
+export default ArchiveWordsView;
 
 const styles = StyleSheet.create({
   container: {

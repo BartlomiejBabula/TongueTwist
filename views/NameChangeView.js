@@ -12,7 +12,7 @@ import { Formik } from "formik";
 import Animated, { SlideInLeft, SlideOutLeft } from "react-native-reanimated";
 import * as Yup from "yup";
 
-const DisplayNameModal = () => {
+const NameChangeView = () => {
   const user = useSelector(selectUser);
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -105,7 +105,7 @@ const DisplayNameModal = () => {
   );
 };
 
-export default DisplayNameModal;
+export default NameChangeView;
 
 const styles = StyleSheet.create({
   container: {

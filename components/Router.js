@@ -13,11 +13,11 @@ import { getUserData } from "../actions/LoggingActions";
 import LoadingView from "../views/LoadingView";
 import { setTheme } from "../components/Theme";
 import { useThemeMode } from "@rneui/themed";
-import DisplayNameModal from "../views/DisplayNameModal";
-import ChangePasswordModal from "../views/ChangePasswordModal";
-import ArchiveWordsModal from "../views/ArchiveWordsModal";
-import FeedbackModal from "../views/FeedbackModal";
-import EditWordModal from "../views/EditWordModal";
+import NameChangeView from "../views/NameChangeView";
+import PasswordChangeView from "../views/PasswordChangeView";
+import ArchiveWordsView from "../views/ArchiveWordsView";
+import FeedbackView from "../views/FeedbackView";
+import ThemeChangeView from "../views/ThemeChangeView";
 
 LogBox.ignoreAllLogs();
 
@@ -46,21 +46,26 @@ const Router = () => {
         <Routes>
           <Route path='/*' exact element={<Dashboard />} />
           <Route
-            path='/settingsNameDialog'
+            path='/settingsNameChange'
             exact
-            element={<DisplayNameModal />}
+            element={<NameChangeView />}
           />
           <Route
             path='/settingsPasswordChange'
             exact
-            element={<ChangePasswordModal />}
+            element={<PasswordChangeView />}
+          />
+          <Route
+            path='/settingsThemeChange'
+            exact
+            element={<ThemeChangeView />}
           />
           <Route
             path='/settingsArchiveWords'
             exact
-            element={<ArchiveWordsModal />}
+            element={<ArchiveWordsView />}
           />
-          <Route path='/settingsFeedback' exact element={<FeedbackModal />} />
+          <Route path='/settingsFeedback' exact element={<FeedbackView />} />
         </Routes>
       </GestureHandlerRootView>
     </NativeRouter>

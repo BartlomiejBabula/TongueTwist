@@ -1,26 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, ScrollView, BackHandler, Modal } from "react-native";
-import {
-  Text,
-  Button,
-  Icon,
-  useTheme,
-  BottomSheet,
-  ListItem,
-  useThemeMode,
-} from "@rneui/themed";
+import React, { useEffect } from "react";
+import { StyleSheet, ScrollView, BackHandler } from "react-native";
+import { Text, Button, Icon, useTheme } from "@rneui/themed";
 import { Divider } from "../components/common/Divider";
 import Animated, { SlideInLeft, SlideOutLeft } from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigate } from "react-router-native";
 import { useDispatch } from "react-redux";
 import { logOutAction } from "../actions/LogoutActions";
-import { setTheme } from "../components/Theme";
 
 const SettingsView = ({ handleTabChange }) => {
   const { theme } = useTheme();
-  const { mode, setMode } = useThemeMode();
-  const [themeDialog, setThemeDialog] = useState(false);
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -30,19 +19,23 @@ const SettingsView = ({ handleTabChange }) => {
     navigate({ pathname: "/" }, { replace: true });
   };
 
-  const toggleNameDialog = () => {
-    navigate({ pathname: "/settingsNameDialog" });
+  const navigateNameChange = () => {
+    navigate({ pathname: "/settingsNameChange" });
   };
 
-  const togglePasswordDialog = () => {
+  const navigateThemeChange = () => {
+    navigate({ pathname: "/settingsThemeChange" });
+  };
+
+  const navigatePasswordChange = () => {
     navigate({ pathname: "/settingsPasswordChange" });
   };
 
-  const toggleWordsDialog = () => {
+  const navigateArchiveWords = () => {
     navigate({ pathname: "/settingsArchiveWords" });
   };
 
-  const toggleReportDialog = () => {
+  const navigateFeedback = () => {
     navigate({ pathname: "/settingsFeedback" });
   };
 
@@ -83,25 +76,6 @@ const SettingsView = ({ handleTabChange }) => {
     />
   );
 
-  const themeList = [
-    {
-      label: "light",
-      title: "Light Theme",
-      onPress: async () => {
-        setTheme(setMode, "light");
-        setThemeDialog(false);
-      },
-    },
-    {
-      label: "dark",
-      title: "Dark Theme",
-      onPress: () => {
-        setTheme(setMode, "dark");
-        setThemeDialog(false);
-      },
-    },
-  ];
-
   return (
     <>
       <Animated.ScrollView
@@ -113,31 +87,29 @@ const SettingsView = ({ handleTabChange }) => {
         <Text style={styles.subtitle}>Account</Text>
         <Divider />
         <EditButton
-          open={toggleNameDialog}
+          open={navigateNameChange}
           title={"Display name"}
           icon={"account-box"}
         />
         <EditButton
-          open={togglePasswordDialog}
+          open={navigatePasswordChange}
           title={"Password"}
           icon={"lock"}
         />
         <Text style={styles.subtitle}>Application</Text>
         <Divider />
         <EditButton
-          open={toggleWordsDialog}
+          open={navigateArchiveWords}
           title={"Archive words"}
           icon={"book-open"}
         />
         <EditButton
           title={"Send Feedback"}
-          open={toggleReportDialog}
+          open={navigateFeedback}
           icon={"comment-alert"}
         />
         <EditButton
-          open={() => {
-            setThemeDialog(true);
-          }}
+          open={navigateThemeChange}
           title={"Theme"}
           icon={"brightness-6"}
         />
@@ -148,39 +120,6 @@ const SettingsView = ({ handleTabChange }) => {
           style={{ marginTop: 30 }}
         />
       </Animated.ScrollView>
-      <BottomSheet
-        onBackdropPress={() => {
-          setThemeDialog(false);
-        }}
-        isVisible={themeDialog}
-      >
-        {themeList.map((l, i) => (
-          <ListItem
-            key={i}
-            containerStyle={l.containerStyle}
-            onPress={l.onPress}
-          >
-            <ListItem.Content
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "baseline",
-              }}
-            >
-              <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
-              {l.label === theme.mode && (
-                <Icon
-                  name='check'
-                  type='material-community'
-                  color={theme.colors.success}
-                  size={28}
-                  containerStyle={{ marginRight: 20 }}
-                />
-              )}
-            </ListItem.Content>
-          </ListItem>
-        ))}
-      </BottomSheet>
     </>
   );
 };

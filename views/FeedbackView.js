@@ -9,7 +9,7 @@ import * as Yup from "yup";
 import Animated, { SlideInLeft, SlideOutLeft } from "react-native-reanimated";
 import { useNavigate } from "react-router-native";
 
-const FeedbackModal = () => {
+const FeedbackView = () => {
   let navigate = useNavigate();
   const { theme } = useTheme();
   const [isSent, setIsSent] = useState(false);
@@ -141,7 +141,7 @@ const FeedbackModal = () => {
   );
 };
 
-export default FeedbackModal;
+export default FeedbackView;
 
 const styles = StyleSheet.create({
   container: {

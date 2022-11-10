@@ -9,7 +9,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import Animated, { SlideInLeft, SlideOutLeft } from "react-native-reanimated";
 
-const ChangePasswordModal = () => {
+const PasswordChangeView = () => {
   const { theme } = useTheme();
   let navigate = useNavigate();
   const [errorPassword, setErrorPassword] = useState("");
@@ -192,7 +192,7 @@ const ChangePasswordModal = () => {
   );
 };
 
-export default ChangePasswordModal;
+export default PasswordChangeView;
 
 const styles = StyleSheet.create({
   container: {
