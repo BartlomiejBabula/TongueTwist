@@ -71,9 +71,8 @@ const ThemeChangeView = () => {
           }}
         >
           {themeList.map((l, i) => (
-            <Pressable onPress={l.onPress}>
+            <Pressable onPress={l.onPress} key={i}>
               <View
-                key={i}
                 style={{
                   height: 35,
                   flexDirection: "row",
