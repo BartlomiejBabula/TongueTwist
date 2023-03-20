@@ -18,18 +18,10 @@ const PasswordChangeView = () => {
   const [showCurrentPassword, setShowCurrentPassword] = useState(true);
   const validationSchema = Yup.object().shape({
     password: Yup.string()
-      .matches(
-        /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
-        "Password must Contain 6 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
-      )
-      .min(6)
+      .min(6, "Password is to short - should be 6 chars minimum")
       .required("Required"),
     currentPassword: Yup.string()
-      .matches(
-        /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
-        "Password must Contain 6 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
-      )
-      .min(6)
+      .min(6, "Password is to short - should be 6 chars minimum")
       .required("Required"),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password"), null], "Invalid repeat password")

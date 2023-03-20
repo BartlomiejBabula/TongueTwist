@@ -1,7 +1,8 @@
 import React, { useState, useRef } from "react";
 import * as Yup from "yup";
 import { Formik } from "formik";
-import api, { setAuthHeader } from "../api/api";
+import { AppURL, setAuthHeader } from "../api/api";
+import axios from "axios";
 import { getUserData } from "../actions/LoggingActions";
 import { useDispatch } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -26,11 +27,11 @@ const SignIn = () => {
       .max(32, "Email address is to long - should be 32 chars maximum")
       .required("Required"),
     password: Yup.string()
-      .matches(
-        /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
-        "Password must Contain 6 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
-      )
-      .min(6)
+      // .matches(
+      //   /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
+      //   "Password must Contain 6 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+      // )
+      .min(6, "Password is to short - should be 6 chars minimum")
       .required("Required"),
   });
 
@@ -40,15 +41,20 @@ const SignIn = () => {
       username: values.email,
       password: values.password,
     };
-    api
-      .post(`/login`, user)
+    axios
+      .post(AppURL + `/login`, user)
       .then(async (res) => {
         AsyncStorage.setItem("access", res.data.access_token);
         setAuthHeader(res.data.access_token);
         await dispatch(getUserData());
       })
       .catch((error) => {
-        setErrorMessage(error.response.data.message);
+        if (error.response.status === 401) {
+          setErrorMessage("Wrong email or password");
+        } else {
+          setErrorMessage(error.response.data.message);
+        }
+
         setBttLoading(false);
       });
   };

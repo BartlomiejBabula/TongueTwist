@@ -21,7 +21,7 @@ export const myTheme = createTheme({
     background: "#303030",
     input_background: "#424242",
     error: "#e76f51",
-    gradient: ["#9b68ba", "#212121"],
+    gradient: ["#9b68ba", "#6b358c"],
     gradient_2: ["#303030", "#212121"],
     gradient_disabled: ["#fcf7ff", "#f6f0fa"],
     menu: "#212121",
