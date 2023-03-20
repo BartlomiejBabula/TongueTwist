@@ -50,7 +50,7 @@ const SignIn = () => {
       })
       .catch((error) => {
         if (error.response.status === 401) {
-          setErrorMessage("Wrong email or password");
+          setErrorMessage("Your email or password was incorrect.");
         } else {
           setErrorMessage(error.response.data.message);
         }
